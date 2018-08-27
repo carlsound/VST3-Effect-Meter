@@ -6,9 +6,17 @@
 //
 #include "public.sdk/source/vst/vstaudioeffect.h"
 //
+#include "../include/meterUIDs.h"
 #include "meterController.h"
+#include "meterParameters.h"
 //
 #include <public.sdk/source/vst/vstparameters.h>
+//
+#include "base/source/fstreamer.h"
+#include "pluginterfaces/base/ibstream.h"
+#include "pluginterfaces/vst/ivstparameterchanges.h"
+#include <public.sdk/source/vst/vstaudioprocessoralgo.h>
+#include "pluginterfaces/vst/vsttypes.h"
 //
 namespace Carlsound
 {
@@ -26,6 +34,7 @@ namespace Carlsound
 		) 
 			SMTG_OVERRIDE;
 		//
+		//------------------------------------------------------------------------
 		Steinberg::tresult PLUGIN_API setBusArrangements 
 		(
 			Steinberg::Vst::SpeakerArrangement* inputs,
@@ -35,17 +44,34 @@ namespace Carlsound
 		) 
 			SMTG_OVERRIDE;
 		//
+		//------------------------------------------------------------------------
 		Steinberg::tresult PLUGIN_API setActive 
 		(
 			Steinberg::TBool state
 		) 
 			SMTG_OVERRIDE;
 		//
+		//------------------------------------------------------------------------
 		Steinberg::tresult PLUGIN_API process 
 		(
 			Steinberg::Vst::ProcessData& data
 		) 
 			SMTG_OVERRIDE;
+		//
+		Steinberg::tresult PLUGIN_API processInputParameters
+		(
+			Steinberg::Vst::ProcessData& data
+		);
+		//
+		Steinberg::tresult PLUGIN_API processAudio
+		(
+			Steinberg::Vst::ProcessData& data
+		);
+		//
+		Steinberg::tresult PLUGIN_API processOutputParameters
+		(
+			Steinberg::Vst::ProcessData& data
+		);
 		//
 		//------------------------------------------------------------------------
 		Steinberg::tresult PLUGIN_API setState 
@@ -54,17 +80,20 @@ namespace Carlsound
 		) 
 			SMTG_OVERRIDE;
 		//
+		//------------------------------------------------------------------------
 		Steinberg::tresult PLUGIN_API getState 
 		(
 			Steinberg::IBStream* state
 		) 
 			SMTG_OVERRIDE;
 		//
+		//------------------------------------------------------------------------
 		static FUnknown* createInstance (void*)
 		{
 			return (Steinberg::Vst::IAudioProcessor*)new MeterProcessor ();
 		}
 		//
+		//------------------------------------------------------------------------
 		template <class T> void bufferSampleGain
 		(
 			T inBuffer, 

@@ -1,5 +1,7 @@
 #pragma once
 //
+#include "meterParameters.h"
+//
 #include "public.sdk/source/vst/vsteditcontroller.h"
 #include "public.sdk/source/vst/hosting/stringconvert.h"
 //

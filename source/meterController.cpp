@@ -1,6 +1,6 @@
 
 #include "../include/meterController.h"
-#include "../include/meterIDs.h"
+#include "../include/meterUIDs.h"
 //
 #include "base/source/fstreamer.h"
 #include "pluginterfaces/base/ibstream.h"
@@ -28,7 +28,7 @@ namespace Carlsound
 			        1, // stepCount
 			        0, // defaultValueNormalized
                     Steinberg::Vst::ParameterInfo::kCanAutomate | Steinberg::Vst::ParameterInfo::kIsBypass, // flags
-		            MeterParams::kParamBypassId, // tag
+		            MeterParameters::kParamBypassId, // tag
 			        0, // unitUD
 			        STR16("Bypass") // shortTitle
 				); 
@@ -40,9 +40,9 @@ namespace Carlsound
 			        99, // stepCount
 			        0.1, // defaultValueNormalized
                     Steinberg::Vst::ParameterInfo::kCanAutomate, // flags
-					GilbertsParams::kParamSpeedId, // tag
+					MeterParameters::kParamLevel // tag
 			        0, // unitID
-		            STR16 ("Speed") // shortTitle
+		            STR16 ("Level") // shortTitle
 				); 
 				/*
 				m_speedRangeParameter = std::make_shared<Steinberg::Vst::RangeParameter> 
@@ -166,7 +166,7 @@ namespace Carlsound
 		{
 			std::string valuePlainAscii;
 			//
-			if(MeterParams::kParamBypassId == tag)
+			if(MeterParameters::kParamBypassId == tag)
 			{
 				if(valueNormalized) // on
 				{

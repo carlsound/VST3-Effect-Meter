@@ -2,10 +2,12 @@ set(plug_sources
     include/meterController.h
     source/meterController.cpp
     #---
-    include/meterIDs.h
+    include/meterParameters.h
     #---
     include/meterProcessor.h
     source/meterProcessor.cpp
+    #---
+    include/meterUIDs.h
     #---
     include/meterVersion.h
     #---

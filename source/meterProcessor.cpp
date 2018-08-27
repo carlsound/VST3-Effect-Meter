@@ -1,11 +1,4 @@
 #include "../include/meterProcessor.h"
-#include "../include/meterIDs.h"
-//
-#include "base/source/fstreamer.h"
-#include "pluginterfaces/base/ibstream.h"
-#include "pluginterfaces/vst/ivstparameterchanges.h"
-#include <public.sdk/source/vst/vstaudioprocessoralgo.h>
-#include "pluginterfaces/vst/vsttypes.h"
 //
 namespace Carlsound
 {
@@ -16,7 +9,7 @@ namespace Carlsound
 		MeterProcessor::MeterProcessor ()
 		{
 			// register its editor class
-			setControllerClass (MyControllerUID);
+			setControllerClass (MeterControllerUID);
 		}
 		//-----------------------------------------------------------------------------
 		Steinberg::tresult PLUGIN_API MeterProcessor::initialize 
@@ -97,54 +90,65 @@ namespace Carlsound
 			*outBuffer = *inBuffer * gainValue;
 		}
 		//-----------------------------------------------------------------------------
-		Steinberg::tresult PLUGIN_API MeterProcessor::process (Steinberg::Vst::ProcessData& data)
+		Steinberg::tresult PLUGIN_API MeterProcessor::processInputParameters
+		(
+			Steinberg::Vst::ProcessData& data
+		)
 		{
 			//--- Read inputs parameter changes-----------
 			if (data.inputParameterChanges)
 			{
-				Steinberg::int32 numParamsChanged = data.inputParameterChanges->getParameterCount ();
+				Steinberg::int32 numParamsChanged = data.inputParameterChanges->getParameterCount();
 				for (Steinberg::int32 index = 0; index < numParamsChanged; index++)
 				{
 					Steinberg::Vst::IParamValueQueue* paramQueue =
-						data.inputParameterChanges->getParameterData (index);
+						data.inputParameterChanges->getParameterData(index);
 					if (paramQueue)
 					{
 						Steinberg::Vst::ParamValue value;
 						Steinberg::int32 sampleOffset;
-						Steinberg::int32 numPoints = paramQueue->getPointCount ();
-						switch (paramQueue->getParameterId ())
+						Steinberg::int32 numPoints = paramQueue->getPointCount();
+						switch (paramQueue->getParameterId())
 						{
-							/*
-							case MeterParams::kParamSpeedId:
+
+						case MeterParameters::kParamLevel:
+						{
+							if (paramQueue->getPoint(numPoints - 1, sampleOffset, value) ==
+								Steinberg::kResultTrue)
 							{
-								if (paramQueue->getPoint(numPoints - 1, sampleOffset, value) ==
-									Steinberg::kResultTrue)
-								{
-									m_speedNormalizedValue = value;
-									break;
-								}
+								//m_speedNormalizedValue = value;
+								break;
 							}
-							*/
-							case MeterParams::kParamBypassId:
+						}
+
+						case MeterParameters::kParamBypassId:
+						{
+							if (paramQueue->getPoint
+							(
+								numPoints - 1,
+								sampleOffset,
+								value
+							) ==
+								Steinberg::kResultTrue)
 							{
-								if (paramQueue->getPoint
-									(
-										numPoints - 1, 
-										sampleOffset, 
-										value
-									) ==
-									Steinberg::kResultTrue)
-								{
-									m_bypassState = (value > 0.5f);
-									break;
-								}
-									
+								m_bypassState = (value > 0.5f);
+								break;
 							}
-								
+
+						}
+
 						}
 					}
 				}
 			}
+			return Steinberg::kResultTrue;
+		}
+		//-----------------------------------------------------------------------------
+		Steinberg::tresult PLUGIN_API MeterProcessor::processAudio
+		(
+			Steinberg::Vst::ProcessData& data
+		)
+		{
 			//--- Process Audio---------------------
 			//--- ----------------------------------
 			if (data.numInputs == 0 || data.numOutputs == 0)
@@ -164,19 +168,19 @@ namespace Carlsound
 				Steinberg::int32 numChannels = data.inputs[0].numChannels;
 				//
 				//---get audio buffers----------------
-				Steinberg::uint32 sampleFramesSize = getSampleFramesSizeInBytes 
+				Steinberg::uint32 sampleFramesSize = getSampleFramesSizeInBytes
 				(
-					processSetup, 
+					processSetup,
 					data.numSamples
 				);
-				void** in = getChannelBuffersPointer 
+				void** in = getChannelBuffersPointer
 				(
-					processSetup, 
+					processSetup,
 					data.inputs[0]
 				);
-				void** out = getChannelBuffersPointer 
+				void** out = getChannelBuffersPointer
 				(
-					processSetup, 
+					processSetup,
 					data.outputs[0]
 				);
 				//
@@ -193,7 +197,7 @@ namespace Carlsound
 						// do not need to be cleared if the buffers are the same (in this case input buffer are already cleared by the host)
 						if (in[i] != out[i])
 						{
-							memset (out[i], 0, sampleFramesSize);
+							memset(out[i], 0, sampleFramesSize);
 						}
 					}
 					// nothing to do at this point
@@ -233,9 +237,27 @@ namespace Carlsound
 						}
 					}
 				}
-				// Write outputs parameter changes-----------
-				Steinberg::Vst::IParameterChanges* outParamChanges = data.outputParameterChanges;
 			}
+			return Steinberg::kResultTrue;
+		}
+		//-----------------------------------------------------------------------------
+		Steinberg::tresult PLUGIN_API MeterProcessor::processOutputParameters
+		(
+			Steinberg::Vst::ProcessData& data
+		)
+		{
+			// Write outputs parameter changes-----------
+			Steinberg::Vst::IParameterChanges* outParamChanges = data.outputParameterChanges;
+			//
+			return Steinberg::kResultTrue;
+		}
+		//-----------------------------------------------------------------------------
+		Steinberg::tresult PLUGIN_API MeterProcessor::process (Steinberg::Vst::ProcessData& data)
+		{
+			processInputParameters(data);
+			processAudio(data);
+			processOutputParameters(data);
+			//
 			return Steinberg::kResultOk;
 		}
 		//-----------------------------------------------------------------------------
