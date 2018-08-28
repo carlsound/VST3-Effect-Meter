@@ -4,7 +4,6 @@ namespace Carlsound
 {
 	namespace Meter
 	{
-
 		//-----------------------------------------------------------------------------
 		MeterProcessor::MeterProcessor ()
 		{
@@ -80,8 +79,7 @@ namespace Carlsound
 		(
 			T inBuffer, 
 			T outBuffer, 
-			const int sampleLocation, 
-			const double gainValue
+			const int sampleLocation
 		)
 		{
 			inBuffer = inBuffer + sampleLocation;  // pointer arithmetic
@@ -220,8 +218,7 @@ namespace Carlsound
 								(
 									static_cast<Steinberg::Vst::Sample32*>(in[channel]),
 									static_cast<Steinberg::Vst::Sample32*>(out[channel]),
-									sample,
-									m_gainValue[channel]
+									sample
 								);
 							}
 							else // 64-Bit
@@ -230,8 +227,7 @@ namespace Carlsound
 								(
 									static_cast<Steinberg::Vst::Sample64*>(in[channel]),
 									static_cast<Steinberg::Vst::Sample64*>(out[channel]),
-									sample,
-									m_gainValue[channel]
+									sample
 								);
 							}
 						}
@@ -248,11 +244,16 @@ namespace Carlsound
 		{
 			// Write outputs parameter changes-----------
 			Steinberg::Vst::IParameterChanges* outParamChanges = data.outputParameterChanges;
+			Steinberg::int32 Id = outParamChanges->getParameterCount() + 1; //
+			outParamChanges->addParameterData(kParamLevel, Id);
 			//
 			return Steinberg::kResultTrue;
 		}
 		//-----------------------------------------------------------------------------
-		Steinberg::tresult PLUGIN_API MeterProcessor::process (Steinberg::Vst::ProcessData& data)
+		Steinberg::tresult PLUGIN_API MeterProcessor::process
+		(
+			Steinberg::Vst::ProcessData& data
+		)
 		{
 			processInputParameters(data);
 			processAudio(data);

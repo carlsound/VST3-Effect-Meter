@@ -23,27 +23,27 @@ namespace Carlsound
 				//---Create Parameters------------
 				parameters.addParameter 
 				(
-					STR16 ("Bypass"), // title
-			        0, // units
-			        1, // stepCount
-			        0, // defaultValueNormalized
-                    Steinberg::Vst::ParameterInfo::kCanAutomate | Steinberg::Vst::ParameterInfo::kIsBypass, // flags
-		            MeterParameters::kParamBypassId, // tag
-			        0, // unitUD
-			        STR16("Bypass") // shortTitle
-				); 
-				//
-				parameters.addParameter 
-				(
-					STR16 ("Speed"), // title
-		            STR16 ("sec"), // units
-			        99, // stepCount
-			        0.1, // defaultValueNormalized
-                    Steinberg::Vst::ParameterInfo::kCanAutomate, // flags
-					MeterParameters::kParamLevel // tag
+					STR16 ("Level"), // title
+		            STR16 (""), // units
+			        100, // stepCount
+			        0.0, // defaultValueNormalized
+                    Steinberg::Vst::ParameterInfo::kIsReadOnly, // flags
+					MeterParameters::kParamLevel, // tag
 			        0, // unitID
 		            STR16 ("Level") // shortTitle
 				); 
+				//
+				parameters.addParameter
+				(
+					STR16 ("Bypass"), // title
+					0, // units
+					1, // stepCount
+					0, // defaultValueNormalized
+					Steinberg::Vst::ParameterInfo::kCanAutomate | Steinberg::Vst::ParameterInfo::kIsBypass, // flags
+					MeterParameters::kParamBypassId, // tag
+					0, // unitUD
+					STR16 ("Bypass") // shortTitle
+				);
 				/*
 				m_speedRangeParameter = std::make_shared<Steinberg::Vst::RangeParameter> 
 				(
@@ -88,13 +88,11 @@ namespace Carlsound
 			{
 				return Steinberg::kResultFalse;
 			}
-			/*
 			setParamNormalized 
 			(
-				MeterParams::kParamSpeedId, 
+				MeterParameters::kParamLevel, 
 				savedParam1
 			);
-			*/
 			//
 			// read the bypass
 			Steinberg::int32 bypassState;
@@ -118,7 +116,7 @@ namespace Carlsound
 		)
 		{
 			/*
-			if(kParamSpeedId == tag)
+			if(kParamLevel == tag)
 			{
 				return ((valueNormalized * ((10.0 - 0.1) / 1.0)) + 0.10);
 			}
@@ -136,7 +134,7 @@ namespace Carlsound
 		)
 		{
 			/*
-			if (kParamSpeedId == tag)
+			if (kParamLevel == tag)
 			{
 				return (value / 10.0);
 			}
@@ -181,7 +179,7 @@ namespace Carlsound
 				string128copy(string, valuePlainAscii);
 			}
 			/*
-			if (MeterParams::kParamSpeedId == tag)
+			if (MeterParams::kParamLevel == tag)
 			{
                 float valuePlain = ((valueNormalized * ((10.0 - 0.1) / 1.0)) + 0.10);
                 //

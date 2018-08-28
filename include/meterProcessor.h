@@ -98,8 +98,7 @@ namespace Carlsound
 		(
 			T inBuffer, 
 			T outBuffer, 
-			const int sampleLocation, 
-			const double gainValue
+			const int sampleLocation
 		);
 		//
 		protected:
