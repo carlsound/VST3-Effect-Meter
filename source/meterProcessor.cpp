@@ -210,6 +210,14 @@ namespace Carlsound
 					m_gainValue[1] = 1.0;
 					for (int sample = 0; sample < data.numSamples; sample++)
 					{
+						//
+						mOutParamQueue->addPoint
+						(
+							sample, 
+							data.inputs->channelBuffers32[0][sample], 
+							mOutParamIndex
+						);
+						//
 						for (int channel = 0; channel < data.outputs->numChannels; channel++)
 						{
 							if (data.symbolicSampleSize == Steinberg::Vst::kSample32) //32-Bit
@@ -243,9 +251,11 @@ namespace Carlsound
 		)
 		{
 			// Write outputs parameter changes-----------
-			Steinberg::Vst::IParameterChanges* outParamChanges = data.outputParameterChanges;
-			Steinberg::int32 Id = outParamChanges->getParameterCount() + 1; //
-			outParamChanges->addParameterData(kParamLevel, Id);
+			mOutParamChanges = data.outputParameterChanges;
+			//
+			mOutParamChanges->addParameterData(kParamLevel, mOutParamIndex);
+			//
+			mOutParamQueue = mOutParamChanges->getParameterData(mOutParamIndex);
 			//
 			return Steinberg::kResultTrue;
 		}
@@ -256,8 +266,8 @@ namespace Carlsound
 		)
 		{
 			processInputParameters(data);
-			processAudio(data);
 			processOutputParameters(data);
+			processAudio(data);
 			//
 			return Steinberg::kResultOk;
 		}

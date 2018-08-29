@@ -108,6 +108,10 @@ namespace Carlsound
 		double m_gainValue[2];
 		//
 		//std::shared_ptr<Steinberg::Vst::RangeParameter> m_speedRangeParameter;
+		//
+		Steinberg::Vst::IParameterChanges *mOutParamChanges;
+		Steinberg::int32 mOutParamIndex;
+		Steinberg::Vst::IParamValueQueue *mOutParamQueue;
 		};
 		//------------------------------------------------------------------------
 	} // namespace Meter
