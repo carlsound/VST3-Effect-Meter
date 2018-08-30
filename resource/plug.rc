@@ -1,5 +1,5 @@
 #include <windows.h>
-#include "../include/version.h"
+#include "../include/meterVersion.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 

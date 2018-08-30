@@ -85,7 +85,7 @@ namespace Carlsound
 			inBuffer = inBuffer + sampleLocation;  // pointer arithmetic
 			outBuffer = outBuffer + sampleLocation; // pointer arithmetic
 			//
-			*outBuffer = *inBuffer * gainValue;
+			*outBuffer = *inBuffer;
 		}
 		//-----------------------------------------------------------------------------
 		Steinberg::tresult PLUGIN_API MeterProcessor::processInputParameters
