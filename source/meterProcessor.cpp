@@ -25,21 +25,6 @@ namespace Carlsound
 			addAudioInput (STR16 ("AudioInput"), Steinberg::Vst::SpeakerArr::kStereo);
 			addAudioOutput (STR16 ("AudioOutput"), Steinberg::Vst::SpeakerArr::kStereo);
 			//
-			/*
-			m_speedRangeParameter = std::make_shared<Steinberg::Vst::RangeParameter>
-			(
-				STR16("Speed"), // title
-				MeterParams::kParamSpeedId, // ParamID
-				STR16("sec"), // units
-				0.1, // minPlain
-				10.0, // maxPlain
-				1.0, // defaultValuePlain
-				99, // stepCount
-				Steinberg::Vst::ParameterInfo::kCanAutomate, // flags
-				0, // unitID
-				STR16("Speed") // shortTitle
-			); 
-			*/
 			return Steinberg::kResultTrue;
 		}
 		//-----------------------------------------------------------------------------
@@ -108,32 +93,31 @@ namespace Carlsound
 						Steinberg::int32 numPoints = paramQueue->getPointCount();
 						switch (paramQueue->getParameterId())
 						{
-
-						case MeterParameters::kParamLevel:
-						{
-							if (paramQueue->getPoint(numPoints - 1, sampleOffset, value) ==
-								Steinberg::kResultTrue)
+							/*
+							case MeterParameters::kParamLevel:
 							{
-								//m_speedNormalizedValue = value;
-								break;
+								if (paramQueue->getPoint(numPoints - 1, sampleOffset, value) ==
+									Steinberg::kResultTrue)
+								{
+									//m_speedNormalizedValue = value;
+									break;
+								}
 							}
-						}
-
-						case MeterParameters::kParamBypassId:
-						{
-							if (paramQueue->getPoint
-							(
-								numPoints - 1,
-								sampleOffset,
-								value
-							) ==
-								Steinberg::kResultTrue)
+							*/
+							case MeterParameters::kParamBypassId:
 							{
-								m_bypassState = (value > 0.5f);
-								break;
+								if (paramQueue->getPoint
+								(
+									numPoints - 1,
+									sampleOffset,
+									value
+								) ==
+									Steinberg::kResultTrue)
+								{
+									m_bypassState = (value > 0.5f);
+									break;
+								}
 							}
-
-						}
 
 						}
 					}
@@ -220,21 +204,21 @@ namespace Carlsound
 						//
 						for (int channel = 0; channel < data.outputs->numChannels; channel++)
 						{
-							if (data.symbolicSampleSize == Steinberg::Vst::kSample32) //32-Bit
-							{
-								bufferSampleGain
-								(
-									static_cast<Steinberg::Vst::Sample32*>(in[channel]),
-									static_cast<Steinberg::Vst::Sample32*>(out[channel]),
-									sample
-								);
-							}
-							else // 64-Bit
+							if (data.symbolicSampleSize == Steinberg::Vst::kSample64) //64-Bit
 							{
 								bufferSampleGain
 								(
 									static_cast<Steinberg::Vst::Sample64*>(in[channel]),
 									static_cast<Steinberg::Vst::Sample64*>(out[channel]),
+									sample
+								);
+							}
+							else // 32-Bit
+							{
+								bufferSampleGain
+								(
+									static_cast<Steinberg::Vst::Sample32*>(in[channel]),
+									static_cast<Steinberg::Vst::Sample32*>(out[channel]),
 									sample
 								);
 							}
@@ -245,20 +229,20 @@ namespace Carlsound
 			return Steinberg::kResultTrue;
 		}
 		//-----------------------------------------------------------------------------
+		/*
 		Steinberg::tresult PLUGIN_API MeterProcessor::processOutputParameters
 		(
 			Steinberg::Vst::ProcessData& data
 		)
 		{
 			// Write outputs parameter changes-----------
-			mOutParamChanges = data.outputParameterChanges;
+			data.outputParameterChanges->addParameterData(kParamLevel, mOutParamIndex);
 			//
-			mOutParamChanges->addParameterData(kParamLevel, mOutParamIndex);
-			//
-			mOutParamQueue = mOutParamChanges->getParameterData(mOutParamIndex);
+			data.outputParameterChanges->getParameterData(mOutParamIndex);
 			//
 			return Steinberg::kResultTrue;
 		}
+		*/
 		//-----------------------------------------------------------------------------
 		Steinberg::tresult PLUGIN_API MeterProcessor::process
 		(
@@ -266,8 +250,12 @@ namespace Carlsound
 		)
 		{
 			processInputParameters(data);
-			processOutputParameters(data);
+			//processOutputParameters(data);
+			data.outputParameterChanges->addParameterData(kParamLevel, mOutParamIndex);
+			//
 			processAudio(data);
+			//
+			data.outputParameterChanges->getParameterData(mOutParamIndex);
 			//
 			return Steinberg::kResultOk;
 		}

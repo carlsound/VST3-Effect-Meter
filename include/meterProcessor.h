@@ -1,14 +1,11 @@
 //------------------------------------------------------------------------
 #pragma once
 //
-#define _USE_MATH_DEFINES 
-#include <cmath>
-//
 #include "public.sdk/source/vst/vstaudioeffect.h"
 //
-#include "../include/meterUIDs.h"
 #include "meterController.h"
 #include "meterParameters.h"
+#include "meterUIDs.h"
 //
 #include <public.sdk/source/vst/vstparameters.h>
 //
@@ -17,6 +14,9 @@
 #include "pluginterfaces/vst/ivstparameterchanges.h"
 #include <public.sdk/source/vst/vstaudioprocessoralgo.h>
 #include "pluginterfaces/vst/vsttypes.h"
+#define _USE_MATH_DEFINES 
+#include <cmath>
+//
 //
 namespace Carlsound
 {
@@ -28,6 +28,7 @@ namespace Carlsound
 		public:
 		MeterProcessor ();
 		//
+		//------------------------------------------------------------------------
 		Steinberg::tresult PLUGIN_API initialize 
 		(
 			FUnknown* context
@@ -68,10 +69,12 @@ namespace Carlsound
 			Steinberg::Vst::ProcessData& data
 		);
 		//
+		/*
 		Steinberg::tresult PLUGIN_API processOutputParameters
 		(
 			Steinberg::Vst::ProcessData& data
 		);
+		*/
 		//
 		//------------------------------------------------------------------------
 		Steinberg::tresult PLUGIN_API setState 
@@ -102,16 +105,16 @@ namespace Carlsound
 		);
 		//
 		protected:
-		//Steinberg::Vst::ParamValue m_speedNormalizedValue = 0;
 		bool m_bypassState = false;
 		//
-		double m_gainValue[2];
+		double m_gainValue[2]
+		{ 
+			0.0, 
+			0.0 
+		};
 		//
-		//std::shared_ptr<Steinberg::Vst::RangeParameter> m_speedRangeParameter;
-		//
-		Steinberg::Vst::IParameterChanges *mOutParamChanges;
-		Steinberg::int32 mOutParamIndex;
-		Steinberg::Vst::IParamValueQueue *mOutParamQueue;
+		Steinberg::int32 mOutParamIndex = 0;
+		Steinberg::Vst::IParamValueQueue *mOutParamQueue = nullptr;
 		};
 		//------------------------------------------------------------------------
 	} // namespace Meter

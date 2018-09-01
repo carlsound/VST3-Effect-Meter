@@ -1,11 +1,5 @@
 
 #include "../include/meterController.h"
-#include "../include/meterUIDs.h"
-//
-#include "base/source/fstreamer.h"
-#include "pluginterfaces/base/ibstream.h"
-#include <string>
-#include "public.sdk/source/vst/hosting/stringconvert.h"
 //
 namespace Carlsound
 {
@@ -115,16 +109,20 @@ namespace Carlsound
 			Steinberg::Vst::ParamValue valueNormalized
 		)
 		{
-			/*
-			if(kParamLevel == tag)
+			switch (tag)
 			{
-				return ((valueNormalized * ((10.0 - 0.1) / 1.0)) + 0.10);
+				case kParamLevel:
+				{
+					return valueNormalized;
+					break;
+				}
+				case kParamBypassId:
+				{
+					return valueNormalized;
+					break;
+				}
 			}
-			*/
-			if (kParamBypassId == tag)
-			{
-				return valueNormalized;
-			}
+			return valueNormalized;
 		}
 		//------------------------------------------------------------------------
 		Steinberg::Vst::ParamValue MeterController::plainParamToNormalized
@@ -133,16 +131,20 @@ namespace Carlsound
 			Steinberg::Vst::ParamValue value
 		)
 		{
-			/*
-			if (kParamLevel == tag)
+			switch (tag)
 			{
-				return (value / 10.0);
+				case kParamLevel:
+				{
+					return value;
+					break;
+				}
+				case kParamBypassId:
+				{
+					return value;
+					break;
+				}
 			}
-			*/
-			if (kParamBypassId == tag)
-			{
-				return value;
-			}
+			return value;
 		}
 		//------------------------------------------------------------------------
 		void string128copy(Steinberg::Vst::TChar *str128, std::string &str)
@@ -164,29 +166,34 @@ namespace Carlsound
 		{
 			std::string valuePlainAscii;
 			//
-			if(MeterParameters::kParamBypassId == tag)
+			switch (tag)
 			{
-				if(valueNormalized) // on
+				case kParamLevel:
 				{
-					valuePlainAscii.clear();
-					valuePlainAscii = "On: Bypassed\0";
+					//float valuePlain = ((valueNormalized * ((10.0 - 0.1) / 1.0)) + 0.10);
+					//
+					//valuePlainAscii = std::to_string(valuePlain) + '\0';
+					//string128copy(string, valuePlainAscii);
+					//
+					break;
 				}
-				else // off
+				case kParamBypassId:
 				{
-					valuePlainAscii.clear();
-					valuePlainAscii = "Off: Active\0";
-                }
-				string128copy(string, valuePlainAscii);
+					if (valueNormalized) // on
+					{
+						valuePlainAscii.clear();
+						valuePlainAscii = "On: Bypassed\0";
+					}
+					else // off
+					{
+						valuePlainAscii.clear();
+						valuePlainAscii = "Off: Active\0";
+					}
+					string128copy(string, valuePlainAscii);
+					//
+					break;
+				}
 			}
-			/*
-			if (MeterParams::kParamLevel == tag)
-			{
-                float valuePlain = ((valueNormalized * ((10.0 - 0.1) / 1.0)) + 0.10);
-                //
-                valuePlainAscii = std::to_string(valuePlain) + '\0';
-				string128copy(string, valuePlainAscii);
-			}
-			*/
 			return Steinberg::kResultOk;
 		}
 		//------------------------------------------------------------------------

@@ -3,10 +3,10 @@
 //
 #include "../include/meterController.h"	// for createInstance
 #include "../include/meterProcessor.h"	// for createInstance
-#include "../include/meterUIDs.h"			// for uids
-#include "../include/meterVersion.h"			// for version and naming
+#include "../include/meterUIDs.h"	    // for UIDs
+#include "../include/meterVersion.h"	// for version and naming
 //
-#define stringSubCategory	"Fx|Analyzer"	// Subcategory for this Plug-in (to be changed if needed, see PlugType in ivstaudioprocessor.h)
+//#define stringSubCategory	"Fx|Analyzer"	// Subcategory for this Plug-in (to be changed if needed, see PlugType in ivstaudioprocessor.h)
 //
 BEGIN_FACTORY_DEF
 (

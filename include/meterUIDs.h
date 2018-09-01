@@ -1,20 +1,11 @@
 #pragma once
-
-#include "public.sdk/samples/vst/mda-vst3/source/mdaParameter.h"
+//#include "public.sdk/samples/vst/mda-vst3/source/mdaParameter.h"
+#include "pluginterfaces/base/funknown.h"
 //
 namespace Carlsound 
 {
 	namespace Meter 
 	{
-		// HERE are defined the parameter Ids which are exported to the host
-		/*
-		enum MeterParams : Steinberg::Vst::ParamID
-		{
-			kParamBypassId = 100,
-			//kParamSpeedId = 102
-		};
-		 */
-
 		// HERE you have to define new unique class ids: for processor and for controller
 		// you can use GUID creator tools like https://www.guidgenerator.com/
 		static const Steinberg::FUID MeterProcessorUID 

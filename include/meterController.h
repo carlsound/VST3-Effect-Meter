@@ -1,9 +1,15 @@
 #pragma once
 //
 #include "meterParameters.h"
+#include "meterUIDs.h"
 //
+#include "base/source/fstreamer.h"
+#include "pluginterfaces/base/ibstream.h"
+#include "public.sdk/source/vst/hosting/stringconvert.h"
 #include "public.sdk/source/vst/vsteditcontroller.h"
 #include "public.sdk/source/vst/hosting/stringconvert.h"
+//
+#include <string>
 //
 #if SMTG_OS_WINDOWS
 #include <atlconv.h>
