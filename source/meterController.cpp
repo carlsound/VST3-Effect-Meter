@@ -147,7 +147,11 @@ namespace Carlsound
 			return value;
 		}
 		//------------------------------------------------------------------------
-		void string128copy(Steinberg::Vst::TChar *str128, std::string &str)
+		void string128copy
+		(
+			Steinberg::Vst::TChar *str128, 
+			std::string &str
+		)
 		{
 			for (int i = 0; i < str.length(); i++)
 			{

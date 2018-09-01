@@ -12,8 +12,9 @@
 #include "base/source/fstreamer.h"
 #include "pluginterfaces/base/ibstream.h"
 #include "pluginterfaces/vst/ivstparameterchanges.h"
-#include <public.sdk/source/vst/vstaudioprocessoralgo.h>
 #include "pluginterfaces/vst/vsttypes.h"
+#include "public.sdk/source/vst/vstaudioprocessoralgo.h"
+//
 #define _USE_MATH_DEFINES 
 #include <cmath>
 //
@@ -69,12 +70,12 @@ namespace Carlsound
 			Steinberg::Vst::ProcessData& data
 		);
 		//
-		/*
+		
 		Steinberg::tresult PLUGIN_API processOutputParameters
 		(
 			Steinberg::Vst::ProcessData& data
 		);
-		*/
+		
 		//
 		//------------------------------------------------------------------------
 		Steinberg::tresult PLUGIN_API setState 
@@ -113,8 +114,10 @@ namespace Carlsound
 			0.0 
 		};
 		//
-		Steinberg::int32 mOutParamIndex = 0;
-		Steinberg::Vst::IParamValueQueue *mOutParamQueue = nullptr;
+		Steinberg::Vst::ParamValue mParamLevelValue = 0.0;
+		Steinberg::int32 mOutputParameterChangesDataIndex = 0;
+		Steinberg::int32 mOutputParameterValueQueuePointIndex = 0;
+		Steinberg::Vst::IParamValueQueue *mOutputParamValueQueue = 0;
 		};
 		//------------------------------------------------------------------------
 	} // namespace Meter

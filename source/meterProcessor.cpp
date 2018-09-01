@@ -104,6 +104,7 @@ namespace Carlsound
 								}
 							}
 							*/
+			
 							case MeterParameters::kParamBypassId:
 							{
 								if (paramQueue->getPoint
@@ -118,7 +119,6 @@ namespace Carlsound
 									break;
 								}
 							}
-
 						}
 					}
 				}
@@ -194,13 +194,14 @@ namespace Carlsound
 					m_gainValue[1] = 1.0;
 					for (int sample = 0; sample < data.numSamples; sample++)
 					{
-						//
-						mOutParamQueue->addPoint
-						(
-							sample, 
-							data.inputs->channelBuffers32[0][sample], 
-							mOutParamIndex
-						);
+						if (data.symbolicSampleSize == Steinberg::Vst::kSample64) //64-Bit
+						{
+							mParamLevelValue = static_cast<Steinberg::Vst::Sample64*>(out[0])[sample];
+						}
+						else // 32-bit
+						{
+							mParamLevelValue = static_cast<Steinberg::Vst::Sample32*>(out[0])[sample];
+						}
 						//
 						for (int channel = 0; channel < data.outputs->numChannels; channel++)
 						{
@@ -229,20 +230,26 @@ namespace Carlsound
 			return Steinberg::kResultTrue;
 		}
 		//-----------------------------------------------------------------------------
-		/*
+		
 		Steinberg::tresult PLUGIN_API MeterProcessor::processOutputParameters
 		(
 			Steinberg::Vst::ProcessData& data
 		)
 		{
 			// Write outputs parameter changes-----------
-			data.outputParameterChanges->addParameterData(kParamLevel, mOutParamIndex);
-			//
-			data.outputParameterChanges->getParameterData(mOutParamIndex);
-			//
+			if (data.outputParameterChanges)
+			{
+				//Steinberg::Vst::IParameterChanges* outParamChanges = data.outputParameterChanges;
+				//
+				mOutputParamValueQueue = data.outputParameterChanges->addParameterData(kParamLevel, mOutputParameterChangesDataIndex);
+				if (mOutputParamValueQueue)
+				{
+					mOutputParamValueQueue->addPoint(0, mParamLevelValue, mOutputParameterValueQueuePointIndex);
+				}
+			}
 			return Steinberg::kResultTrue;
 		}
-		*/
+		
 		//-----------------------------------------------------------------------------
 		Steinberg::tresult PLUGIN_API MeterProcessor::process
 		(
@@ -250,12 +257,10 @@ namespace Carlsound
 		)
 		{
 			processInputParameters(data);
-			//processOutputParameters(data);
-			data.outputParameterChanges->addParameterData(kParamLevel, mOutParamIndex);
-			//
 			processAudio(data);
+			processOutputParameters(data);
 			//
-			data.outputParameterChanges->getParameterData(mOutParamIndex);
+			//data.outputParameterChanges->getParameterData(mOutParamIndex);
 			//
 			return Steinberg::kResultOk;
 		}

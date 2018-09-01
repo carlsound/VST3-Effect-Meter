@@ -1,7 +1,7 @@
 #pragma once
-
+//
 #include "pluginterfaces/vst/vsttypes.h"
-
+//
 namespace Carlsound
 {
 	namespace Meter
