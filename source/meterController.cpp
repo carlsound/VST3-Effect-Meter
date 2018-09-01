@@ -19,9 +19,9 @@ namespace Carlsound
 				(
 					STR16 ("Level"), // title
 		            STR16 (""), // units
-			        100, // stepCount
+			        1000, // stepCount
 			        0.0, // defaultValueNormalized
-                    Steinberg::Vst::ParameterInfo::kIsReadOnly, // flags
+                    Steinberg::Vst::ParameterInfo::kCanAutomate, // flags
 					MeterParameters::kParamLevel, // tag
 			        0, // unitID
 		            STR16 ("Level") // shortTitle
@@ -200,6 +200,56 @@ namespace Carlsound
 			}
 			return Steinberg::kResultOk;
 		}
+		//------------------------------------------------------------------------
+		Steinberg::tresult PLUGIN_API MeterController::getMidiControllerAssignment
+		(
+			Steinberg::int32 busIndex,
+			Steinberg::int16 channel,
+			Steinberg::Vst::CtrlNumber midiControllerNumber,
+			Steinberg::Vst::ParamID& id
+		)
+		{
+			//throw std::logic_error("The method or operation is not implemented.");
+			if (busIndex == 0 && channel == 0)
+			{
+				id = 0;
+				switch (midiControllerNumber)
+				{
+					//case Steinberg::Vst::ControllerNumbers::kPitchBend: id = kParamMasterTuning; break;
+					//case Steinberg::Vst::ControllerNumbers::kCtrlVolume: id = kParamMasterVolume; break;
+					//case Steinberg::Vst::ControllerNumbers::kCtrlFilterCutoff: id = kParamFilterFreq; break;
+					//case Steinberg::Vst::ControllerNumbers::kCtrlFilterResonance: id = kParamFilterQ; break;
+					//
+					case Steinberg::Vst::ControllerNumbers::kCtrlVolume:
+					{
+						id = kParamLevel;
+						break;
+					}
+				}
+				return id != 0 ? Steinberg::kResultTrue : Steinberg::kResultFalse;
+			}
+			return Steinberg::kResultFalse;
+		}
+
+		//------------------------------------------------------------------------
+		/*
+		Steinberg::IPlugView* PLUGIN_API MeterController::createView
+		(
+			const char* name
+		)
+		{
+			using namespace VSTGUI;
+			using namespace Steinberg;
+			using namespace Steinberg::Vst;
+			if (name && strcmp(name, "editor") == 0)
+			{
+				VST3Editor* view = new VST3Editor (this, "view", "meter.uidesc");
+				return view;
+			}
+			return nullptr;
+		}
+		*/
+
 		//------------------------------------------------------------------------
 	} // namespace Meter
 } // namespace Carlsound

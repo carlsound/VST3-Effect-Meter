@@ -75,6 +75,11 @@ namespace Carlsound
 		(
 			Steinberg::Vst::ProcessData& data
 		);
+
+		Steinberg::tresult PLUGIN_API processMidiOutputEvents
+		(
+			Steinberg::Vst::ProcessData& data
+		);
 		
 		//
 		//------------------------------------------------------------------------
@@ -118,6 +123,8 @@ namespace Carlsound
 		Steinberg::int32 mOutputParameterChangesDataIndex = 0;
 		Steinberg::int32 mOutputParameterValueQueuePointIndex = 0;
 		Steinberg::Vst::IParamValueQueue *mOutputParamValueQueue = 0;
+		//
+		Steinberg::Vst::Event mEvent[8]{ 0 };
 		};
 		//------------------------------------------------------------------------
 	} // namespace Meter

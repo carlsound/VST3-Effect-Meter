@@ -236,6 +236,7 @@ namespace Carlsound
 			Steinberg::Vst::ProcessData& data
 		)
 		{
+			
 			// Write outputs parameter changes-----------
 			if (data.outputParameterChanges)
 			{
@@ -244,8 +245,130 @@ namespace Carlsound
 				mOutputParamValueQueue = data.outputParameterChanges->addParameterData(kParamLevel, mOutputParameterChangesDataIndex);
 				if (mOutputParamValueQueue)
 				{
-					mOutputParamValueQueue->addPoint(0, mParamLevelValue, mOutputParameterValueQueuePointIndex);
+					mOutputParamValueQueue->addPoint(0, abs(mParamLevelValue*100.0), mOutputParameterValueQueuePointIndex);
+					OutputDebugStringW(L"mParamLevelValue = ");
+					OutputDebugStringW((std::to_wstring(abs(mParamLevelValue*100.0)).c_str()));
+					OutputDebugStringW(L"\n");
 				}
+			}
+			return Steinberg::kResultTrue;
+		}
+
+		//-----------------------------------------------------------------------------
+
+		Steinberg::tresult PLUGIN_API MeterProcessor::processMidiOutputEvents
+		(
+			Steinberg::Vst::ProcessData& data
+		)
+		{
+			// Write outputs parameter changes-----------
+			if (data.outputEvents)
+			{
+				for (int i = 0; i < 8; i++)
+				{
+					data.outputEvents->addEvent(mEvent[i]);
+				}
+				/*
+				if (mParamLevelValue >= 0.05)
+				{
+					mEvent[0].noteOff.pitch = 64;
+					mEvent[1].noteOff.pitch = 65;
+					mEvent[2].noteOff.pitch = 66;
+					mEvent[3].noteOff.pitch = 67;
+					mEvent[4].noteOff.pitch = 68;
+					mEvent[5].noteOff.pitch = 69;
+					mEvent[6].noteOff.pitch = 70;
+					mEvent[7].noteOff.pitch = 71;
+				}
+				if (mParamLevelValue >= 0.05)
+				{
+					mEvent[0].noteOn.pitch = 64;
+					mEvent[1].noteOff.pitch = 65;
+					mEvent[2].noteOff.pitch = 66;
+					mEvent[3].noteOff.pitch = 67;
+					mEvent[4].noteOff.pitch = 68;
+					mEvent[5].noteOff.pitch = 69;
+					mEvent[6].noteOff.pitch = 70;
+					mEvent[7].noteOff.pitch = 71;
+				}
+				else if (mParamLevelValue > 0.10)
+				{
+					mEvent[0].noteOn.pitch = 64;
+					mEvent[1].noteOn.pitch = 65;
+					mEvent[2].noteOff.pitch = 66;
+					mEvent[3].noteOff.pitch = 67;
+					mEvent[4].noteOff.pitch = 68;
+					mEvent[5].noteOff.pitch = 69;
+					mEvent[6].noteOff.pitch = 70;
+					mEvent[7].noteOff.pitch = 71;
+				}
+				else if (mParamLevelValue > 0.15)
+				{
+					mEvent[0].noteOn.pitch = 64;
+					mEvent[1].noteOn.pitch = 65;
+					mEvent[2].noteOn.pitch = 66;
+					mEvent[3].noteOff.pitch = 67;
+					mEvent[4].noteOff.pitch = 68;
+					mEvent[5].noteOff.pitch = 69;
+					mEvent[6].noteOff.pitch = 70;
+					mEvent[7].noteOff.pitch = 71;
+				}
+				else if (mParamLevelValue > 0.20)
+				{
+					mEvent[0].noteOn.pitch = 64;
+					mEvent[1].noteOn.pitch = 65;
+					mEvent[2].noteOn.pitch = 66;
+					mEvent[3].noteOn.pitch = 67;
+					mEvent[4].noteOff.pitch = 68;
+					mEvent[5].noteOff.pitch = 69;
+					mEvent[6].noteOff.pitch = 70;
+					mEvent[7].noteOff.pitch = 71;
+				}
+				else if (mParamLevelValue > 0.25)
+				{
+					mEvent[0].noteOn.pitch = 64;
+					mEvent[1].noteOn.pitch = 65;
+					mEvent[2].noteOn.pitch = 66;
+					mEvent[3].noteOn.pitch = 67;
+					mEvent[4].noteOn.pitch = 68;
+					mEvent[5].noteOff.pitch = 69;
+					mEvent[6].noteOff.pitch = 70;
+					mEvent[7].noteOff.pitch = 71;
+				}
+				else if (mParamLevelValue > 0.37)
+				{
+					mEvent[0].noteOn.pitch = 64;
+					mEvent[1].noteOn.pitch = 65;
+					mEvent[2].noteOn.pitch = 66;
+					mEvent[3].noteOn.pitch = 67;
+					mEvent[4].noteOn.pitch = 68;
+					mEvent[5].noteOn.pitch = 69;
+					mEvent[6].noteOff.pitch = 70;
+					mEvent[7].noteOff.pitch = 71;
+				}
+				else if (mParamLevelValue > 0.50)
+				{
+					mEvent[0].noteOn.pitch = 64;
+					mEvent[1].noteOn.pitch = 65;
+					mEvent[2].noteOn.pitch = 66;
+					mEvent[3].noteOn.pitch = 67;
+					mEvent[4].noteOn.pitch = 68;
+					mEvent[5].noteOn.pitch = 69;
+					mEvent[6].noteOn.pitch = 70;
+					mEvent[7].noteOff.pitch = 71;
+				}
+				else if (mParamLevelValue > 0.75)
+				{
+					mEvent[0].noteOn.pitch = 64;
+					mEvent[1].noteOn.pitch = 65;
+					mEvent[2].noteOn.pitch = 66;
+					mEvent[3].noteOn.pitch = 67;
+					mEvent[4].noteOn.pitch = 68;
+					mEvent[5].noteOn.pitch = 69;
+					mEvent[6].noteOn.pitch = 70;
+					mEvent[7].noteOn.pitch = 71;
+				}
+				*/
 			}
 			return Steinberg::kResultTrue;
 		}
@@ -259,6 +382,7 @@ namespace Carlsound
 			processInputParameters(data);
 			processAudio(data);
 			processOutputParameters(data);
+			//processMidiOutputEvents(data);
 			//
 			//data.outputParameterChanges->getParameterData(mOutParamIndex);
 			//
@@ -293,7 +417,7 @@ namespace Carlsound
 			{
 				return Steinberg::kResultFalse;
 			}	
-			//m_speedNormalizedValue = savedParam1;
+			mParamLevelValue = savedParam1;
 			m_bypassState = savedBypass > 0;
 			//
 			return Steinberg::kResultOk;
@@ -306,7 +430,7 @@ namespace Carlsound
 		{
 			// here we need to save the model (preset or project)
 			//
-			//float toSaveParam1 = m_speedNormalizedValue;
+			float toSaveParam1 = mParamLevelValue;
 			Steinberg::int32 toSaveBypass = m_bypassState ? 1 : 0;
 			//
 			Steinberg::IBStreamer streamer 
@@ -314,12 +438,12 @@ namespace Carlsound
 				state, 
 				kLittleEndian
 			);
-			/*
+			
 			streamer.writeFloat 
 			(
 				toSaveParam1
 			);
-			*/
+			
 			streamer.writeInt32 
 			(
 				toSaveBypass
