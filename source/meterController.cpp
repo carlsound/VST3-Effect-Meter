@@ -6,21 +6,37 @@ namespace Carlsound
 	namespace Meter 
 	{
 		//-----------------------------------------------------------------------------
-		Steinberg::tresult PLUGIN_API MeterController::initialize 
-		(
-			FUnknown* context
-		)
+		Steinberg::tresult PLUGIN_API MeterController::initialize (FUnknown* context)
 		{
 			Steinberg::tresult result = EditController::initialize (context);
 			if (result == Steinberg::kResultTrue)
 			{
 				//---Create Parameters------------
+				/*
+				m_speedRangeParameter = std::make_shared<Steinberg::Vst::RangeParameter>
+				(
+					STR16("Level"), // title
+					kParamLevel, // ParamID
+					STR16("dB"), // units
+					0.0001, // minPlain
+					1.0000, // maxPlain
+					0.0000, // defaultValuePlain
+					100, // stepCount
+					Steinberg::Vst::ParameterInfo::kCanAutomate, // flags
+					0, // unitID
+					STR16("Level") // shortTitle
+				);
+				parameters.addParameter
+				(
+					m_speedRangeParameter->getInfo()
+				);
+				*/
 				parameters.addParameter 
 				(
 					STR16 ("Level"), // title
-		            STR16 (""), // units
-			        1000, // stepCount
-			        0.0, // defaultValueNormalized
+		            STR16 ("dB"), // units
+			        100, // stepCount
+			        0, // defaultValueNormalized
                     Steinberg::Vst::ParameterInfo::kCanAutomate, // flags
 					MeterParameters::kParamLevel, // tag
 			        0, // unitID
@@ -38,33 +54,11 @@ namespace Carlsound
 					0, // unitUD
 					STR16 ("Bypass") // shortTitle
 				);
-				/*
-				m_speedRangeParameter = std::make_shared<Steinberg::Vst::RangeParameter> 
-				(
-					STR16("Speed"), // title
-			        GilbertsParams::kParamSpeedId, // ParamID
-			        STR16("sec"), // units
-			        0.1, // minPlain
-			        10.0, // maxPlain
-			        1.0, // defaultValuePlain
-			        99, // stepCount
-			        Steinberg::Vst::ParameterInfo::kCanAutomate, // flags
-			        0, // unitID
-			        STR16("Speed") // shortTitle
-				); 
-				parameters.addParameter
-				(
-					m_speedRangeParameter->getInfo()
-				);
-				*/
 			}
 			return Steinberg::kResultTrue;
 		}
 		//------------------------------------------------------------------------
-		Steinberg::tresult PLUGIN_API MeterController::setComponentState 
-		(
-			Steinberg::IBStream* state
-		)
+		Steinberg::tresult PLUGIN_API MeterController::setComponentState (Steinberg::IBStream* state)
 		{
 			// we receive the current state of the component (processor part)
 			// we read our parameters and bypass value...
@@ -103,33 +97,9 @@ namespace Carlsound
 			return Steinberg::kResultOk;
 		}
 		//------------------------------------------------------------------------
-		Steinberg::Vst::ParamValue MeterController::normalizedParamToPlain
-		(
+		Steinberg::Vst::ParamValue PLUGIN_API MeterController::normalizedParamToPlain (
 			Steinberg::Vst::ParamID tag,
-			Steinberg::Vst::ParamValue valueNormalized
-		)
-		{
-			switch (tag)
-			{
-				case kParamLevel:
-				{
-					return valueNormalized;
-					break;
-				}
-				case kParamBypassId:
-				{
-					return valueNormalized;
-					break;
-				}
-			}
-			return valueNormalized;
-		}
-		//------------------------------------------------------------------------
-		Steinberg::Vst::ParamValue MeterController::plainParamToNormalized
-		(
-			Steinberg::Vst::ParamID tag,
-			Steinberg::Vst::ParamValue value
-		)
+			Steinberg::Vst::ParamValue value)
 		{
 			switch (tag)
 			{
@@ -147,11 +117,29 @@ namespace Carlsound
 			return value;
 		}
 		//------------------------------------------------------------------------
-		void string128copy
-		(
+		Steinberg::Vst::ParamValue MeterController::plainParamToNormalized (
+			Steinberg::Vst::ParamID tag,
+			Steinberg::Vst::ParamValue value)
+		{
+			switch (tag)
+			{
+				case kParamLevel:
+				{
+					return value;
+					break;
+				}
+				case kParamBypassId:
+				{
+					return value;
+					break;
+				}
+			}
+			return value;
+		}
+		//------------------------------------------------------------------------
+		void string128copy (
 			Steinberg::Vst::TChar *str128, 
-			std::string &str
-		)
+			std::string &str)
 		{
 			for (int i = 0; i < str.length(); i++)
 			{
@@ -159,14 +147,11 @@ namespace Carlsound
 			}
 			str128[str.length()] = '\0';
 		}
-
 		//------------------------------------------------------------------------
-		Steinberg::tresult MeterController::getParamStringByValue
-		(
+		Steinberg::tresult MeterController::getParamStringByValue (
 			Steinberg::Vst::ParamID tag,
 			Steinberg::Vst::ParamValue valueNormalized,
-			Steinberg::Vst::String128 string
-		)
+			Steinberg::Vst::String128 string)
 		{
 			std::string valuePlainAscii;
 			//
@@ -174,10 +159,10 @@ namespace Carlsound
 			{
 				case kParamLevel:
 				{
-					//float valuePlain = ((valueNormalized * ((10.0 - 0.1) / 1.0)) + 0.10);
+					float valuePlain = valueNormalized;
 					//
-					//valuePlainAscii = std::to_string(valuePlain) + '\0';
-					//string128copy(string, valuePlainAscii);
+					valuePlainAscii = std::to_string(valuePlain) + '\0';
+					string128copy(string, valuePlainAscii);
 					//
 					break;
 				}
@@ -201,13 +186,11 @@ namespace Carlsound
 			return Steinberg::kResultOk;
 		}
 		//------------------------------------------------------------------------
-		Steinberg::tresult PLUGIN_API MeterController::getMidiControllerAssignment
-		(
+		Steinberg::tresult PLUGIN_API MeterController::getMidiControllerAssignment(
 			Steinberg::int32 busIndex,
 			Steinberg::int16 channel,
 			Steinberg::Vst::CtrlNumber midiControllerNumber,
-			Steinberg::Vst::ParamID& id
-		)
+			Steinberg::Vst::ParamID& id)
 		{
 			//throw std::logic_error("The method or operation is not implemented.");
 			if (busIndex == 0 && channel == 0)
@@ -220,9 +203,14 @@ namespace Carlsound
 					//case Steinberg::Vst::ControllerNumbers::kCtrlFilterCutoff: id = kParamFilterFreq; break;
 					//case Steinberg::Vst::ControllerNumbers::kCtrlFilterResonance: id = kParamFilterQ; break;
 					//
-					case Steinberg::Vst::ControllerNumbers::kCtrlVolume:
+					case Steinberg::Vst::ControllerNumbers::kCtrlGPC1:
 					{
 						id = kParamLevel;
+						break;
+					}
+					case Steinberg::Vst::ControllerNumbers::kCtrlGPC2:
+					{
+						id = kParamBypassId;
 						break;
 					}
 				}
@@ -230,7 +218,6 @@ namespace Carlsound
 			}
 			return Steinberg::kResultFalse;
 		}
-
 		//------------------------------------------------------------------------
 		/*
 		Steinberg::IPlugView* PLUGIN_API MeterController::createView
@@ -249,7 +236,41 @@ namespace Carlsound
 			return nullptr;
 		}
 		*/
-
 		//------------------------------------------------------------------------
+		Steinberg::tresult MeterController::receiveText (const char* text)
+		{
+			// received from the processor
+			if (text)
+			{
+				fprintf(stderr, "MeterController] received: ");
+				fprintf(stderr, "%s", text);
+				fprintf(stderr, "\n");
+			}
+			return Steinberg::kResultOk;
+		}
+		//------------------------------------------------------------------------
+		Steinberg::tresult PLUGIN_API MeterController::notify (Steinberg::Vst::IMessage* message)
+		{
+			if (!message)
+				return Steinberg::kInvalidArgument;
+
+			if (!strcmp(message->getMessageID(), "BinaryMessage"))
+			{
+				const void* data;
+				Steinberg::uint32 size;
+				if (message->getAttributes()->getBinary("MyData", data, size) == Steinberg::kResultOk)
+				{
+					// we are in UI thread
+					// size should be 100
+					if (size == 100 && ((char*)data)[1] == 1) // yeah...
+					{
+						fprintf(stderr, "[AGain] received the binary message!\n");
+					}
+					return Steinberg::kResultOk;
+				}
+			}
+
+			return Steinberg::kResultFalse;
+		}
 	} // namespace Meter
 } // namespace Carlsound
