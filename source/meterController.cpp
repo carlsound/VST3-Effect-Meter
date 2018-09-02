@@ -237,14 +237,10 @@ namespace Carlsound
 		}
 		*/
 		//------------------------------------------------------------------------
-		Steinberg::tresult MeterController::receiveText (const char* text)
+		Steinberg::tresult PLUGIN_API MeterController::connect(IConnectionPoint* other)
 		{
-			// received from the processor
-			if (text)
-			{
-				fprintf(stderr, "MeterController] received: ");
-				fprintf(stderr, "%s", text);
-				fprintf(stderr, "\n");
+			FUnknown* createInstance(void*) {
+				return (Steinberg::Vst::IConnectionPoint*) new mConnectionPoint();
 			}
 			return Steinberg::kResultOk;
 		}
@@ -271,6 +267,18 @@ namespace Carlsound
 			}
 
 			return Steinberg::kResultFalse;
+		}
+		//------------------------------------------------------------------------
+		Steinberg::tresult MeterController::receiveText(const char* text)
+		{
+			// received from the processor
+			if (text)
+			{
+				fprintf(stderr, "MeterController] received: ");
+				fprintf(stderr, "%s", text);
+				fprintf(stderr, "\n");
+			}
+			return Steinberg::kResultOk;
 		}
 	} // namespace Meter
 } // namespace Carlsound

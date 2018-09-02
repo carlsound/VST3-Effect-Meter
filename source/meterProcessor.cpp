@@ -195,6 +195,7 @@ namespace Carlsound
 						//
 						//
 						//
+						/*
 						Steinberg::Vst::IParameterChanges* paramChanges = data.outputParameterChanges;
 						if (paramChanges)
 						{
@@ -213,6 +214,7 @@ namespace Carlsound
 								
 							}
 						}
+						*/
 						//
 						//
 						//
@@ -359,6 +361,11 @@ namespace Carlsound
 				toSaveBypass
 			);
 			//
+			return Steinberg::kResultOk;
+		}
+		//------------------------------------------------------------------------
+		Steinberg::tresult PLUGIN_API MeterProcessor::connect (IConnectionPoint* other)
+		{
 			return Steinberg::kResultOk;
 		}
 		//------------------------------------------------------------------------

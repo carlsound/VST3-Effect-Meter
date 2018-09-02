@@ -41,7 +41,9 @@ namespace Carlsound
 			//------------------------------------------------------------------------
 			Steinberg::tresult PLUGIN_API getState (Steinberg::IBStream* state) SMTG_OVERRIDE;
 			//------------------------------------------------------------------------
-			Steinberg::tresult PLUGIN_API notify(Steinberg::Vst::IMessage* message) SMTG_OVERRIDE;
+			//---from IVstMessage-----
+			Steinberg::tresult PLUGIN_API connect (IConnectionPoint* other) SMTG_OVERRIDE;
+			Steinberg::tresult PLUGIN_API notify (Steinberg::Vst::IMessage* message) SMTG_OVERRIDE;
 			//------------------------------------------------------------------------
 			//---from ComponentBase-----
 			Steinberg::tresult receiveText(const char* text)SMTG_OVERRIDE;

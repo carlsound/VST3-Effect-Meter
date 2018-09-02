@@ -54,14 +54,17 @@ namespace Carlsound
 		//---from EditController-----
 		//Steinberg::IPlugView* PLUGIN_API createView(const char* name) SMTG_OVERRIDE;
 		//-----------------------------------------------------------------------------
+		//---from IVstMessage-----
+		Steinberg::tresult PLUGIN_API connect(IConnectionPoint* other) SMTG_OVERRIDE;
+		Steinberg::tresult PLUGIN_API notify(Steinberg::Vst::IMessage* message)SMTG_OVERRIDE;
+		//-----------------------------------------------------------------------------
 		//---from ComponentBase-----
 		Steinberg::tresult receiveText(const char* text) SMTG_OVERRIDE;
-		//-----------------------------------------------------------------------------
-		Steinberg::tresult PLUGIN_API notify(Steinberg::Vst::IMessage* message)SMTG_OVERRIDE;
 		//-----------------------------------------------------------------------------
 		//---member variables----
 		//std::shared_ptr<Steinberg::Vst::RangeParameter> m_speedRangeParameter;
 		//Steinberg::Vst::String128 defaultMessageText;
+		IConnectionPoint *mConnectionPoint;
 		};
 	} // namespace Meter
 } // namespace Carlsound
