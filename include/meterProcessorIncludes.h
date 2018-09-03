@@ -12,6 +12,7 @@
 #include "pluginterfaces/base/ibstream.h"
 #include "pluginterfaces/vst/ivstparameterchanges.h"
 #include "pluginterfaces/vst/vsttypes.h"
+#include "public.sdk/source/vst/hosting/hostclasses.h"
 #include "public.sdk/source/vst/vstaudioprocessoralgo.h"
 //
 #define _USE_MATH_DEFINES 

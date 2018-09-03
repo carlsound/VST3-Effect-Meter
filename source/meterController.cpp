@@ -37,7 +37,7 @@ namespace Carlsound
 		            STR16 ("dB"), // units
 			        100, // stepCount
 			        0, // defaultValueNormalized
-                    Steinberg::Vst::ParameterInfo::kCanAutomate, // flags
+                    Steinberg::Vst::ParameterInfo::kIsReadOnly, // flags
 					MeterParameters::kParamLevel, // tag
 			        0, // unitID
 		            STR16 ("Level") // shortTitle
@@ -105,6 +105,10 @@ namespace Carlsound
 			{
 				case kParamLevel:
 				{
+					OutputDebugStringW(L"normalizedParamToPlain");
+					//OutputDebugStringW(L"mParamLevelValue = ");
+					//OutputDebugStringW((std::to_wstring(abs(mParamLevelValue*100.0)).c_str()));
+					//OutputDebugStringW(L"\n");
 					return value;
 					break;
 				}
@@ -125,6 +129,10 @@ namespace Carlsound
 			{
 				case kParamLevel:
 				{
+					OutputDebugStringW(L"plainParamToNormalized");
+					//OutputDebugStringW(L"mParamLevelValue = ");
+					//OutputDebugStringW((std::to_wstring(abs(mParamLevelValue*100.0)).c_str()));
+					//OutputDebugStringW(L"\n");
 					return value;
 					break;
 				}
@@ -237,18 +245,12 @@ namespace Carlsound
 		}
 		*/
 		//------------------------------------------------------------------------
-		Steinberg::tresult PLUGIN_API MeterController::connect(IConnectionPoint* other)
-		{
-			FUnknown* createInstance(void*) {
-				return (Steinberg::Vst::IConnectionPoint*) new mConnectionPoint();
-			}
-			return Steinberg::kResultOk;
-		}
-		//------------------------------------------------------------------------
 		Steinberg::tresult PLUGIN_API MeterController::notify (Steinberg::Vst::IMessage* message)
 		{
 			if (!message)
 				return Steinberg::kInvalidArgument;
+
+			//OutputDebugStringW(L"notify()");
 
 			if (!strcmp(message->getMessageID(), "BinaryMessage"))
 			{
@@ -268,17 +270,12 @@ namespace Carlsound
 
 			return Steinberg::kResultFalse;
 		}
-		//------------------------------------------------------------------------
-		Steinberg::tresult MeterController::receiveText(const char* text)
+
+		Steinberg::tresult PLUGIN_API MeterController::receiveText(const char* text)
 		{
-			// received from the processor
-			if (text)
-			{
-				fprintf(stderr, "MeterController] received: ");
-				fprintf(stderr, "%s", text);
-				fprintf(stderr, "\n");
-			}
-			return Steinberg::kResultOk;
+			OutputDebugStringW(L"receiveText()");
+			int i = 1;
+			return Steinberg::kResultTrue;
 		}
 	} // namespace Meter
 } // namespace Carlsound

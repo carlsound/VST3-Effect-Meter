@@ -14,8 +14,8 @@ namespace Carlsound
 	public:	
 		OBJ_METHODS(MeterController, EditController)
 		DEFINE_INTERFACES
-		//DEF_INTERFACE(INoteExpressionController)
-		DEF_INTERFACE(IMidiMapping)
+			//DEF_INTERFACE(INoteExpressionController)
+			DEF_INTERFACE(IMidiMapping)
 		END_DEFINE_INTERFACES(EditController)
 		REFCOUNT_METHODS(EditController)
 		//------------------------------------------------------------------------
@@ -54,17 +54,19 @@ namespace Carlsound
 		//---from EditController-----
 		//Steinberg::IPlugView* PLUGIN_API createView(const char* name) SMTG_OVERRIDE;
 		//-----------------------------------------------------------------------------
-		//---from IVstMessage-----
-		Steinberg::tresult PLUGIN_API connect(IConnectionPoint* other) SMTG_OVERRIDE;
-		Steinberg::tresult PLUGIN_API notify(Steinberg::Vst::IMessage* message)SMTG_OVERRIDE;
-		//-----------------------------------------------------------------------------
+		//---from IConnectionPoint-----
+			//Steinberg::tresult PLUGIN_API connect (IConnectionPoint* other) SMTG_OVERRIDE;
+		Steinberg::tresult PLUGIN_API notify(Steinberg::Vst::IMessage* message) SMTG_OVERRIDE;
+		//------------------------------------------------------------------------
 		//---from ComponentBase-----
-		Steinberg::tresult receiveText(const char* text) SMTG_OVERRIDE;
+		Steinberg::tresult PLUGIN_API receiveText(const char* text) SMTG_OVERRIDE;
+		//Steinberg::tresult sendMessage(Steinberg::Vst::IMessage* message);
 		//-----------------------------------------------------------------------------
 		//---member variables----
 		//std::shared_ptr<Steinberg::Vst::RangeParameter> m_speedRangeParameter;
 		//Steinberg::Vst::String128 defaultMessageText;
-		IConnectionPoint *mConnectionPoint;
+		//std::shared_ptr<Steinberg::Vst::IConnectionPoint> m_ConnectionPoint;
+		std::shared_ptr<Steinberg::Vst::HostMessage> m_Message;
 		};
 	} // namespace Meter
 } // namespace Carlsound

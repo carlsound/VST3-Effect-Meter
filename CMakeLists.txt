@@ -14,6 +14,14 @@ set(plug_sources
     include/meterVersion.h
     #---
     source/meterFactory.cpp
+    #---
+    include/componentAttribute.h
+    #---
+    include/componentAttributeList.h
+    source/componentAttributeList.cpp
+    #---
+    include/componentMessage.h
+    source/componentMessage.cpp
 )
 
 #--- HERE change the target Name for your plug-in (for ex. set(target myDelay))-------

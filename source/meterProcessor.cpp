@@ -9,6 +9,8 @@ namespace Carlsound
 		{
 			// register its editor class
 			setControllerClass (MeterControllerUID);
+			//
+			//m_Message = std::make_shared<Steinberg::Vst::IMessage*>();
 		}
 		//-----------------------------------------------------------------------------
 		Steinberg::tresult PLUGIN_API MeterProcessor::initialize 
@@ -186,11 +188,11 @@ namespace Carlsound
 					{
 						if (data.symbolicSampleSize == Steinberg::Vst::kSample64) //64-Bit
 						{
-							mParamLevelValue = static_cast<Steinberg::Vst::Sample64*>(out[0])[sample];
+							m_ParamLevelValue = static_cast<Steinberg::Vst::Sample64*>(out[0])[sample];
 						}
 						else // 32-bit
 						{
-							mParamLevelValue = static_cast<Steinberg::Vst::Sample32*>(out[0])[sample];
+							m_ParamLevelValue = static_cast<Steinberg::Vst::Sample32*>(out[0])[sample];
 						}
 						//
 						//
@@ -248,21 +250,29 @@ namespace Carlsound
 		Steinberg::tresult PLUGIN_API MeterProcessor::processOutputParameters(Steinberg::Vst::ProcessData& data)
 		{
 			// Write outputs parameter changes-----------
-			if (data.outputParameterChanges)
+			m_OutputParameterChanges = data.outputParameterChanges;
+			if (m_OutputParameterChanges)
 			{
-				mOutputParamValueQueue = data.outputParameterChanges->addParameterData(kParamLevel,
-					mOutputParameterChangesDataIndex);
-				if (mOutputParamValueQueue)
+				m_OutputParamValueQueue = m_OutputParameterChanges->addParameterData(kParamLevel,
+					m_OutputParameterChangesDataIndex);
+				if (m_OutputParamValueQueue)
 				{
-					Steinberg::tresult test = mOutputParamValueQueue->addPoint(0,
-						abs(mParamLevelValue*10.0),
-						mOutputParameterValueQueuePointIndex);
+					Steinberg::tresult test = m_OutputParamValueQueue->addPoint(0,
+						abs(m_ParamLevelValue*10.0),
+						m_OutputParameterValueQueuePointIndex);
 					//mOutputParameterChangesDataIndex);
-					if (test)
+					if (test == Steinberg::kResultOk)
 					{
-						OutputDebugStringW(L"mParamLevelValue = ");
-						OutputDebugStringW((std::to_wstring(abs(mParamLevelValue*100.0)).c_str()));
-						OutputDebugStringW(L"\n");
+						//OutputDebugStringW(L"mParamLevelValue = ");
+						//OutputDebugStringW((std::to_wstring(abs(m_ParamLevelValue*100.0)).c_str()));
+						//OutputDebugStringW(L"\n");
+						//
+						//m_Message = new Steinberg::Vst::HostMessage();
+						//m_Message->setMessageID("a");
+						//m_Message->setMessageID(std::to_string(abs(m_ParamLevelValue*10.0)).c_str());
+						//sendMessage(m_Message);
+						//delete m_Message;
+						//
 						return Steinberg::kResultTrue;
 					}
 				}
@@ -294,10 +304,18 @@ namespace Carlsound
 		{
 			processInputParameters(data);
 			processAudio(data);
-			//processOutputParameters(data);
+			processOutputParameters(data);
 			//processMidiOutputEvents(data);
 			//
 			//data.outputParameterChanges->getParameterData(mOutParamIndex);
+			//
+			//sendTextMessage("a");
+			//OutputDebugStringW(L"sendTextMessage()\n");
+			//m_Message = new Steinberg::Vst::HostMessage();
+			m_Message->setMessageID("a");
+			//m_Message->setMessageID(std::to_string(abs(m_ParamLevelValue*10.0)).c_str());
+			sendMessage(m_Message);
+			//delete m_Message;
 			//
 			return Steinberg::kResultOk;
 		}
@@ -324,7 +342,7 @@ namespace Carlsound
 			}
 			else
 			{
-				mParamLevelValue = savedParam1;
+				m_ParamLevelValue = savedParam1;
 			}
 			Steinberg::int32 savedBypass = 0;
 			if (false == streamer.readInt32 (savedBypass))
@@ -342,7 +360,7 @@ namespace Carlsound
 		{
 			// here we need to save the model (preset or project)
 			//
-			float toSaveParam1 = mParamLevelValue;
+			float toSaveParam1 = m_ParamLevelValue;
 			Steinberg::int32 toSaveBypass = mBypassState ? 1 : 0;
 			//
 			Steinberg::IBStreamer streamer 
@@ -361,47 +379,6 @@ namespace Carlsound
 				toSaveBypass
 			);
 			//
-			return Steinberg::kResultOk;
-		}
-		//------------------------------------------------------------------------
-		Steinberg::tresult PLUGIN_API MeterProcessor::connect (IConnectionPoint* other)
-		{
-			return Steinberg::kResultOk;
-		}
-		//------------------------------------------------------------------------
-		Steinberg::tresult PLUGIN_API MeterProcessor::notify(Steinberg::Vst::IMessage* message)
-		{
-			if (!message)
-				return Steinberg::kInvalidArgument;
-
-			if (!strcmp(message->getMessageID(), "BinaryMessage"))
-			{
-				const void* data;
-				Steinberg::uint32 size;
-				if (message->getAttributes()->getBinary("MyData", data, size) == Steinberg::kResultOk)
-				{
-					// we are in UI thread
-					// size should be 100
-					if (size == 100 && ((char*)data)[1] == 1) // yeah...
-					{
-						fprintf(stderr, "[AGain] received the binary message!\n");
-					}
-					return Steinberg::kResultOk;
-				}
-			}
-
-			return AudioEffect::notify(message);
-		}
-		//------------------------------------------------------------------------
-		Steinberg::tresult MeterProcessor::receiveText(const char* text)
-		{
-			// received from the processor
-			if (text)
-			{
-				fprintf(stderr, "MeterController] received: ");
-				fprintf(stderr, "%s", text);
-				fprintf(stderr, "\n");
-			}
 			return Steinberg::kResultOk;
 		}
 	} // namespace Meter
