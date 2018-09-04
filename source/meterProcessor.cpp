@@ -311,11 +311,11 @@ namespace Carlsound
 			//
 			//sendTextMessage("a");
 			//OutputDebugStringW(L"sendTextMessage()\n");
-			//m_Message = new Steinberg::Vst::HostMessage();
-			m_Message->setMessageID("a");
-			//m_Message->setMessageID(std::to_string(abs(m_ParamLevelValue*10.0)).c_str());
+			m_Message = new Carlsound::Vst::ComponentMessage();
+			//m_Message->setMessageID("a");
+			m_Message->setMessageID(std::to_string(abs(m_ParamLevelValue*10.0)).c_str());
 			sendMessage(m_Message);
-			//delete m_Message;
+			delete m_Message;
 			//
 			return Steinberg::kResultOk;
 		}

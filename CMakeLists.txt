@@ -16,6 +16,7 @@ set(plug_sources
     source/meterFactory.cpp
     #---
     include/componentAttribute.h
+    source/componentAttribute.cpp
     #---
     include/componentAttributeList.h
     source/componentAttributeList.cpp

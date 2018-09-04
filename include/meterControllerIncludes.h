@@ -1,5 +1,6 @@
 #pragma once
 //
+#include "componentMessage.h"
 #include "meterParameters.h"
 #include "meterUIDs.h"
 //
@@ -10,7 +11,7 @@
 #include "pluginterfaces/vst/vsttypes.h"
 #include "public.sdk/source/vst/hosting/stringconvert.h"
 #include "public.sdk/source/vst/vsteditcontroller.h"
-#include "public.sdk/source/vst/hosting/hostclasses.h"
+//#include "public.sdk/source/vst/hosting/hostclasses.h"
 #include "public.sdk/source/vst/hosting/stringconvert.h"
 #include "public.sdk/source/vst/vstaudioeffect.h"
 //#include "vstgui4/vstgui/plugin-bindings/vst3editor.h"

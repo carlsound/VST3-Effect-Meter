@@ -66,7 +66,9 @@ namespace Carlsound
 		//std::shared_ptr<Steinberg::Vst::RangeParameter> m_speedRangeParameter;
 		//Steinberg::Vst::String128 defaultMessageText;
 		//std::shared_ptr<Steinberg::Vst::IConnectionPoint> m_ConnectionPoint;
-		std::shared_ptr<Steinberg::Vst::HostMessage> m_Message;
+		//std::shared_ptr<Carlsound::Vst::ComponentMessage> m_Message;
+		Carlsound::Vst::ComponentMessage *m_Message;
+		Carlsound::Vst::ComponentAttributeList *m_AttributeList;
 		};
 	} // namespace Meter
 } // namespace Carlsound

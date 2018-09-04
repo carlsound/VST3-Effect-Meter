@@ -1,12 +1,21 @@
 #pragma once
-
+//
+#include "base/source/fstring.h"
+#include "pluginterfaces/base/ftypes.h"
+#include "pluginterfaces/vst/vsttypes.h"
+//
+#include <cstring>
+#include <map>
+//
 namespace Carlsound
 {
 	namespace Vst
 	{
+		//-----------------------------------------------------------------------------
 		class ComponentAttribute
 		{
 		public:
+			//-----------------------------------------------------------------------------
 			enum Type
 			{
 				kInteger,
@@ -14,51 +23,39 @@ namespace Carlsound
 				kString,
 				kBinary
 			};
-
-			ComponentAttribute(int64 value) : size(0), type(kInteger) { v.intValue = value; }
-			ComponentAttribute(double value) : size(0), type(kFloat) { v.floatValue = value; }
-			ComponentAttribute(const TChar* value, uint32 size) : size(size), type(kString)
-			{
-				v.stringValue = new TChar[size];
-				memcpy(v.stringValue, value, size * sizeof(TChar));
-			}
-			ComponentAttribute(const void* value, uint32 size) : size(size), type(kBinary)
-			{
-				v.binaryValue = new char[size];
-				memcpy(v.binaryValue, value, size);
-			}
-			~ComponentAttribute()
-			{
-				if (size)
-					delete[] v.binaryValue;
-			}
-
-			int64 intValue() const { return v.intValue; }
-			double floatValue() const { return v.floatValue; }
-			const TChar* stringValue(uint32& stringSize)
-			{
-				stringSize = size;
-				return v.stringValue;
-			}
-			const void* binaryValue(uint32& binarySize)
-			{
-				binarySize = size;
-				return v.binaryValue;
-			}
-
-			Type getType() const { return type; }
-
+			//-----------------------------------------------------------------------------
+			ComponentAttribute(Steinberg::int64 value);
+			//-----------------------------------------------------------------------------
+			ComponentAttribute(double value);
+			//-----------------------------------------------------------------------------
+			ComponentAttribute(const Steinberg::Vst::TChar* value, Steinberg::uint32 size);
+			//-----------------------------------------------------------------------------
+			ComponentAttribute(const void* value, Steinberg::uint32 size);
+			//-----------------------------------------------------------------------------
+			~ComponentAttribute();
+			//-----------------------------------------------------------------------------
+			Steinberg::int64 intValue() const;
+			//-----------------------------------------------------------------------------
+			double floatValue() const;
+			//-----------------------------------------------------------------------------
+			const Steinberg::Vst::TChar* stringValue(Steinberg::uint32& stringSize);
+			//-----------------------------------------------------------------------------
+			const void* binaryValue(Steinberg::uint32& binarySize);
+			//-----------------------------------------------------------------------------
+			Type getType() const { return type; };
+			//-----------------------------------------------------------------------------
 		protected:
 			union v
 			{
-				int64 intValue;
+				Steinberg::int64 intValue;
 				double floatValue;
-				TChar* stringValue;
+				Steinberg::Vst::TChar* stringValue;
 				char* binaryValue;
 			} v;
-			uint32 size;
+			Steinberg::uint32 size;
 			Type type;
 		};
-
-		typedef std::map<String, ComponentAttribute*>::iterator mapIterator;
+		//-----------------------------------------------------------------------------
+		typedef std::map<Steinberg::String, ComponentAttribute*>::iterator mapIterator;
+	}
 }

@@ -70,7 +70,7 @@ namespace Carlsound
 			//
 			//std::shared_ptr<Steinberg::Vst::IConnectionPoint> m_ConnectionPoint;
 			//std::shared_ptr<Steinberg::Vst::IMessage> m_Message;
-			Steinberg::Vst::HostMessage *m_Message;
+			Carlsound::Vst::ComponentMessage *m_Message;
 			//std::shared_ptr<Steinberg::Vst::IMessage*> m_pMessage;
 		};
 		//------------------------------------------------------------------------

@@ -5,12 +5,11 @@ namespace Carlsound
 	namespace Vst
 	{
 		IMPLEMENT_FUNKNOWN_METHODS(ComponentMessage, IMessage, IMessage::iid)
-			//-----------------------------------------------------------------------------
-			ComponentMessage::ComponentMessage() : messageId(0), attributeList(0)
+		//-----------------------------------------------------------------------------
+		ComponentMessage::ComponentMessage() : messageId(0), attributeList(0)
 		{
 			FUNKNOWN_CTOR
 		}
-
 		//-----------------------------------------------------------------------------
 		ComponentMessage::~ComponentMessage()
 		{
@@ -19,13 +18,11 @@ namespace Carlsound
 				attributeList->release();
 			FUNKNOWN_DTOR
 		}
-
 		//-----------------------------------------------------------------------------
 		const char* PLUGIN_API ComponentMessage::getMessageID()
 		{
 			return messageId;
 		}
-
 		//-----------------------------------------------------------------------------
 		void PLUGIN_API ComponentMessage::setMessageID(const char* mid)
 		{
@@ -39,7 +36,6 @@ namespace Carlsound
 				strcpy(messageId, mid);
 			}
 		}
-
 		//-----------------------------------------------------------------------------
 		Steinberg::Vst::IAttributeList* PLUGIN_API ComponentMessage::getAttributes()
 		{

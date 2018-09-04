@@ -10,11 +10,10 @@ namespace Carlsound
 		{
 			FUNKNOWN_CTOR
 		}
-
 		//-----------------------------------------------------------------------------
 		ComponentAttributeList::~ComponentAttributeList()
 		{
-			std::map<String, ComponentAttribute*>::reverse_iterator it = list.rbegin();
+			std::map<Steinberg::String, ComponentAttribute*>::reverse_iterator it = list.rbegin();
 			while (it != list.rend())
 			{
 				delete it->second;
@@ -22,7 +21,6 @@ namespace Carlsound
 			}
 			FUNKNOWN_DTOR
 		}
-
 		//-----------------------------------------------------------------------------
 		void ComponentAttributeList::removeAttrID(AttrID aid)
 		{
@@ -33,7 +31,6 @@ namespace Carlsound
 				list.erase(it);
 			}
 		}
-
 		//-----------------------------------------------------------------------------
 		Steinberg::tresult PLUGIN_API ComponentAttributeList::setInt(AttrID aid, Steinberg::int64 value)
 		{
@@ -53,7 +50,6 @@ namespace Carlsound
 			}
 			return Steinberg::kResultFalse;
 		}
-
 		//-----------------------------------------------------------------------------
 		Steinberg::tresult PLUGIN_API ComponentAttributeList::setFloat(AttrID aid, double value)
 		{
@@ -61,7 +57,6 @@ namespace Carlsound
 			list[aid] = new ComponentAttribute(value);
 			return Steinberg::kResultTrue;
 		}
-
 		//-----------------------------------------------------------------------------
 		Steinberg::tresult PLUGIN_API ComponentAttributeList::getFloat(AttrID aid, double& value)
 		{
@@ -73,15 +68,13 @@ namespace Carlsound
 			}
 			return Steinberg::kResultFalse;
 		}
-
 		//-----------------------------------------------------------------------------
 		Steinberg::tresult PLUGIN_API ComponentAttributeList::setString(AttrID aid, const Steinberg::Vst::TChar* string)
 		{
 			removeAttrID(aid);
-			list[aid] = new ComponentAttribute(string, String(const_cast<Steinberg::Vst::TChar*> (string)).length());
+			list[aid] = new ComponentAttribute(string, Steinberg::String(const_cast<Steinberg::Vst::TChar*> (string)).length());
 			return Steinberg::kResultTrue;
 		}
-
 		//-----------------------------------------------------------------------------
 		Steinberg::tresult PLUGIN_API ComponentAttributeList::getString(AttrID aid, Steinberg::Vst::TChar* string, Steinberg::uint32 size)
 		{
@@ -95,15 +88,13 @@ namespace Carlsound
 			}
 			return Steinberg::kResultFalse;
 		}
-
 		//-----------------------------------------------------------------------------
 		Steinberg::tresult PLUGIN_API ComponentAttributeList::setBinary(AttrID aid, const void* data, Steinberg::uint32 size)
 		{
 			removeAttrID(aid);
-			list[aid] = new HostAttribute(data, size);
+			list[aid] = new ComponentAttribute(data, size);
 			return Steinberg::kResultTrue;
 		}
-
 		//-----------------------------------------------------------------------------
 		Steinberg::tresult PLUGIN_API ComponentAttributeList::getBinary(AttrID aid, const void*& data, Steinberg::uint32& size)
 		{

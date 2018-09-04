@@ -105,7 +105,7 @@ namespace Carlsound
 			{
 				case kParamLevel:
 				{
-					OutputDebugStringW(L"normalizedParamToPlain");
+					//OutputDebugStringW(L"normalizedParamToPlain");
 					//OutputDebugStringW(L"mParamLevelValue = ");
 					//OutputDebugStringW((std::to_wstring(abs(mParamLevelValue*100.0)).c_str()));
 					//OutputDebugStringW(L"\n");
@@ -129,7 +129,7 @@ namespace Carlsound
 			{
 				case kParamLevel:
 				{
-					OutputDebugStringW(L"plainParamToNormalized");
+					//OutputDebugStringW(L"plainParamToNormalized");
 					//OutputDebugStringW(L"mParamLevelValue = ");
 					//OutputDebugStringW((std::to_wstring(abs(mParamLevelValue*100.0)).c_str()));
 					//OutputDebugStringW(L"\n");
@@ -250,8 +250,24 @@ namespace Carlsound
 			if (!message)
 				return Steinberg::kInvalidArgument;
 
-			//OutputDebugStringW(L"notify()");
-
+			OutputDebugStringW(L"notify()\n");
+			//m_Message = new Carlsound::Vst::ComponentMessage();
+			//m_Message = message;
+			//m_AttributeList = new Carlsound::Vst::ComponentAttributeList();
+			//
+			//std::string msg = m_Message->getMessageID();
+			std::string msg = message->getMessageID();
+			std::wstring msgw = std::wstring(msg.begin(), msg.end());
+			LPCWSTR str = msgw.c_str();
+			//OutputDebugString(str);
+			//OutputDebugStringW(L"\n");
+			//
+			//m_AttributeList = m_Message->getAttributes();
+			//
+			//delete m_AttributeList;
+			//delete m_Message;
+			//
+			/*
 			if (!strcmp(message->getMessageID(), "BinaryMessage"))
 			{
 				const void* data;
@@ -267,14 +283,13 @@ namespace Carlsound
 					return Steinberg::kResultOk;
 				}
 			}
-
-			return Steinberg::kResultFalse;
+			*/
+			return Steinberg::kResultTrue;
 		}
-
+		//------------------------------------------------------------------------
 		Steinberg::tresult PLUGIN_API MeterController::receiveText(const char* text)
 		{
-			OutputDebugStringW(L"receiveText()");
-			int i = 1;
+			//OutputDebugStringW(L"receiveText()");
 			return Steinberg::kResultTrue;
 		}
 	} // namespace Meter
