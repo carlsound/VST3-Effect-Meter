@@ -72,6 +72,8 @@ namespace Carlsound
 			//std::shared_ptr<Steinberg::Vst::IMessage> m_Message;
 			Carlsound::Vst::ComponentMessage *m_Message;
 			//std::shared_ptr<Steinberg::Vst::IMessage*> m_pMessage;
+			Carlsound::Vst::ComponentAttribute *m_Attribute;
+			Carlsound::Vst::ComponentAttributeList *m_AttributeList;
 		};
 		//------------------------------------------------------------------------
 	} // namespace Meter

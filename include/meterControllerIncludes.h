@@ -7,6 +7,7 @@
 #include "base/source/fstreamer.h"
 #include "pluginterfaces/base/ibstream.h"
 #include "pluginterfaces/base/ustring.h"
+#include "pluginterfaces/vst/ivstattributes.h"
 #include "pluginterfaces/vst/ivstmidicontrollers.h"
 #include "pluginterfaces/vst/vsttypes.h"
 #include "public.sdk/source/vst/hosting/stringconvert.h"
