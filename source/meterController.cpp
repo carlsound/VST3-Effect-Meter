@@ -263,9 +263,10 @@ namespace Carlsound
 			//OutputDebugStringW(L"\n");
 			//
 			//m_AttributeList = m_Message->getAttributes();
-			Steinberg::Vst::IAttributeList *m_list = m_Message->getAttributes();
-			double m_attributeValue;
-			m_list->getFloat("level" ,m_attributeValue);
+			Steinberg::Vst::IAttributeList *m_list = message->getAttributes();
+			double m_attributeValue = 0.0;
+			m_list->getFloat("level", m_attributeValue);
+			int i = 0;
 			// TODO: store to parameter
 			//
 			//delete m_AttributeList;
