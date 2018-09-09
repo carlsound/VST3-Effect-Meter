@@ -13,6 +13,7 @@ namespace Carlsound
 		enum MeterParameters : Steinberg::Vst::ParamID
 		{
 			kParamLevel,
+			kParamLevel2,
 			kParamBypassId,
 			//
 			kNumGlobalParameters

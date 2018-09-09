@@ -253,12 +253,13 @@ namespace Carlsound
 			m_OutputParameterChanges = data.outputParameterChanges;
 			if (m_OutputParameterChanges)
 			{
-				m_OutputParamValueQueue = m_OutputParameterChanges->addParameterData(kParamLevel,
+				m_OutputParamValueQueue = m_OutputParameterChanges->addParameterData(kParamLevel2,
 					m_OutputParameterChangesDataIndex);
 				if (m_OutputParamValueQueue)
 				{
 					Steinberg::tresult test = m_OutputParamValueQueue->addPoint(0,
-						abs(m_ParamLevelValue*10.0),
+						//abs(m_ParamLevelValue*10.0),
+						0.5,
 						m_OutputParameterValueQueuePointIndex);
 					//mOutputParameterChangesDataIndex);
 					if (test == Steinberg::kResultOk)

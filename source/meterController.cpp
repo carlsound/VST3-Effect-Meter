@@ -37,11 +37,23 @@ namespace Carlsound
 		            STR16 ("dB"), // units
 			        100, // stepCount
 			        0, // defaultValueNormalized
-                    Steinberg::Vst::ParameterInfo::kIsReadOnly, // flags
+                    Steinberg::Vst::ParameterInfo::kCanAutomate, // flags
 					MeterParameters::kParamLevel, // tag
 			        0, // unitID
 		            STR16 ("Level") // shortTitle
-				); 
+				);
+				//
+				parameters.addParameter
+				(
+					STR16("Level2"), // title
+					STR16("dB"), // units
+					100, // stepCount
+					0, // defaultValueNormalized
+					Steinberg::Vst::ParameterInfo::kCanAutomate, // flags
+					MeterParameters::kParamLevel2, // tag
+					0, // unitID
+					STR16("Level") // shortTitle
+				);
 				//
 				parameters.addParameter
 				(
@@ -82,6 +94,17 @@ namespace Carlsound
 				savedParam1
 			);
 			//
+			float savedParam2 = 0.f;
+			if (streamer.readFloat(savedParam2) == false)
+			{
+				return Steinberg::kResultFalse;
+			}
+			setParamNormalized
+			(
+				MeterParameters::kParamLevel2,
+				savedParam2
+			);
+			//
 			// read the bypass
 			Steinberg::int32 bypassState;
 			if (streamer.readInt32(bypassState) == false)
@@ -95,6 +118,28 @@ namespace Carlsound
 			);
 			//
 			return Steinberg::kResultOk;
+		}
+		//------------------------------------------------------------------------
+		Steinberg::tresult PLUGIN_API MeterController::setParamNormalized(
+			Steinberg::Vst::ParamID tag, 
+			Steinberg::Vst::ParamValue value)
+		{
+			switch (tag)
+			{
+				case kParamLevel:
+				{
+					Steinberg::Vst::ParamValue levelValue1 = value;
+					int i1 = 0;
+					break;
+				}
+				case kParamLevel2:
+				{
+					Steinberg::Vst::ParamValue levelValue2 = value;
+					int i2 = 0;
+					break;
+				}
+			}
+			return Steinberg::kResultTrue;
 		}
 		//------------------------------------------------------------------------
 		Steinberg::Vst::ParamValue PLUGIN_API MeterController::normalizedParamToPlain (
