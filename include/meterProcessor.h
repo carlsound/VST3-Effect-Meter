@@ -62,6 +62,7 @@ namespace Carlsound
 			//
 			Steinberg::Vst::IParameterChanges* m_OutputParameterChanges = NULL;
 			Steinberg::Vst::ParamValue m_ParamLevelValue = 0.0;
+			Steinberg::Vst::ParamValue m_ParamLevelValue2 = 0.0;
 			Steinberg::int32 m_OutputParameterChangesDataIndex = 0;
 			Steinberg::int32 m_OutputParameterValueQueuePointIndex = 0;
 			Steinberg::Vst::IParamValueQueue *m_OutputParamValueQueue = 0;
@@ -70,10 +71,14 @@ namespace Carlsound
 			//
 			//std::shared_ptr<Steinberg::Vst::IConnectionPoint> m_ConnectionPoint;
 			//std::shared_ptr<Steinberg::Vst::IMessage> m_Message;
-			Carlsound::Vst::ComponentMessage *m_Message;
+			//Carlsound::Vst::ComponentMessage *m_Message;
+			Steinberg::Vst::HostMessage *m_Message;
 			//std::shared_ptr<Steinberg::Vst::IMessage*> m_pMessage;
-			Carlsound::Vst::ComponentAttribute *m_Attribute;
-			Carlsound::Vst::ComponentAttributeList *m_AttributeList;
+			//Carlsound::Vst::ComponentAttribute *m_Attribute;
+			Steinberg::Vst::HostAttribute *m_Attribute;
+			//Carlsound::Vst::ComponentAttributeList *m_AttributeList;
+			Steinberg::Vst::HostAttributeList *m_AttributeList;
+			//Steinberg::Vst::IAttributeList *m_AttributeList;
 		};
 		//------------------------------------------------------------------------
 	} // namespace Meter

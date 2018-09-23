@@ -35,9 +35,9 @@ namespace Carlsound
 				(
 					STR16 ("Level"), // title
 		            STR16 ("dB"), // units
-			        100, // stepCount
+			        0, // stepCount
 			        0, // defaultValueNormalized
-                    Steinberg::Vst::ParameterInfo::kCanAutomate, // flags
+                    Steinberg::Vst::ParameterInfo::kCanAutomate || Steinberg::Vst::ParameterInfo::kIsReadOnly, // flags
 					MeterParameters::kParamLevel, // tag
 			        0, // unitID
 		            STR16 ("Level") // shortTitle
@@ -47,12 +47,12 @@ namespace Carlsound
 				(
 					STR16("Level2"), // title
 					STR16("dB"), // units
-					100, // stepCount
+					0, // stepCount
 					0, // defaultValueNormalized
 					Steinberg::Vst::ParameterInfo::kCanAutomate, // flags
 					MeterParameters::kParamLevel2, // tag
 					0, // unitID
-					STR16("Level") // shortTitle
+					STR16("Level2") // shortTitle
 				);
 				//
 				parameters.addParameter
@@ -88,6 +88,7 @@ namespace Carlsound
 			{
 				return Steinberg::kResultFalse;
 			}
+			OutputDebugStringW(L"setComponentState kParamLevel\n");
 			setParamNormalized 
 			(
 				MeterParameters::kParamLevel, 
@@ -99,6 +100,7 @@ namespace Carlsound
 			{
 				return Steinberg::kResultFalse;
 			}
+			OutputDebugStringW(L"setComponentState kParamLevel2\n");
 			setParamNormalized
 			(
 				MeterParameters::kParamLevel2,
@@ -124,21 +126,50 @@ namespace Carlsound
 			Steinberg::Vst::ParamID tag, 
 			Steinberg::Vst::ParamValue value)
 		{
+			Steinberg::Vst::Parameter* parameter = getParameterObject(tag);
+			if (parameter)
+			{
+				parameter->setNormalized(value);
+				//return kResultTrue;
+			}
+			//return kResultFalse;
 			switch (tag)
 			{
 				case kParamLevel:
 				{
-					Steinberg::Vst::ParamValue levelValue1 = value;
-					int i1 = 0;
+					if (componentHandler)
+					{
+						componentHandler->beginEdit(tag);
+						componentHandler->performEdit(tag, value);
+						componentHandler->endEdit(tag);
+					}
+					//Steinberg::Vst::ParamValue levelValue1 = value;
+					//m_Level1 = value;
+					m_Level1 = parameter->getNormalized();
+					//int i1 = 0;
+					//OutputDebugStringW(L"setParamNormalized kParamLevel\n");
+					//std::string str = std::to_string(m_Level1);
+					//std::wstring strw = std::wstring(str.begin(), str.end());
+					//OutputDebugStringW(L"Level 1 = ");
+					//OutputDebugStringW(strw.c_str());
+					//OutputDebugStringW(L"\n");
 					break;
 				}
 				case kParamLevel2:
 				{
-					Steinberg::Vst::ParamValue levelValue2 = value;
-					int i2 = 0;
+					//Steinberg::Vst::ParamValue levelValue2 = value;
+					m_Level2 = value;
+					//int i2 = 0;
+					//OutputDebugStringW(L"setParamNormalized kParamLevel2\n");
+					//std::string str = std::to_string(m_Level1);
+					//std::wstring strw = std::wstring(str.begin(), str.end());
+					//OutputDebugStringW(L"Level 2 = ");
+					//OutputDebugStringW(strw.c_str());
+					//OutputDebugStringW(L"\n");
 					break;
 				}
 			}
+			normalizedParamToPlain(tag, value);
 			return Steinberg::kResultTrue;
 		}
 		//------------------------------------------------------------------------
@@ -154,6 +185,11 @@ namespace Carlsound
 					//OutputDebugStringW(L"mParamLevelValue = ");
 					//OutputDebugStringW((std::to_wstring(abs(mParamLevelValue*100.0)).c_str()));
 					//OutputDebugStringW(L"\n");
+					return value;
+					break;
+				}
+				case kParamLevel2:
+				{
 					return value;
 					break;
 				}
@@ -178,6 +214,11 @@ namespace Carlsound
 					//OutputDebugStringW(L"mParamLevelValue = ");
 					//OutputDebugStringW((std::to_wstring(abs(mParamLevelValue*100.0)).c_str()));
 					//OutputDebugStringW(L"\n");
+					return value;
+					break;
+				}
+				case kParamLevel2:
+				{
 					return value;
 					break;
 				}
@@ -211,6 +252,15 @@ namespace Carlsound
 			switch (tag)
 			{
 				case kParamLevel:
+				{
+					float valuePlain = valueNormalized;
+					//
+					valuePlainAscii = std::to_string(valuePlain) + '\0';
+					string128copy(string, valuePlainAscii);
+					//
+					break;
+				}
+				case kParamLevel2:
 				{
 					float valuePlain = valueNormalized;
 					//
@@ -295,23 +345,38 @@ namespace Carlsound
 			if (!message)
 				return Steinberg::kInvalidArgument;
 
-			OutputDebugStringW(L"notify()\n");
-			//m_Message = new Carlsound::Vst::ComponentMessage();
+			//OutputDebugStringW(L"notify()\n");
+			m_Message = new Carlsound::Vst::ComponentMessage();
 			//m_Message = message;
-			//m_AttributeList = new Carlsound::Vst::ComponentAttributeList();
+			m_AttributeList = new Carlsound::Vst::ComponentAttributeList();
 			//
 			//std::string msg = m_Message->getMessageID();
 			std::string msg = message->getMessageID();
-			std::wstring msgw = std::wstring(msg.begin(), msg.end());
-			LPCWSTR str = msgw.c_str();
+			//std::wstring msgw = std::wstring(msg.begin(), msg.end());
+			//LPCWSTR str = msgw.c_str();
 			//OutputDebugString(str);
 			//OutputDebugStringW(L"\n");
 			//
-			//m_AttributeList = m_Message->getAttributes();
+			//m_AttributeList = message->getAttributes(); //m_Message->getAttributes();
 			Steinberg::Vst::IAttributeList *m_list = message->getAttributes();
 			double m_attributeValue = 0.0;
-			m_list->getFloat("level", m_attributeValue);
-			int i = 0;
+			Steinberg::tresult test = m_list->getFloat("level", m_attributeValue);
+			if (test)
+			{
+				int i = 1;
+			}
+			else
+			{
+				int i = 0;
+			}
+			setParamNormalized(kParamLevel, m_attributeValue);
+			//
+			//std::string str = std::to_string(m_attributeValue);
+			//std::wstring strw = std::wstring(str.begin(), str.end());
+			//OutputDebugStringW(L"level = ");
+			//OutputDebugStringW(strw.c_str());
+			//OutputDebugStringW(L"\n");
+			//int i = 0;
 			// TODO: store to parameter
 			//
 			//delete m_AttributeList;

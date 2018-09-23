@@ -30,7 +30,9 @@ namespace Carlsound
 		//-----------------------------------------------------------------------------
 		//---from EditController-----
 		Steinberg::tresult PLUGIN_API setComponentState (Steinberg::IBStream* state) SMTG_OVERRIDE;
-		Steinberg::tresult PLUGIN_API setParamNormalized(Steinberg::Vst::ParamID tag, Steinberg::Vst::ParamValue value) SMTG_OVERRIDE;
+		Steinberg::tresult PLUGIN_API setParamNormalized(
+			Steinberg::Vst::ParamID tag, 
+			Steinberg::Vst::ParamValue value) SMTG_OVERRIDE;
 		//-----------------------------------------------------------------------------
 		Steinberg::Vst::ParamValue PLUGIN_API normalizedParamToPlain(
 			Steinberg::Vst::ParamID tag, 
@@ -38,8 +40,8 @@ namespace Carlsound
 		//-----------------------------------------------------------------------------
 		Steinberg::Vst::ParamValue PLUGIN_API plainParamToNormalized(
 			Steinberg::Vst::ParamID tag,
-			//---------------------------------------------------------			Steinberg::Vst::ParamValue value) SMTG_OVERRIDE;
---------------------
+			Steinberg::Vst::ParamValue value) SMTG_OVERRIDE;
+		//-----------------------------------------------------------------------------
 		Steinberg::tresult PLUGIN_API getParamStringByValue(
 			Steinberg::Vst::ParamID tag,
 			Steinberg::Vst::ParamValue valueNormalized,
@@ -65,6 +67,8 @@ namespace Carlsound
 		//-----------------------------------------------------------------------------
 		//---member variables----
 		//std::shared_ptr<Steinberg::Vst::RangeParameter> m_speedRangeParameter;
+		Steinberg::Vst::ParamValue m_Level1;
+		Steinberg::Vst::ParamValue m_Level2;
 		//Steinberg::Vst::String128 defaultMessageText;
 		//std::shared_ptr<Steinberg::Vst::IConnectionPoint> m_ConnectionPoint;
 		//std::shared_ptr<Carlsound::Vst::ComponentMessage> m_Message;

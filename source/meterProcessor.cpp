@@ -99,6 +99,15 @@ namespace Carlsound
 								}
 							}
 							*/
+							case MeterParameters::kParamLevel2:
+							{
+							if (paramQueue->getPoint(numPoints - 1, sampleOffset, value) ==
+								Steinberg::kResultTrue)
+								{
+									m_ParamLevelValue2 = value;
+									break;
+								}
+							}
 			
 							case MeterParameters::kParamBypassId:
 							{
@@ -184,16 +193,28 @@ namespace Carlsound
 				{
 					mGainValue[0] = 1.0;
 					mGainValue[1] = 1.0;
+					//
+					if (data.symbolicSampleSize == Steinberg::Vst::kSample64) //64-Bit
+					{
+						m_ParamLevelValue = static_cast<Steinberg::Vst::Sample64*>(in[0])[0];
+					}
+					else // 32-bit
+					{
+						m_ParamLevelValue = static_cast<Steinberg::Vst::Sample32*>(in[0])[0];
+					}
+					//
 					for (int sample = 0; sample < data.numSamples; sample++)
 					{
+						/*
 						if (data.symbolicSampleSize == Steinberg::Vst::kSample64) //64-Bit
 						{
-							m_ParamLevelValue = static_cast<Steinberg::Vst::Sample64*>(out[0])[sample];
+							m_ParamLevelValue = static_cast<Steinberg::Vst::Sample64*>(in[0])[sample];
 						}
 						else // 32-bit
 						{
-							m_ParamLevelValue = static_cast<Steinberg::Vst::Sample32*>(out[0])[sample];
+							m_ParamLevelValue = static_cast<Steinberg::Vst::Sample32*>(in[0])[sample];
 						}
+						*/
 						//
 						//
 						//
@@ -253,17 +274,23 @@ namespace Carlsound
 			m_OutputParameterChanges = data.outputParameterChanges;
 			if (m_OutputParameterChanges)
 			{
-				m_OutputParamValueQueue = m_OutputParameterChanges->addParameterData(kParamLevel2,
+				m_OutputParamValueQueue = m_OutputParameterChanges->addParameterData(kParamLevel,
 					m_OutputParameterChangesDataIndex);
 				if (m_OutputParamValueQueue)
 				{
+					if (m_ParamLevelValue > 1.0)
+					{
+						m_ParamLevelValue = 1.0;
+					}
 					Steinberg::tresult test = m_OutputParamValueQueue->addPoint(0,
-						//abs(m_ParamLevelValue*10.0),
-						0.5,
+						abs(m_ParamLevelValue),
+						//0.5,
+						//m_ParamLevelValue2,
 						m_OutputParameterValueQueuePointIndex);
 					//mOutputParameterChangesDataIndex);
 					if (test == Steinberg::kResultOk)
 					{
+						int i = 0;
 						//OutputDebugStringW(L"mParamLevelValue = ");
 						//OutputDebugStringW((std::to_wstring(abs(m_ParamLevelValue*100.0)).c_str()));
 						//OutputDebugStringW(L"\n");
@@ -312,15 +339,26 @@ namespace Carlsound
 			//
 			//sendTextMessage("a");
 			//OutputDebugStringW(L"sendTextMessage()\n");
-			m_Message = new Carlsound::Vst::ComponentMessage();
+			//
+			//m_Message = new Carlsound::Vst::ComponentMessage();
+			//m_Message = new Steinberg::Vst::HostMessage();
+			//m_Message->setMessageID("level");
+			//
+			//m_AttributeList = m_Message->getAttributes();
+			//
 			//m_Attribute = new Carlsound::Vst::ComponentAttribute();
-			m_AttributeList = new Carlsound::Vst::ComponentAttributeList();
+			//m_Attribute->HostAttribute(0.00);
+			//
+			//m_AttributeList = new Carlsound::Vst::ComponentAttributeList();
+			//m_AttributeList = new Steinberg::Vst::HostAttributeList();
+			//
 			//m_Attribute->floatValue();
-			m_AttributeList->setFloat("level", abs(m_ParamLevelValue*10.0));
+			//Steinberg::tresult tr = m_AttributeList->setFloat(m_Message->getMessageID(), abs(m_ParamLevelValue*10.0));
+			//m_Message->getAttributes()->setFloat("level", abs(m_ParamLevelValue*10.0));
 			//
 			//m_Message->setMessageID(std::to_string(abs(m_ParamLevelValue*10.0)).c_str());
-			m_Message->setMessageID("level");
-			sendMessage(m_Message);
+			//
+			//sendMessage(m_Message);
 			//delete m_Message;
 			//
 			return Steinberg::kResultOk;
