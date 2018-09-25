@@ -27,6 +27,10 @@ namespace Carlsound
 			addAudioInput (STR16 ("AudioInput"), Steinberg::Vst::SpeakerArr::kStereo);
 			addAudioOutput (STR16 ("AudioOutput"), Steinberg::Vst::SpeakerArr::kStereo);
 			//
+			//---create Event In/Out buses------
+			addEventInput(STR16("MidiInput"), 1);
+			addEventOutput(STR16("MidiOutput"), 1);
+			//
 			return Steinberg::kResultTrue;
 		}
 		//-----------------------------------------------------------------------------
