@@ -255,7 +255,31 @@ namespace Carlsound
 				{
 					float valuePlain = valueNormalized;
 					//
-					valuePlainAscii = std::to_string(valuePlain) + '\0';
+					//valuePlainAscii = std::to_string(valuePlain) + '\0';
+					if (valuePlain <= 0.05)
+					{
+						valuePlainAscii = "light green" + '\0';
+					}
+					else if (valuePlain <= 0.1)
+					{
+						valuePlainAscii = "green" + '\0';
+					}
+					else if (valuePlain <= 0.25)
+					{
+						valuePlainAscii = "dark green" + '\0';
+					}
+					else if (valuePlain <= 0.5)
+					{
+						valuePlainAscii = "yellow" + '\0';
+					}
+					else if (valuePlain <= 0.75)
+					{
+						valuePlainAscii = "orange" + '\0';
+					}
+					else
+					{
+						valuePlainAscii = "red" + '\0';
+					}
 					string128copy(string, valuePlainAscii);
 					//
 					break;

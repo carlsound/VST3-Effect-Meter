@@ -317,17 +317,105 @@ namespace Carlsound
 			// Write outputs parameter changes-----------
 			if (data.outputEvents)
 			{
-				for (int i = 0; i < 8; i++)
+				//
+				if (m_ParamLevelValue <= 0.05)
 				{
-					data.outputEvents->addEvent(mEvent[i]);
+					mEvent[0].type = Steinberg::Vst::Event::kNoteOffEvent;
+					mEvent[0].noteOff.pitch = 24;
+					mEvent[1].type = Steinberg::Vst::Event::kNoteOffEvent;
+					mEvent[1].noteOff.pitch = 25;
+					mEvent[2].type = Steinberg::Vst::Event::kNoteOffEvent;
+					mEvent[2].noteOff.pitch = 26;
+					mEvent[3].type = Steinberg::Vst::Event::kNoteOffEvent;
+					mEvent[3].noteOff.pitch = 27;
+					mEvent[4].type = Steinberg::Vst::Event::kNoteOffEvent;
+					mEvent[4].noteOff.pitch = 28;
 				}
-				/*
-				if (mParamLevelValue >= 0.05)
+				else if (m_ParamLevelValue <= 0.1)
 				{
-					mEvent[0].noteOff.pitch = 64;
+					mEvent[0].type = Steinberg::Vst::Event::kNoteOnEvent;
+					mEvent[0].noteOn.pitch = 24;
+					mEvent[0].noteOn.velocity = 127;
+					mEvent[1].type = Steinberg::Vst::Event::kNoteOffEvent;
+					mEvent[1].noteOff.pitch = 25;
+					mEvent[2].type = Steinberg::Vst::Event::kNoteOffEvent;
+					mEvent[2].noteOff.pitch = 26;
+					mEvent[3].type = Steinberg::Vst::Event::kNoteOffEvent;
+					mEvent[3].noteOff.pitch = 27;
+					mEvent[4].type = Steinberg::Vst::Event::kNoteOffEvent;
+					mEvent[4].noteOff.pitch = 28;
 				}
-				*/
-				
+				else if (m_ParamLevelValue <= 0.25)
+				{
+					mEvent[0].type = Steinberg::Vst::Event::kNoteOnEvent;
+					mEvent[0].noteOn.pitch = 24;
+					mEvent[0].noteOn.velocity = 127;
+					mEvent[1].type = Steinberg::Vst::Event::kNoteOnEvent;
+					mEvent[1].noteOn.pitch = 25;
+					mEvent[1].noteOn.velocity = 127;
+					mEvent[2].type = Steinberg::Vst::Event::kNoteOffEvent;
+					mEvent[2].noteOff.pitch = 26;
+					mEvent[3].type = Steinberg::Vst::Event::kNoteOffEvent;
+					mEvent[3].noteOff.pitch = 27;
+					mEvent[4].type = Steinberg::Vst::Event::kNoteOffEvent;
+					mEvent[4].noteOff.pitch = 28;
+				}
+				else if (m_ParamLevelValue <= 0.5)
+				{
+					mEvent[0].type = Steinberg::Vst::Event::kNoteOnEvent;
+					mEvent[0].noteOn.pitch = 24;
+					mEvent[0].noteOn.velocity = 127;
+					mEvent[1].type = Steinberg::Vst::Event::kNoteOnEvent;
+					mEvent[1].noteOn.pitch = 25;
+					mEvent[1].noteOn.velocity = 127;
+					mEvent[2].type = Steinberg::Vst::Event::kNoteOnEvent;
+					mEvent[2].noteOn.pitch = 26;
+					mEvent[2].noteOn.velocity = 127;
+					mEvent[3].type = Steinberg::Vst::Event::kNoteOffEvent;
+					mEvent[3].noteOff.pitch = 27;
+					mEvent[4].type = Steinberg::Vst::Event::kNoteOffEvent;
+					mEvent[4].noteOff.pitch = 28;
+				}
+				else if (m_ParamLevelValue <= 0.75)
+				{
+					mEvent[0].type = Steinberg::Vst::Event::kNoteOnEvent;
+					mEvent[0].noteOn.pitch = 24;
+					mEvent[0].noteOn.velocity = 127;
+					mEvent[1].type = Steinberg::Vst::Event::kNoteOnEvent;
+					mEvent[1].noteOn.pitch = 25;
+					mEvent[1].noteOn.velocity = 127;
+					mEvent[2].type = Steinberg::Vst::Event::kNoteOnEvent;
+					mEvent[2].noteOn.pitch = 26;
+					mEvent[2].noteOn.velocity = 127;
+					mEvent[3].type = Steinberg::Vst::Event::kNoteOnEvent;
+					mEvent[3].noteOn.pitch = 27;
+					mEvent[3].noteOn.velocity = 127;
+					mEvent[4].type = Steinberg::Vst::Event::kNoteOffEvent;
+					mEvent[4].noteOff.pitch = 28;
+				}
+				else
+				{
+					mEvent[0].type = Steinberg::Vst::Event::kNoteOnEvent;
+					mEvent[0].noteOn.pitch = 24;
+					mEvent[0].noteOn.velocity = 127;
+					mEvent[1].type = Steinberg::Vst::Event::kNoteOnEvent;
+					mEvent[1].noteOn.pitch = 25;
+					mEvent[1].noteOn.velocity = 127;
+					mEvent[2].type = Steinberg::Vst::Event::kNoteOnEvent;
+					mEvent[2].noteOn.pitch = 26;
+					mEvent[2].noteOn.velocity = 127;
+					mEvent[3].type = Steinberg::Vst::Event::kNoteOnEvent;
+					mEvent[3].noteOn.pitch = 27;
+					mEvent[3].noteOn.velocity = 127;
+					mEvent[4].type = Steinberg::Vst::Event::kNoteOnEvent;
+					mEvent[4].noteOn.pitch = 28;
+					mEvent[4].noteOn.velocity = 127;
+				}
+				Steinberg::Vst::IEventList* outputEvents = data.outputEvents;
+				for (int i = 0; i < 5; i++)
+				{
+					outputEvents->addEvent(mEvent[i]);
+				}
 			}
 			return Steinberg::kResultTrue;
 		}
@@ -337,7 +425,7 @@ namespace Carlsound
 			processInputParameters(data);
 			processAudio(data);
 			processOutputParameters(data);
-			//processMidiOutputEvents(data);
+			processMidiOutputEvents(data);
 			//
 			//data.outputParameterChanges->getParameterData(mOutParamIndex);
 			//
