@@ -27,7 +27,7 @@ namespace Carlsound
 		//-----------------------------------------------------------------------------
 		ComponentAttribute::ComponentAttribute(const void* value, Steinberg::uint32 size) 
 		{
-			size = size;
+			size = 0;
 			type = kString;
 			v.binaryValue = new char[size];
 			memcpy(v.binaryValue, value, size);

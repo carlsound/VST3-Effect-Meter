@@ -67,7 +67,7 @@ namespace Carlsound
 			Steinberg::int32 m_OutputParameterValueQueuePointIndex = 0;
 			Steinberg::Vst::IParamValueQueue *m_OutputParamValueQueue = 0;
 			//
-			Steinberg::Vst::Event mEvent[8]{ 0 };
+            Steinberg::Vst::Event mEvent[8]{ {0} };
 			//
 			//std::shared_ptr<Steinberg::Vst::IConnectionPoint> m_ConnectionPoint;
 			//std::shared_ptr<Steinberg::Vst::IMessage> m_Message;

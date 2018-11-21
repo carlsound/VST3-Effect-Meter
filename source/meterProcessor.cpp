@@ -294,7 +294,7 @@ namespace Carlsound
 					//mOutputParameterChangesDataIndex);
 					if (test == Steinberg::kResultOk)
 					{
-						int i = 0;
+						//int i = 0;
 						//OutputDebugStringW(L"mParamLevelValue = ");
 						//OutputDebugStringW((std::to_wstring(abs(m_ParamLevelValue*100.0)).c_str()));
 						//OutputDebugStringW(L"\n");

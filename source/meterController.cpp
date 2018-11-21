@@ -88,7 +88,7 @@ namespace Carlsound
 			{
 				return Steinberg::kResultFalse;
 			}
-			OutputDebugStringW(L"setComponentState kParamLevel\n");
+			//OutputDebugStringW(L"setComponentState kParamLevel\n");
 			setParamNormalized 
 			(
 				MeterParameters::kParamLevel, 
@@ -100,7 +100,7 @@ namespace Carlsound
 			{
 				return Steinberg::kResultFalse;
 			}
-			OutputDebugStringW(L"setComponentState kParamLevel2\n");
+			//OutputDebugStringW(L"setComponentState kParamLevel2\n");
 			setParamNormalized
 			(
 				MeterParameters::kParamLevel2,
@@ -248,6 +248,9 @@ namespace Carlsound
 			Steinberg::Vst::String128 string)
 		{
 			std::string valuePlainAscii;
+            char* suffix_char = nullptr;
+            *suffix_char = '\0';
+            std::string suffix_str(suffix_char);
 			//
 			switch (tag)
 			{
@@ -258,27 +261,27 @@ namespace Carlsound
 					//valuePlainAscii = std::to_string(valuePlain) + '\0';
 					if (valuePlain <= 0.05)
 					{
-						valuePlainAscii = "light green" + '\0';
+						valuePlainAscii = "light green" + suffix_str;
 					}
 					else if (valuePlain <= 0.1)
 					{
-						valuePlainAscii = "green" + '\0';
+						valuePlainAscii = "green" + suffix_str;
 					}
 					else if (valuePlain <= 0.25)
 					{
-						valuePlainAscii = "dark green" + '\0';
+                        valuePlainAscii = "dark green" + suffix_str;
 					}
 					else if (valuePlain <= 0.5)
 					{
-						valuePlainAscii = "yellow" + '\0';
+						valuePlainAscii = "yellow" + suffix_str;
 					}
 					else if (valuePlain <= 0.75)
 					{
-						valuePlainAscii = "orange" + '\0';
+						valuePlainAscii = "orange" + suffix_str;
 					}
 					else
 					{
-						valuePlainAscii = "red" + '\0';
+						valuePlainAscii = "red" + suffix_str;
 					}
 					string128copy(string, valuePlainAscii);
 					//
@@ -387,11 +390,11 @@ namespace Carlsound
 			Steinberg::tresult test = m_list->getFloat("level", m_attributeValue);
 			if (test)
 			{
-				int i = 1;
+				//int i = 1;
 			}
 			else
 			{
-				int i = 0;
+				//int i = 0;
 			}
 			setParamNormalized(kParamLevel, m_attributeValue);
 			//
