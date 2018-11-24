@@ -131,45 +131,48 @@ namespace Carlsound
 			{
 				parameter->setNormalized(value);
 				//return kResultTrue;
+                //
+                switch (tag)
+                {
+                    case kParamLevel:
+                    {
+                        if (componentHandler)
+                        {
+                            componentHandler->beginEdit(tag);
+                            componentHandler->performEdit(tag, value);
+                            componentHandler->endEdit(tag);
+                        }
+                        //Steinberg::Vst::ParamValue levelValue1 = value;
+                        //m_Level1 = value;
+                        m_Level1 = parameter->getNormalized();
+                        //int i1 = 0;
+                        //OutputDebugStringW(L"setParamNormalized kParamLevel\n");
+                        //std::string str = std::to_string(m_Level1);
+                        //std::wstring strw = std::wstring(str.begin(), str.end());
+                        //OutputDebugStringW(L"Level 1 = ");
+                        //OutputDebugStringW(strw.c_str());
+                        //OutputDebugStringW(L"\n");
+                        break;
+                    }
+                    case kParamLevel2:
+                    {
+                        //Steinberg::Vst::ParamValue levelValue2 = value;
+                        m_Level2 = value;
+                        //int i2 = 0;
+                        //OutputDebugStringW(L"setParamNormalized kParamLevel2\n");
+                        //std::string str = std::to_string(m_Level1);
+                        //std::wstring strw = std::wstring(str.begin(), str.end());
+                        //OutputDebugStringW(L"Level 2 = ");
+                        //OutputDebugStringW(strw.c_str());
+                        //OutputDebugStringW(L"\n");
+                        break;
+                    }
+                }
 			}
 			//return kResultFalse;
-			switch (tag)
-			{
-				case kParamLevel:
-				{
-					if (componentHandler)
-					{
-						componentHandler->beginEdit(tag);
-						componentHandler->performEdit(tag, value);
-						componentHandler->endEdit(tag);
-					}
-					//Steinberg::Vst::ParamValue levelValue1 = value;
-					//m_Level1 = value;
-					m_Level1 = parameter->getNormalized();
-					//int i1 = 0;
-					//OutputDebugStringW(L"setParamNormalized kParamLevel\n");
-					//std::string str = std::to_string(m_Level1);
-					//std::wstring strw = std::wstring(str.begin(), str.end());
-					//OutputDebugStringW(L"Level 1 = ");
-					//OutputDebugStringW(strw.c_str());
-					//OutputDebugStringW(L"\n");
-					break;
-				}
-				case kParamLevel2:
-				{
-					//Steinberg::Vst::ParamValue levelValue2 = value;
-					m_Level2 = value;
-					//int i2 = 0;
-					//OutputDebugStringW(L"setParamNormalized kParamLevel2\n");
-					//std::string str = std::to_string(m_Level1);
-					//std::wstring strw = std::wstring(str.begin(), str.end());
-					//OutputDebugStringW(L"Level 2 = ");
-					//OutputDebugStringW(strw.c_str());
-					//OutputDebugStringW(L"\n");
-					break;
-				}
-			}
+			//
 			normalizedParamToPlain(tag, value);
+            //
 			return Steinberg::kResultTrue;
 		}
 		//------------------------------------------------------------------------
@@ -248,7 +251,7 @@ namespace Carlsound
 			Steinberg::Vst::String128 string)
 		{
 			std::string valuePlainAscii;
-            char* suffix_char = nullptr;
+            char* suffix_char = new char;
             *suffix_char = '\0';
             std::string suffix_str(suffix_char);
 			//
