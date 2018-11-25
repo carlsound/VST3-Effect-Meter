@@ -33,26 +33,26 @@ namespace Carlsound
 				*/
 				parameters.addParameter 
 				(
-					STR16 ("Level"), // title
-		            STR16 ("dB"), // units
-			        0, // stepCount
+					STR16 ("Color"), // title
+                    STR16(""), // units
+			        1000, // stepCount
 			        0, // defaultValueNormalized
-                    Steinberg::Vst::ParameterInfo::kCanAutomate || Steinberg::Vst::ParameterInfo::kIsReadOnly, // flags
-					MeterParameters::kParamLevel, // tag
+                    Steinberg::Vst::ParameterInfo::kCanAutomate, // || Steinberg::Vst::ParameterInfo::kIsReadOnly, // flags
+					MeterParameters::kParameterColor, // tag
 			        0, // unitID
-		            STR16 ("Level") // shortTitle
+		            STR16 ("Color") // shortTitle
 				);
 				//
 				parameters.addParameter
 				(
-					STR16("Level2"), // title
+					STR16("Input Level"), // title
 					STR16("dB"), // units
-					0, // stepCount
+					1000, // stepCount
 					0, // defaultValueNormalized
-					Steinberg::Vst::ParameterInfo::kCanAutomate, // flags
-					MeterParameters::kParamLevel2, // tag
+					Steinberg::Vst::ParameterInfo::kCanAutomate, // || Steinberg::Vst::ParameterInfo::kIsReadOnly, // flags
+					MeterParameters::kParameterInputLevel, // tag
 					0, // unitID
-					STR16("Level2") // shortTitle
+					STR16("Input Level") // shortTitle
 				);
 				//
 				parameters.addParameter
@@ -62,7 +62,7 @@ namespace Carlsound
 					1, // stepCount
 					0, // defaultValueNormalized
 					Steinberg::Vst::ParameterInfo::kCanAutomate | Steinberg::Vst::ParameterInfo::kIsBypass, // flags
-					MeterParameters::kParamBypassId, // tag
+					MeterParameters::kParameterBypassId, // tag
 					0, // unitUD
 					STR16 ("Bypass") // shortTitle
 				);
@@ -91,7 +91,7 @@ namespace Carlsound
 			//OutputDebugStringW(L"setComponentState kParamLevel\n");
 			setParamNormalized 
 			(
-				MeterParameters::kParamLevel, 
+				MeterParameters::kParameterColor,
 				savedParam1
 			);
 			//
@@ -103,7 +103,7 @@ namespace Carlsound
 			//OutputDebugStringW(L"setComponentState kParamLevel2\n");
 			setParamNormalized
 			(
-				MeterParameters::kParamLevel2,
+				MeterParameters::kParameterInputLevel,
 				savedParam2
 			);
 			//
@@ -115,7 +115,7 @@ namespace Carlsound
 			}	
 			setParamNormalized 
 			(
-				kParamBypassId, 
+				kParameterBypassId,
 				bypassState ? 1 : 0
 			);
 			//
@@ -134,7 +134,7 @@ namespace Carlsound
                 //
                 switch (tag)
                 {
-                    case kParamLevel:
+                    case kParameterColor:
                     {
                         if (componentHandler)
                         {
@@ -144,7 +144,7 @@ namespace Carlsound
                         }
                         //Steinberg::Vst::ParamValue levelValue1 = value;
                         //m_Level1 = value;
-                        m_Level1 = parameter->getNormalized();
+                        m_LevelColor = parameter->getNormalized();
                         //int i1 = 0;
                         //OutputDebugStringW(L"setParamNormalized kParamLevel\n");
                         //std::string str = std::to_string(m_Level1);
@@ -154,10 +154,19 @@ namespace Carlsound
                         //OutputDebugStringW(L"\n");
                         break;
                     }
-                    case kParamLevel2:
+                    case kParameterInputLevel:
                     {
+                        if (componentHandler)
+                        {
+                            componentHandler->beginEdit(tag);
+                            componentHandler->performEdit(tag, value);
+                            componentHandler->endEdit(tag);
+                        }
                         //Steinberg::Vst::ParamValue levelValue2 = value;
-                        m_Level2 = value;
+                        //m_Level2 = value;
+                        m_LevelInput = parameter->getNormalized();
+                        //m_LevelColor = m_LevelInput;
+                        //m_LevelColor = parameter->getNormalized();
                         //int i2 = 0;
                         //OutputDebugStringW(L"setParamNormalized kParamLevel2\n");
                         //std::string str = std::to_string(m_Level1);
@@ -182,7 +191,7 @@ namespace Carlsound
 		{
 			switch (tag)
 			{
-				case kParamLevel:
+				case kParameterColor:
 				{
 					//OutputDebugStringW(L"normalizedParamToPlain");
 					//OutputDebugStringW(L"mParamLevelValue = ");
@@ -191,12 +200,12 @@ namespace Carlsound
 					return value;
 					break;
 				}
-				case kParamLevel2:
+				case kParameterInputLevel:
 				{
 					return value;
 					break;
 				}
-				case kParamBypassId:
+				case kParameterBypassId:
 				{
 					return value;
 					break;
@@ -211,7 +220,7 @@ namespace Carlsound
 		{
 			switch (tag)
 			{
-				case kParamLevel:
+				case kParameterColor:
 				{
 					//OutputDebugStringW(L"plainParamToNormalized");
 					//OutputDebugStringW(L"mParamLevelValue = ");
@@ -220,12 +229,12 @@ namespace Carlsound
 					return value;
 					break;
 				}
-				case kParamLevel2:
+				case kParameterInputLevel:
 				{
 					return value;
 					break;
 				}
-				case kParamBypassId:
+				case kParameterBypassId:
 				{
 					return value;
 					break;
@@ -257,59 +266,59 @@ namespace Carlsound
 			//
 			switch (tag)
 			{
-				case kParamLevel:
+				case kParameterColor:
 				{
 					float valuePlain = valueNormalized;
 					//
 					//valuePlainAscii = std::to_string(valuePlain) + '\0';
 					if (valuePlain <= 0.05)
 					{
-						valuePlainAscii = "light green" + suffix_str;
+						valuePlainAscii = std::to_string(valuePlain) + " light green" + suffix_str;
 					}
 					else if (valuePlain <= 0.1)
 					{
-						valuePlainAscii = "green" + suffix_str;
+						valuePlainAscii = std::to_string(valuePlain) + " green" + suffix_str;
 					}
 					else if (valuePlain <= 0.25)
 					{
-                        valuePlainAscii = "dark green" + suffix_str;
+                        valuePlainAscii = std::to_string(valuePlain) + " dark green" + suffix_str;
 					}
 					else if (valuePlain <= 0.5)
 					{
-						valuePlainAscii = "yellow" + suffix_str;
+						valuePlainAscii = std::to_string(valuePlain) + " yellow" + suffix_str;
 					}
 					else if (valuePlain <= 0.75)
 					{
-						valuePlainAscii = "orange" + suffix_str;
+						valuePlainAscii = std::to_string(valuePlain) + " orange" + suffix_str;
 					}
 					else
 					{
-						valuePlainAscii = "red" + suffix_str;
+						valuePlainAscii = std::to_string(valuePlain) + " red" + suffix_str;
 					}
 					string128copy(string, valuePlainAscii);
 					//
 					break;
 				}
-				case kParamLevel2:
+				case kParameterInputLevel:
 				{
 					float valuePlain = valueNormalized;
 					//
-					valuePlainAscii = std::to_string(valuePlain) + '\0';
+					valuePlainAscii = std::to_string(valuePlain) + suffix_str;
 					string128copy(string, valuePlainAscii);
 					//
 					break;
 				}
-				case kParamBypassId:
+				case kParameterBypassId:
 				{
 					if (valueNormalized) // on
 					{
 						valuePlainAscii.clear();
-						valuePlainAscii = "On: Bypassed\0";
+						valuePlainAscii = "On: Bypassed" + suffix_str;
 					}
 					else // off
 					{
 						valuePlainAscii.clear();
-						valuePlainAscii = "Off: Active\0";
+						valuePlainAscii = "Off: Active" + suffix_str;
 					}
 					string128copy(string, valuePlainAscii);
 					//
@@ -338,12 +347,12 @@ namespace Carlsound
 					//
 					case Steinberg::Vst::ControllerNumbers::kCtrlGPC1:
 					{
-						id = kParamLevel;
+						id = kParameterColor;
 						break;
 					}
 					case Steinberg::Vst::ControllerNumbers::kCtrlGPC2:
 					{
-						id = kParamBypassId;
+						id = kParameterBypassId;
 						break;
 					}
 				}
@@ -399,7 +408,7 @@ namespace Carlsound
 			{
 				//int i = 0;
 			}
-			setParamNormalized(kParamLevel, m_attributeValue);
+			setParamNormalized(kParameterInputLevel, m_attributeValue);
 			//
 			//std::string str = std::to_string(m_attributeValue);
 			//std::wstring strw = std::wstring(str.begin(), str.end());

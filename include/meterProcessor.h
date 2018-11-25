@@ -54,18 +54,19 @@ namespace Carlsound
 			//---from ComponentBase-----
 			//Steinberg::tresult receiveText(const char* text)SMTG_OVERRIDE;
 			//Steinberg::tresult sendMessage(Steinberg::Vst::IMessage* message);
-			//------------------------------------------------------------------------
+            //Steinberg::tresult PLUGIN_API sendTextMessage (const Steinberg::char8* text);
+            //------------------------------------------------------------------------
 		protected:
 			bool mBypassState = false;
 			//
 			double mGainValue[2]{ 0.0, 0.0 };
 			//
 			Steinberg::Vst::IParameterChanges* m_OutputParameterChanges = NULL;
-			Steinberg::Vst::ParamValue m_ParamLevelValue = 0.0;
-			Steinberg::Vst::ParamValue m_ParamLevelValue2 = 0.0;
+			Steinberg::Vst::ParamValue m_ParameterLightsValue = 0.0;
+			Steinberg::Vst::ParamValue m_ParameterInputLevelValue = 0.0;
 			Steinberg::int32 m_OutputParameterChangesDataIndex = 0;
 			Steinberg::int32 m_OutputParameterValueQueuePointIndex = 0;
-			Steinberg::Vst::IParamValueQueue *m_OutputParamValueQueue = 0;
+			Steinberg::Vst::IParamValueQueue *m_OutputParameterValueQueue = 0;
 			//
             Steinberg::Vst::Event mEvent[8]{ {0} };
 			//

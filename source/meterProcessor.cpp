@@ -1,3 +1,4 @@
+#include <cstring>
 #include "../include/meterProcessor.h"
 //
 namespace Carlsound
@@ -103,17 +104,17 @@ namespace Carlsound
 								}
 							}
 							*/
-							case MeterParameters::kParamLevel2:
+							case MeterParameters::kParameterInputLevel:
 							{
 							if (paramQueue->getPoint(numPoints - 1, sampleOffset, value) ==
 								Steinberg::kResultTrue)
 								{
-									m_ParamLevelValue2 = value;
+									m_ParameterInputLevelValue = value;
 									break;
 								}
 							}
 			
-							case MeterParameters::kParamBypassId:
+							case MeterParameters::kParameterBypassId:
 							{
 								if (paramQueue->getPoint
 								(
@@ -184,7 +185,7 @@ namespace Carlsound
 						// do not need to be cleared if the buffers are the same (in this case input buffer are already cleared by the host)
 						if (in[i] != out[i])
 						{
-							memset(out[i], 0, sampleFramesSize);
+							std::memset(out[i], 0, sampleFramesSize);
 						}
 					}
 					// nothing to do at this point
@@ -200,11 +201,19 @@ namespace Carlsound
 					//
 					if (data.symbolicSampleSize == Steinberg::Vst::kSample64) //64-Bit
 					{
-						m_ParamLevelValue = static_cast<Steinberg::Vst::Sample64*>(in[0])[0];
+						//m_ParameterInputLevelValue = static_cast<Steinberg::Vst::Sample64*>(in[0])[0];
+						//m_ParameterLightsValue = m_ParameterInputLevelValue;
+                        m_ParameterLightsValue = static_cast<Steinberg::Vst::Sample64*>(in[0])[0];
+						//TODO: add notify message here for a callback to the controller
+						//sendMessage()
+						//sendTextMessage("Level");
 					}
 					else // 32-bit
 					{
-						m_ParamLevelValue = static_cast<Steinberg::Vst::Sample32*>(in[0])[0];
+						//m_ParameterInputLevelValue = static_cast<Steinberg::Vst::Sample32*>(in[0])[0];
+                        //m_ParameterLightsValue = m_ParameterInputLevelValue;
+                        m_ParameterLightsValue = static_cast<Steinberg::Vst::Sample32*>(in[0])[0];
+                        //TODO: add notify message here for a callback to the controller
 					}
 					//
 					for (int sample = 0; sample < data.numSamples; sample++)
@@ -278,19 +287,21 @@ namespace Carlsound
 			m_OutputParameterChanges = data.outputParameterChanges;
 			if (m_OutputParameterChanges)
 			{
-				m_OutputParamValueQueue = m_OutputParameterChanges->addParameterData(kParamLevel,
+				m_OutputParameterValueQueue = m_OutputParameterChanges->addParameterData(kParameterInputLevel,
 					m_OutputParameterChangesDataIndex);
-				if (m_OutputParamValueQueue)
+				if (m_OutputParameterValueQueue)
 				{
-					if (m_ParamLevelValue > 1.0)
+					if (m_ParameterInputLevelValue > 1.0)
 					{
-						m_ParamLevelValue = 1.0;
+						m_ParameterInputLevelValue = 1.0;
 					}
-					Steinberg::tresult test = m_OutputParamValueQueue->addPoint(0,
-						abs(m_ParamLevelValue),
+                    Steinberg::int32 index2 = 0;
+					Steinberg::tresult test = m_OutputParameterValueQueue->addPoint(0,
+						abs(m_ParameterInputLevelValue),
 						//0.5,
 						//m_ParamLevelValue2,
-						m_OutputParameterValueQueuePointIndex);
+						//m_OutputParameterValueQueuePointIndex);
+                        index2);
 					//mOutputParameterChangesDataIndex);
 					if (test == Steinberg::kResultOk)
 					{
@@ -318,7 +329,7 @@ namespace Carlsound
 			if (data.outputEvents)
 			{
 				//
-				if (m_ParamLevelValue <= 0.05)
+				if (m_ParameterInputLevelValue <= 0.05)
 				{
 					mEvent[0].type = Steinberg::Vst::Event::kNoteOffEvent;
 					mEvent[0].noteOff.pitch = 24;
@@ -331,7 +342,7 @@ namespace Carlsound
 					mEvent[4].type = Steinberg::Vst::Event::kNoteOffEvent;
 					mEvent[4].noteOff.pitch = 28;
 				}
-				else if (m_ParamLevelValue <= 0.1)
+				else if (m_ParameterInputLevelValue <= 0.1)
 				{
 					mEvent[0].type = Steinberg::Vst::Event::kNoteOnEvent;
 					mEvent[0].noteOn.pitch = 24;
@@ -345,7 +356,7 @@ namespace Carlsound
 					mEvent[4].type = Steinberg::Vst::Event::kNoteOffEvent;
 					mEvent[4].noteOff.pitch = 28;
 				}
-				else if (m_ParamLevelValue <= 0.25)
+				else if (m_ParameterInputLevelValue <= 0.25)
 				{
 					mEvent[0].type = Steinberg::Vst::Event::kNoteOnEvent;
 					mEvent[0].noteOn.pitch = 24;
@@ -360,7 +371,7 @@ namespace Carlsound
 					mEvent[4].type = Steinberg::Vst::Event::kNoteOffEvent;
 					mEvent[4].noteOff.pitch = 28;
 				}
-				else if (m_ParamLevelValue <= 0.5)
+				else if (m_ParameterInputLevelValue <= 0.5)
 				{
 					mEvent[0].type = Steinberg::Vst::Event::kNoteOnEvent;
 					mEvent[0].noteOn.pitch = 24;
@@ -376,7 +387,7 @@ namespace Carlsound
 					mEvent[4].type = Steinberg::Vst::Event::kNoteOffEvent;
 					mEvent[4].noteOff.pitch = 28;
 				}
-				else if (m_ParamLevelValue <= 0.75)
+				else if (m_ParameterInputLevelValue <= 0.75)
 				{
 					mEvent[0].type = Steinberg::Vst::Event::kNoteOnEvent;
 					mEvent[0].noteOn.pitch = 24;
@@ -478,8 +489,19 @@ namespace Carlsound
 			}
 			else
 			{
-				m_ParamLevelValue = savedParam1;
+				m_ParameterInputLevelValue = savedParam1;
 			}
+			//
+			float savedParam2 = 0.f;
+			if (false == streamer.readFloat(savedParam1))
+			{
+				return Steinberg::kResultFalse;
+			}
+			else
+			{
+				m_ParameterInputLevelValue = savedParam2;
+			}
+			//
 			Steinberg::int32 savedBypass = 0;
 			if (false == streamer.readInt32 (savedBypass))
 			{
@@ -496,20 +518,23 @@ namespace Carlsound
 		{
 			// here we need to save the model (preset or project)
 			//
-			float toSaveParam1 = m_ParamLevelValue;
-			Steinberg::int32 toSaveBypass = mBypassState ? 1 : 0;
-			//
 			Steinberg::IBStreamer streamer 
 			(
 				state, 
 				kLittleEndian
 			);
-			
+			//
 			streamer.writeFloat 
 			(
-				toSaveParam1
+					static_cast<float> (m_ParameterLightsValue)
 			);
-			
+			//
+			streamer.writeFloat
+			(
+					static_cast<float> (m_ParameterInputLevelValue)
+					);
+			//
+			Steinberg::int32 toSaveBypass = mBypassState ? 1 : 0;
 			streamer.writeInt32 
 			(
 				toSaveBypass
@@ -517,5 +542,13 @@ namespace Carlsound
 			//
 			return Steinberg::kResultOk;
 		}
+		//------------------------------------------------------------------------
+		/*
+		Steinberg::tresult PLUGIN_API MeterProcessor::sendTextMessage (const Steinberg::char8* text)
+		{
+			return Steinberg::kResultTrue;
+		}
+		 */
+		//------------------------------------------------------------------------
 	} // namespace Meter
 } // namespace Carlsound
