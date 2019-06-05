@@ -26,11 +26,11 @@ set(plug_sources
 )
 
 #--- HERE change the target Name for your plug-in (for ex. set(target myDelay))-------
-if(MAC)
+if(APPLE)
 	set(target Meter)
-elseif((WIN) AND (CMAKE_SIZEOF_VOID_P EQUAL "8"))
+elseif((WIN32) AND (CMAKE_SIZEOF_VOID_P EQUAL "8"))
     set(target Meter_x64)
-elseif(WIN)
+elseif(WIN32)
 	set(target Meter_x86)
 endif()
 
