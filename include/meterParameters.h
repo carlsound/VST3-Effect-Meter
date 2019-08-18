@@ -12,8 +12,9 @@ namespace Carlsound
 		// HERE are defined the parameter Ids which are exported to the host
 		enum MeterParameters : Steinberg::Vst::ParamID
 		{
-			kParameterColor,
 			kParameterInputLevel,
+			kParameterThreshold,
+			kParameterColor,
 			kParameterBypassId,
 			//
 			kQtyGlobalParameters

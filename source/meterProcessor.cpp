@@ -124,7 +124,7 @@ namespace Carlsound
 								) ==
 									Steinberg::kResultTrue)
 								{
-									mBypassState = (value > 0.5f);
+									m_BypassState = (value > 0.5f);
 									break;
 								}
 							}
@@ -194,10 +194,10 @@ namespace Carlsound
 				// mark our outputs has not silent
 				data.outputs[0].silenceFlags = 0;
 				//
-				if (!mBypassState)
+				if (!m_BypassState)
 				{
-					mGainValue[0] = 1.0;
-					mGainValue[1] = 1.0;
+					m_GainValue[0] = 1.0;
+					m_GainValue[1] = 1.0;
 					//
 					if (data.symbolicSampleSize == Steinberg::Vst::kSample64) //64-Bit
 					{
@@ -329,10 +329,13 @@ namespace Carlsound
 			if (data.outputEvents)
 			{
 				//
-				if (m_ParameterInputLevelValue <= 0.05)
+				if (m_ParameterInputLevelValue <= m_ParameterThresholdlValue)
 				{
-					mEvent[0].type = Steinberg::Vst::Event::kNoteOffEvent;
-					mEvent[0].noteOff.pitch = 24;
+					m_ParameterLightsValue = 0.0;
+					//
+					mEvent.type = Steinberg::Vst::Event::kNoteOffEvent;
+					mEvent.noteOff.pitch = 24;
+					/*
 					mEvent[1].type = Steinberg::Vst::Event::kNoteOffEvent;
 					mEvent[1].noteOff.pitch = 25;
 					mEvent[2].type = Steinberg::Vst::Event::kNoteOffEvent;
@@ -341,74 +344,16 @@ namespace Carlsound
 					mEvent[3].noteOff.pitch = 27;
 					mEvent[4].type = Steinberg::Vst::Event::kNoteOffEvent;
 					mEvent[4].noteOff.pitch = 28;
-				}
-				else if (m_ParameterInputLevelValue <= 0.1)
-				{
-					mEvent[0].type = Steinberg::Vst::Event::kNoteOnEvent;
-					mEvent[0].noteOn.pitch = 24;
-					mEvent[0].noteOn.velocity = 127;
-					mEvent[1].type = Steinberg::Vst::Event::kNoteOffEvent;
-					mEvent[1].noteOff.pitch = 25;
-					mEvent[2].type = Steinberg::Vst::Event::kNoteOffEvent;
-					mEvent[2].noteOff.pitch = 26;
-					mEvent[3].type = Steinberg::Vst::Event::kNoteOffEvent;
-					mEvent[3].noteOff.pitch = 27;
-					mEvent[4].type = Steinberg::Vst::Event::kNoteOffEvent;
-					mEvent[4].noteOff.pitch = 28;
-				}
-				else if (m_ParameterInputLevelValue <= 0.25)
-				{
-					mEvent[0].type = Steinberg::Vst::Event::kNoteOnEvent;
-					mEvent[0].noteOn.pitch = 24;
-					mEvent[0].noteOn.velocity = 127;
-					mEvent[1].type = Steinberg::Vst::Event::kNoteOnEvent;
-					mEvent[1].noteOn.pitch = 25;
-					mEvent[1].noteOn.velocity = 127;
-					mEvent[2].type = Steinberg::Vst::Event::kNoteOffEvent;
-					mEvent[2].noteOff.pitch = 26;
-					mEvent[3].type = Steinberg::Vst::Event::kNoteOffEvent;
-					mEvent[3].noteOff.pitch = 27;
-					mEvent[4].type = Steinberg::Vst::Event::kNoteOffEvent;
-					mEvent[4].noteOff.pitch = 28;
-				}
-				else if (m_ParameterInputLevelValue <= 0.5)
-				{
-					mEvent[0].type = Steinberg::Vst::Event::kNoteOnEvent;
-					mEvent[0].noteOn.pitch = 24;
-					mEvent[0].noteOn.velocity = 127;
-					mEvent[1].type = Steinberg::Vst::Event::kNoteOnEvent;
-					mEvent[1].noteOn.pitch = 25;
-					mEvent[1].noteOn.velocity = 127;
-					mEvent[2].type = Steinberg::Vst::Event::kNoteOnEvent;
-					mEvent[2].noteOn.pitch = 26;
-					mEvent[2].noteOn.velocity = 127;
-					mEvent[3].type = Steinberg::Vst::Event::kNoteOffEvent;
-					mEvent[3].noteOff.pitch = 27;
-					mEvent[4].type = Steinberg::Vst::Event::kNoteOffEvent;
-					mEvent[4].noteOff.pitch = 28;
-				}
-				else if (m_ParameterInputLevelValue <= 0.75)
-				{
-					mEvent[0].type = Steinberg::Vst::Event::kNoteOnEvent;
-					mEvent[0].noteOn.pitch = 24;
-					mEvent[0].noteOn.velocity = 127;
-					mEvent[1].type = Steinberg::Vst::Event::kNoteOnEvent;
-					mEvent[1].noteOn.pitch = 25;
-					mEvent[1].noteOn.velocity = 127;
-					mEvent[2].type = Steinberg::Vst::Event::kNoteOnEvent;
-					mEvent[2].noteOn.pitch = 26;
-					mEvent[2].noteOn.velocity = 127;
-					mEvent[3].type = Steinberg::Vst::Event::kNoteOnEvent;
-					mEvent[3].noteOn.pitch = 27;
-					mEvent[3].noteOn.velocity = 127;
-					mEvent[4].type = Steinberg::Vst::Event::kNoteOffEvent;
-					mEvent[4].noteOff.pitch = 28;
+					*/
 				}
 				else
 				{
-					mEvent[0].type = Steinberg::Vst::Event::kNoteOnEvent;
-					mEvent[0].noteOn.pitch = 24;
-					mEvent[0].noteOn.velocity = 127;
+					m_ParameterLightsValue = 1.0;
+					//
+					mEvent.type = Steinberg::Vst::Event::kNoteOnEvent;
+					mEvent.noteOn.pitch = 24;
+					mEvent.noteOn.velocity = 127;
+					/*
 					mEvent[1].type = Steinberg::Vst::Event::kNoteOnEvent;
 					mEvent[1].noteOn.pitch = 25;
 					mEvent[1].noteOn.velocity = 127;
@@ -421,12 +366,17 @@ namespace Carlsound
 					mEvent[4].type = Steinberg::Vst::Event::kNoteOnEvent;
 					mEvent[4].noteOn.pitch = 28;
 					mEvent[4].noteOn.velocity = 127;
+					*/
 				}
+				//
+				data.outputEvents->addEvent(mEvent);
+				/*
 				Steinberg::Vst::IEventList* outputEvents = data.outputEvents;
 				for (int i = 0; i < 5; i++)
 				{
 					outputEvents->addEvent(mEvent[i]);
 				}
+				*/
 			}
 			return Steinberg::kResultTrue;
 		}
@@ -493,13 +443,23 @@ namespace Carlsound
 			}
 			//
 			float savedParam2 = 0.f;
-			if (false == streamer.readFloat(savedParam1))
+			if (false == streamer.readFloat(savedParam2))
 			{
 				return Steinberg::kResultFalse;
 			}
 			else
 			{
-				m_ParameterInputLevelValue = savedParam2;
+				m_ParameterThresholdlValue = savedParam2;
+			}
+			//
+			float savedParam3 = 0.f;
+			if (false == streamer.readFloat(savedParam3))
+			{
+				return Steinberg::kResultFalse;
+			}
+			else
+			{
+				m_ParameterLightsValue = savedParam3;
 			}
 			//
 			Steinberg::int32 savedBypass = 0;
@@ -509,7 +469,7 @@ namespace Carlsound
 			}	
 			else
 			{
-				mBypassState = savedBypass > 0;
+				m_BypassState = savedBypass > 0;
 			}
 			return Steinberg::kResultOk;
 		}
@@ -524,17 +484,22 @@ namespace Carlsound
 				kLittleEndian
 			);
 			//
-			streamer.writeFloat 
-			(
-					static_cast<float> (m_ParameterLightsValue)
-			);
-			//
 			streamer.writeFloat
 			(
 					static_cast<float> (m_ParameterInputLevelValue)
 					);
 			//
-			Steinberg::int32 toSaveBypass = mBypassState ? 1 : 0;
+			streamer.writeFloat
+			(
+				static_cast<float> (m_ParameterThresholdlValue)
+			);
+			//
+			streamer.writeFloat
+			(
+				static_cast<float> (m_ParameterLightsValue)
+			);
+			//
+			Steinberg::int32 toSaveBypass = m_BypassState ? 1 : 0;
 			streamer.writeInt32 
 			(
 				toSaveBypass
