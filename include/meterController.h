@@ -67,8 +67,9 @@ namespace Carlsound
 		//-----------------------------------------------------------------------------
 		//---member variables----
 		//std::shared_ptr<Steinberg::Vst::RangeParameter> m_speedRangeParameter;
-		Steinberg::Vst::ParamValue m_LevelColor;
 		Steinberg::Vst::ParamValue m_LevelInput;
+		Steinberg::Vst::ParamValue m_LevelThreshold;
+		Steinberg::Vst::ParamValue m_LevelColor;
 		//Steinberg::Vst::String128 defaultMessageText;
 		//std::shared_ptr<Steinberg::Vst::IConnectionPoint> m_ConnectionPoint;
 		//std::shared_ptr<Carlsound::Vst::ComponentMessage> m_Message;

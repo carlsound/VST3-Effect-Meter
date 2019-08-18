@@ -113,6 +113,16 @@ namespace Carlsound
 									break;
 								}
 							}
+
+							case MeterParameters::kParameterThreshold:
+							{
+								if (paramQueue->getPoint(numPoints - 1, sampleOffset, value) ==
+									Steinberg::kResultTrue)
+								{
+									m_ParameterThresholdlValue = value;
+									break;
+								}
+							}
 			
 							case MeterParameters::kParameterBypassId:
 							{
@@ -203,7 +213,15 @@ namespace Carlsound
 					{
 						//m_ParameterInputLevelValue = static_cast<Steinberg::Vst::Sample64*>(in[0])[0];
 						//m_ParameterLightsValue = m_ParameterInputLevelValue;
-                        m_ParameterLightsValue = static_cast<Steinberg::Vst::Sample64*>(in[0])[0];
+                       // m_ParameterLightsValue = static_cast<Steinberg::Vst::Sample64*>(in[0])[0];
+						if (static_cast<Steinberg::Vst::Sample64*>(in[0])[0] >= m_ParameterThresholdlValue)
+						{
+							m_ParameterColorValue = 1.0;
+						}
+						else
+						{
+							m_ParameterColorValue = 0.0;
+						}
 						//TODO: add notify message here for a callback to the controller
 						//sendMessage()
 						//sendTextMessage("Level");
@@ -212,7 +230,15 @@ namespace Carlsound
 					{
 						//m_ParameterInputLevelValue = static_cast<Steinberg::Vst::Sample32*>(in[0])[0];
                         //m_ParameterLightsValue = m_ParameterInputLevelValue;
-                        m_ParameterLightsValue = static_cast<Steinberg::Vst::Sample32*>(in[0])[0];
+                        //m_ParameterLightsValue = static_cast<Steinberg::Vst::Sample32*>(in[0])[0];
+						if (static_cast<Steinberg::Vst::Sample32*>(in[0])[0] >= m_ParameterThresholdlValue)
+						{
+							m_ParameterColorValue = 1.0;
+						}
+						else
+						{
+							m_ParameterColorValue = 0.0;
+						}
                         //TODO: add notify message here for a callback to the controller
 					}
 					//
@@ -285,18 +311,18 @@ namespace Carlsound
 		{
 			// Write outputs parameter changes-----------
 			m_OutputParameterChanges = data.outputParameterChanges;
-			if (m_OutputParameterChanges)
-			{
-				m_OutputParameterValueQueue = m_OutputParameterChanges->addParameterData(kParameterInputLevel,
+			//if (m_OutputParameterChanges)
+			//{
+				m_ParameterInputLevelValueQueue = m_OutputParameterChanges->addParameterData(kParameterInputLevel,
 					m_OutputParameterChangesDataIndex);
-				if (m_OutputParameterValueQueue)
+				if (m_ParameterInputLevelValueQueue)
 				{
 					if (m_ParameterInputLevelValue > 1.0)
 					{
 						m_ParameterInputLevelValue = 1.0;
 					}
                     Steinberg::int32 index2 = 0;
-					Steinberg::tresult test = m_OutputParameterValueQueue->addPoint(0,
+					Steinberg::tresult test = m_ParameterInputLevelValueQueue->addPoint(0,
 						abs(m_ParameterInputLevelValue),
 						//0.5,
 						//m_ParamLevelValue2,
@@ -319,7 +345,29 @@ namespace Carlsound
 						return Steinberg::kResultTrue;
 					}
 				}
-			}
+				//
+				//
+				//
+				m_ParameterColorValueQueue = m_OutputParameterChanges->addParameterData(kParameterColor,
+					m_OutputParameterChangesDataIndex);
+				if (m_ParameterColorValueQueue)
+				{
+					if (m_ParameterColorValue > 1.0)
+					{
+						m_ParameterColorValue = 1.0;
+					}
+					Steinberg::int32 index2 = 0;
+					Steinberg::tresult test = m_ParameterColorValueQueue->addPoint(0,
+						abs(m_ParameterColorValue),
+						//m_OutputParameterValueQueuePointIndex);
+						index2);
+					//mOutputParameterChangesDataIndex);
+					if (test == Steinberg::kResultOk)
+					{
+						return Steinberg::kResultTrue;
+					}
+				}
+			//}
 			return Steinberg::kResultFalse;
 		}
 		//-----------------------------------------------------------------------------
@@ -331,7 +379,7 @@ namespace Carlsound
 				//
 				if (m_ParameterInputLevelValue <= m_ParameterThresholdlValue)
 				{
-					m_ParameterLightsValue = 0.0;
+					m_ParameterColorValue = 0.0;
 					//
 					mEvent.type = Steinberg::Vst::Event::kNoteOffEvent;
 					mEvent.noteOff.pitch = 24;
@@ -348,7 +396,7 @@ namespace Carlsound
 				}
 				else
 				{
-					m_ParameterLightsValue = 1.0;
+					m_ParameterColorValue = 1.0;
 					//
 					mEvent.type = Steinberg::Vst::Event::kNoteOnEvent;
 					mEvent.noteOn.pitch = 24;
@@ -459,7 +507,7 @@ namespace Carlsound
 			}
 			else
 			{
-				m_ParameterLightsValue = savedParam3;
+				m_ParameterColorValue = savedParam3;
 			}
 			//
 			Steinberg::int32 savedBypass = 0;
@@ -496,7 +544,7 @@ namespace Carlsound
 			//
 			streamer.writeFloat
 			(
-				static_cast<float> (m_ParameterLightsValue)
+				static_cast<float> (m_ParameterColorValue)
 			);
 			//
 			Steinberg::int32 toSaveBypass = m_BypassState ? 1 : 0;

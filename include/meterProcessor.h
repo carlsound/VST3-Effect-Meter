@@ -61,15 +61,17 @@ namespace Carlsound
 			//
 			double m_GainValue[2]{ 0.0, 0.0 };
 			//
-			Steinberg::Vst::IParameterChanges* m_OutputParameterChanges = NULL;
-			//
 			Steinberg::Vst::ParamValue m_ParameterInputLevelValue = 0.0;
 			Steinberg::Vst::ParamValue m_ParameterThresholdlValue = 0.0;
-			Steinberg::Vst::ParamValue m_ParameterLightsValue = 0.0;
+			Steinberg::Vst::ParamValue m_ParameterColorValue = 0.0;
 			//
 			Steinberg::int32 m_OutputParameterChangesDataIndex = 0;
 			Steinberg::int32 m_OutputParameterValueQueuePointIndex = 0;
-			Steinberg::Vst::IParamValueQueue *m_OutputParameterValueQueue = 0;
+			//
+			Steinberg::Vst::IParameterChanges* m_OutputParameterChanges = NULL;
+			//
+			Steinberg::Vst::IParamValueQueue *m_ParameterInputLevelValueQueue = 0;
+			Steinberg::Vst::IParamValueQueue* m_ParameterColorValueQueue = 0;
 			//
             Steinberg::Vst::Event mEvent{ {0} };
 			//
