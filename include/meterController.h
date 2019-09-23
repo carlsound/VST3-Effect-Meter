@@ -8,8 +8,8 @@ namespace Carlsound
 	{
 	//-----------------------------------------------------------------------------
 	class MeterController : public Steinberg::Vst::EditController,
-		                    public Steinberg::Vst::IMidiMapping//,
-		                    //public VSTGUI::VST3EditorDelegate
+		                    public Steinberg::Vst::IMidiMapping,
+		                    public VSTGUI::VST3EditorDelegate
 	{
 	public:	
 		OBJ_METHODS(MeterController, EditController)
@@ -55,7 +55,7 @@ namespace Carlsound
 			Steinberg::Vst::ParamID& id) SMTG_OVERRIDE;
 		//-----------------------------------------------------------------------------
 		//---from EditController-----
-		//Steinberg::IPlugView* PLUGIN_API createView(const char* name) SMTG_OVERRIDE;
+		Steinberg::IPlugView* PLUGIN_API createView(const char* name) SMTG_OVERRIDE;
 		//
 		//-----------------------------------------------------------------------------
 		//---from IConnectionPoint-----

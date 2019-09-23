@@ -428,7 +428,6 @@ namespace Carlsound
 			return Steinberg::kResultFalse;
 		}
 		//------------------------------------------------------------------------
-		/*
 		Steinberg::IPlugView* PLUGIN_API MeterController::createView
 		(
 			const char* name
@@ -436,12 +435,11 @@ namespace Carlsound
 		{
 			if (name && strcmp(name, "editor") == 0)
 			{
-				auto* view = new VSTGUI::VST3Editor::VST3Editor(this, "view", "meter.uidesc");
+				auto* view = new VSTGUI::VST3Editor(this, "view", "meter.uidesc");
 				return view;
 			}
 			return nullptr;
 		}
-		*/
 		//------------------------------------------------------------------------
 		Steinberg::tresult PLUGIN_API MeterController::notify (Steinberg::Vst::IMessage* message)
 		{

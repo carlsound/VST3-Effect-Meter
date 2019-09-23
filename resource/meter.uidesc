@@ -20,7 +20,7 @@
 		<bitmap name="onoff_button_3x" path="onoff_button_3x.png"/>
 	</bitmaps>
 	<control-tags>
-		<control-tag name="Level" tag="0"/>
+		<control-tag name="Threshold" tag="0"/>
 		<control-tag name="Bypass" tag="1"/>
 	</control-tags>
 </vstgui-ui-description>
