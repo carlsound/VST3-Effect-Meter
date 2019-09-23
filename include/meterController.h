@@ -56,9 +56,10 @@ namespace Carlsound
 		//-----------------------------------------------------------------------------
 		//---from EditController-----
 		//Steinberg::IPlugView* PLUGIN_API createView(const char* name) SMTG_OVERRIDE;
+		//
 		//-----------------------------------------------------------------------------
 		//---from IConnectionPoint-----
-			//Steinberg::tresult PLUGIN_API connect (IConnectionPoint* other) SMTG_OVERRIDE;
+		//Steinberg::tresult PLUGIN_API connect (IConnectionPoint* other) SMTG_OVERRIDE;
 		Steinberg::tresult PLUGIN_API notify(Steinberg::Vst::IMessage* message) SMTG_OVERRIDE;
 		//------------------------------------------------------------------------
 		//---from ComponentBase-----

@@ -15,7 +15,8 @@
 #include "public.sdk/source/vst/hosting/hostclasses.h"
 #include "public.sdk/source/vst/hosting/stringconvert.h"
 #include "public.sdk/source/vst/vstaudioeffect.h"
-//#include "vstgui4/vstgui/plugin-bindings/vst3editor.h"
+//
+#include "vstgui/vstgui/plugin-bindings/vst3editor.h"
 //
 #include <string>
 //

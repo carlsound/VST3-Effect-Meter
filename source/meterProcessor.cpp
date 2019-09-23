@@ -211,9 +211,9 @@ namespace Carlsound
 					//
 					if (data.symbolicSampleSize == Steinberg::Vst::kSample64) //64-Bit
 					{
-						//m_ParameterInputLevelValue = static_cast<Steinberg::Vst::Sample64*>(in[0])[0];
+						m_ParameterInputLevelValue = static_cast<Steinberg::Vst::Sample64*>(in[0])[0];
 						//m_ParameterLightsValue = m_ParameterInputLevelValue;
-                       // m_ParameterLightsValue = static_cast<Steinberg::Vst::Sample64*>(in[0])[0];
+                        //m_ParameterLightsValue = static_cast<Steinberg::Vst::Sample64*>(in[0])[0];
 						if (static_cast<Steinberg::Vst::Sample64*>(in[0])[0] >= m_ParameterThresholdlValue)
 						{
 							m_ParameterColorValue = 1.0;
@@ -228,7 +228,7 @@ namespace Carlsound
 					}
 					else // 32-bit
 					{
-						//m_ParameterInputLevelValue = static_cast<Steinberg::Vst::Sample32*>(in[0])[0];
+						m_ParameterInputLevelValue = static_cast<Steinberg::Vst::Sample32*>(in[0])[0];
                         //m_ParameterLightsValue = m_ParameterInputLevelValue;
                         //m_ParameterLightsValue = static_cast<Steinberg::Vst::Sample32*>(in[0])[0];
 						if (static_cast<Steinberg::Vst::Sample32*>(in[0])[0] >= m_ParameterThresholdlValue)
@@ -329,6 +329,8 @@ namespace Carlsound
 						//m_OutputParameterValueQueuePointIndex);
                         index2);
 					//mOutputParameterChangesDataIndex);
+					//Steinberg::Vst::IEditController->setParamNormalized(kParameterInputLevel, abs(m_ParameterInputLevelValue));
+					//
 					if (test == Steinberg::kResultOk)
 					{
 						//int i = 0;
@@ -342,7 +344,7 @@ namespace Carlsound
 						//sendMessage(m_Message);
 						//delete m_Message;
 						//
-						return Steinberg::kResultTrue;
+						//return Steinberg::kResultTrue;
 					}
 				}
 				//
@@ -436,33 +438,7 @@ namespace Carlsound
 			processOutputParameters(data);
 			processMidiOutputEvents(data);
 			//
-			//data.outputParameterChanges->getParameterData(mOutParamIndex);
-			//
-			//sendTextMessage("a");
-			//OutputDebugStringW(L"sendTextMessage()\n");
-			//
-			//m_Message = new Carlsound::Vst::ComponentMessage();
-			//m_Message = new Steinberg::Vst::HostMessage();
-			//m_Message->setMessageID("level");
-			//
-			//m_AttributeList = m_Message->getAttributes();
-			//
-			//m_Attribute = new Carlsound::Vst::ComponentAttribute();
-			//m_Attribute->HostAttribute(0.00);
-			//
-			//m_AttributeList = new Carlsound::Vst::ComponentAttributeList();
-			//m_AttributeList = new Steinberg::Vst::HostAttributeList();
-			//
-			//m_Attribute->floatValue();
-			//Steinberg::tresult tr = m_AttributeList->setFloat(m_Message->getMessageID(), abs(m_ParamLevelValue*10.0));
-			//m_Message->getAttributes()->setFloat("level", abs(m_ParamLevelValue*10.0));
-			//
-			//m_Message->setMessageID(std::to_string(abs(m_ParamLevelValue*10.0)).c_str());
-			//
-			//sendMessage(m_Message);
-			//delete m_Message;
-			//
-			return Steinberg::kResultOk;
+			return Steinberg::kResultTrue;
 		}
 		//-----------------------------------------------------------------------------
 		Steinberg::tresult PLUGIN_API MeterProcessor::setState (Steinberg::IBStream* state)

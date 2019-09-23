@@ -37,7 +37,7 @@ namespace Carlsound
 					STR16("dB"), // units
 					0, // stepCount
 					0, // defaultValueNormalized
-					Steinberg::Vst::ParameterInfo::kCanAutomate, // || Steinberg::Vst::ParameterInfo::kIsReadOnly, // flags
+					Steinberg::Vst::ParameterInfo::kIsReadOnly, //Steinberg::Vst::ParameterInfo::kCanAutomate, // flags
 					MeterParameters::kParameterInputLevel, // tag
 					0, // unitID
 					STR16("Input Level") // shortTitle
@@ -61,7 +61,7 @@ namespace Carlsound
                     STR16(""), // units
 			        0, // stepCount
 			        0, // defaultValueNormalized
-					Steinberg::Vst::ParameterInfo::kCanAutomate, // || Steinberg::Vst::ParameterInfo::kIsReadOnly,  // flags
+					Steinberg::Vst::ParameterInfo::kIsReadOnly, // Steinberg::Vst::ParameterInfo::kCanAutomate, // flags
 					MeterParameters::kParameterColor, // tag
 			        0, // unitID
 		            STR16 ("Color") // shortTitle
@@ -156,62 +156,70 @@ namespace Carlsound
 			Steinberg::Vst::Parameter* parameter = getParameterObject(tag);
 			if (parameter)
 			{
-				parameter->setNormalized(value);
+				//parameter->setNormalized(value);
 				//return kResultTrue;
                 //
                 switch (tag)
                 {
 					case kParameterInputLevel:
 					{
+						/*
 						if (componentHandler)
 						{
 							componentHandler->beginEdit(tag);
 							componentHandler->performEdit(tag, value);
 							componentHandler->endEdit(tag);
 						}
+						*/
 						//Steinberg::Vst::ParamValue levelValue2 = value;
 						//m_Level2 = value;
-						m_LevelInput = parameter->getNormalized();
+						m_LevelInput = value; //parameter->getNormalized();
 						//m_LevelColor = m_LevelInput;
 						//m_LevelColor = parameter->getNormalized();
-						//int i2 = 0;
-						//OutputDebugStringW(L"setParamNormalized kParamLevel2\n");
-						//std::string str = std::to_string(m_Level1);
-						//std::wstring strw = std::wstring(str.begin(), str.end());
-						//OutputDebugStringW(L"Level 2 = ");
-						//OutputDebugStringW(strw.c_str());
-						//OutputDebugStringW(L"\n");
+						//
+						OutputDebugStringW(L"setParamNormalized kParameterInputLevel\n");
+						std::string str = std::to_string(m_LevelInput);
+						std::wstring strw = std::wstring(str.begin(), str.end());
+						OutputDebugStringW(L"Input Level = ");
+						OutputDebugStringW(strw.c_str());
+						OutputDebugStringW(L"\n");
+						//
 						break;
 					}
 					case kParameterThreshold:
 					{
+						/*
 						if (componentHandler)
 						{
 							componentHandler->beginEdit(tag);
 							componentHandler->performEdit(tag, value);
 							componentHandler->endEdit(tag);
 						}
-						m_LevelThreshold = parameter->getNormalized();
+						*/
+						m_LevelThreshold = value; //parameter->getNormalized();
 						break;
 					}
                     case kParameterColor:
                     {
+						/*
                         if (componentHandler)
                         {
                             componentHandler->beginEdit(tag);
                             componentHandler->performEdit(tag, value);
                             componentHandler->endEdit(tag);
                         }
+						*/
                         //Steinberg::Vst::ParamValue levelValue1 = value;
                         //m_Level1 = value;
-                        m_LevelColor = parameter->getNormalized();
-                        //int i1 = 0;
-                        //OutputDebugStringW(L"setParamNormalized kParamLevel\n");
-                        //std::string str = std::to_string(m_Level1);
-                        //std::wstring strw = std::wstring(str.begin(), str.end());
-                        //OutputDebugStringW(L"Level 1 = ");
-                        //OutputDebugStringW(strw.c_str());
-                        //OutputDebugStringW(L"\n");
+						m_LevelColor = value; //parameter->getNormalized();
+                        //
+                        OutputDebugStringW(L"setParamNormalized kParameterColor\n");
+                        std::string str = std::to_string(m_LevelColor);
+                        std::wstring strw = std::wstring(str.begin(), str.end());
+                        OutputDebugStringW(L"Color = ");
+                        OutputDebugStringW(strw.c_str());
+                        OutputDebugStringW(L"\n\n");
+						//
                         break;
                     }
                     
@@ -219,7 +227,7 @@ namespace Carlsound
 			}
 			//return kResultFalse;
 			//
-			normalizedParamToPlain(tag, value);
+			//normalizedParamToPlain(tag, value);
             //
 			return Steinberg::kResultTrue;
 		}
@@ -426,12 +434,9 @@ namespace Carlsound
 			const char* name
 		)
 		{
-			using namespace VSTGUI;
-			using namespace Steinberg;
-			using namespace Steinberg::Vst;
 			if (name && strcmp(name, "editor") == 0)
 			{
-				VST3Editor* view = new VST3Editor (this, "view", "meter.uidesc");
+				auto* view = new VSTGUI::VST3Editor::VST3Editor(this, "view", "meter.uidesc");
 				return view;
 			}
 			return nullptr;
