@@ -17,6 +17,7 @@
 #include "public.sdk/source/vst/vstaudioeffect.h"
 //
 #include "vstgui4/vstgui/plugin-bindings/vst3editor.h"
+#include "public.sdk/source/vst/vsteditcontroller.h"
 //
 #include <string>
 //
