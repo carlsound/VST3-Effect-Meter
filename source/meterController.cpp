@@ -435,7 +435,7 @@ namespace Carlsound
 		{
 			if (name && strcmp(name, "editor") == 0)
 			{
-				auto* view = new VSTGUI::VST3Editor(this, "view", "meter.uidesc");
+				auto* view = new VSTGUI::VST3Editor(this, "view", "plug.uidesc");
 				return view;
 			}
 			return nullptr;

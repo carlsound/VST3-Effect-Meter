@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vstgui-ui-description version="1">
+	<fonts>
+	</fonts>
+	<colors>
+	</colors>
+	<template background-color="~ BlackCColor" background-color-draw-style="filled and stroked" class="CViewContainer" mouse-enabled="true" name="view" opacity="1" origin="0, 0" size="300, 300" transparent="false" wants-focus="false">
+		<view bitmap="vu_on" class="CVuMeter" control-tag="InputLevel" decrease-step-value="0.1" default-value="0.5" max-value="1" min-value="0" mouse-enabled="true" num-led="100" off-bitmap="vu_off" opacity="1" orientation="vertical" origin="70, 0" size="160, 300" transparent="false" wants-focus="false" wheel-inc-value="0.1"/>
+	</template>
+	<custom>
+		<attributes name="FocusDrawing"/>
+		<attributes Path="C:\Users\john_\Documents\VST_SDK\my_plugins\VST3-Effect-Meter\resource\meter2.uidesc" name="VST3Editor"/>
+		<attributes Grids="1x 1,5x 5,10x 10,12x 12,15x 15" name="UIGridController"/>
+		<attributes SelectedTemplate="view" name="UITemplateController"/>
+		<attributes EditViewScale="1" EditorSize="0, 0, 500, 500" EncodeBitmaps="true" SplitViewSize_0_0="0.7257383966244725925776037911418825387955" SplitViewSize_0_1="0.2320675105485232037061393839394440874457" SplitViewSize_1_0="0.4725738396624472592577603791141882538795" SplitViewSize_1_1="0.5168776371308017036909632224706001579762" SplitViewSize_2_0="0.6400000000000000133226762955018784850836" SplitViewSize_2_1="0.3499999999999999777955395074968691915274" TabSwitchValue="1" Version="1" WriteRCFile="true" name="UIEditController"/>
+		<attributes name="UIAttributesController"/>
+		<attributes SelectedRow="27" name="UIViewCreatorDataSource"/>
+		<attributes SelectedRow="0" name="UITagsDataSource"/>
+		<attributes SelectedRow="1" name="UIBitmapsDataSource"/>
+	</custom>
+	<control-tags>
+		<control-tag name="InputLevel" tag="0"/>
+	</control-tags>
+	<bitmaps>
+		<bitmap name="vu_off" path="C:\Users\john_\Documents\VST_SDK\my_plugins\VST3-Effect-Meter\resource\vu_off.png">
+			<data encoding="base64">
+				iVBORw0KGgoAAAANSUhEUgAAAAwAAABpCAYAAAAOTMIOAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQ
+				UAAAAJcEhZcwAADsQAAA7EAZUrDhsAAABXSURBVFhH7c+xDcAgDAVRO3vQIgaIRM3+QyUU9DkKqtyTLJdf
+				l6PXJzZc62M57/CCDYANRJZ22/DFBsIGwgbCBsIGwgbCBsIGwgbCBsIGwgbCBuKHDREvfzRCwFk1TrsAAA
+				AASUVORK5CYII=
+			</data>
+		</bitmap>
+		<bitmap name="vu_on" path="C:\Users\john_\Documents\VST_SDK\my_plugins\VST3-Effect-Meter\resource\vu_on.png">
+			<data encoding="base64">
+				iVBORw0KGgoAAAANSUhEUgAAAAwAAABpCAYAAAAOTMIOAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQ
+				UAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAIESURBVFhH7ZU9TgQxDIWd2Z9LIWp6JGgpqTgB4gycAXGEGU6A
+				6EGiQByF2SG85+fs0hEK0hAjjzNOlrzPSSbpfTzKa9vZyha44mCf8MWSZfwlvK0is7IhWbEc0XwgnT8s7d
+				LP8YeRFTZErLb0Nh6LIUF7pkqqpZRPdItB4uRDThwC1Dx4x5IG/FyAi63Rt/Y2x2R4A4bn8SRz8uQMqril
+				KOV+bhXXGXZg4HK51kR8aV5QCjIUZ57egOFxPM9D6HelCTGX7cAReuRcGKjNlw5OBm9v5AmeNzYzF3wNGM
+				bxMtSp0pyyRHTgQa5YBySwDtS7tblohtYZ0d/d0ecc7NvqH8Gr7fcMd+O1b+xD/RH38+IRMNk5MAM1qsbS
+				POP9w6M0z1l8YmrCcDvdggFngHKdg1myhHyOYuSigAMMrDE5ouaIi+c2zuJ7KfLMNWC4me6dgVNxMteO9R
+				AUc6VHvQPP7o615l7xemsvaX8pX/roDRiupgfulNBNxdJelFO32qbzUL45C+vPPRXr4Gcckf3OBQ72N2C4
+				mJ7EEBNpL8HJhOgrsz/XmEF3w7fvKL61/LbyjCiHdz8vyjdgOJtenEGmWBC8ESK4Gs7gGjGRrnPdZX5f4K
+				7Tuy5D3nuMDRhOp9c/ngHeGX6yzlBjnaHGOkONdYYa6ww11hlqrDPUWGeosX/IYPYFpKRgRA7y/s8AAAAA
+				SUVORK5CYII=
+			</data>
+		</bitmap>
+	</bitmaps>
+</vstgui-ui-description>
