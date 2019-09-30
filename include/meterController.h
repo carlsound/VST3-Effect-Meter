@@ -30,9 +30,9 @@ namespace Carlsound
 		//-----------------------------------------------------------------------------
 		//---from EditController-----
 		Steinberg::tresult PLUGIN_API setComponentState (Steinberg::IBStream* state) SMTG_OVERRIDE;
-		Steinberg::tresult PLUGIN_API setParamNormalized(
-			Steinberg::Vst::ParamID tag, 
-			Steinberg::Vst::ParamValue value) SMTG_OVERRIDE;
+		//
+		Steinberg::tresult PLUGIN_API setParamNormalized(Steinberg::Vst::ParamID tag, 
+			                                             Steinberg::Vst::ParamValue value) SMTG_OVERRIDE;
 		//-----------------------------------------------------------------------------
 		Steinberg::Vst::ParamValue PLUGIN_API normalizedParamToPlain(
 			Steinberg::Vst::ParamID tag, 
@@ -57,6 +57,9 @@ namespace Carlsound
 		//---from EditController-----
 		Steinberg::IPlugView* PLUGIN_API createView(const char* name) SMTG_OVERRIDE;
 		//
+		Steinberg::tresult PLUGIN_API performEdit(Steinberg::Vst::ParamID tag, 
+			                                      Steinberg::Vst::ParamValue valueNormalized);
+		//
 		//-----------------------------------------------------------------------------
 		//---from IConnectionPoint-----
 		//Steinberg::tresult PLUGIN_API connect (IConnectionPoint* other) SMTG_OVERRIDE;
@@ -77,6 +80,12 @@ namespace Carlsound
 		Carlsound::Vst::ComponentMessage *m_Message;
 		Carlsound::Vst::ComponentAttribute *m_Attribute;
 		Carlsound::Vst::ComponentAttributeList *m_AttributeList;
+		//
+		VSTGUI::CFrame *m_GuiFrame;
+		VSTGUI::CView *m_GuiView_InputLevel_VuMeter;
+		VSTGUI::CView *m_GuiView_InputLevel_TextLabel;
+		VSTGUI::CVuMeter *m_GuiVuMeter_InputLevel;
+		VSTGUI::CTextLabel* m_GuiTextLabel_InputLevel;
 		};
 	} // namespace Meter
 } // namespace Carlsound

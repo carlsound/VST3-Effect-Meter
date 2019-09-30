@@ -184,6 +184,8 @@ namespace Carlsound
 						OutputDebugStringW(strw.c_str());
 						OutputDebugStringW(L"\n");
 						//
+						//m_GuiVuMeter_InputLevel;
+						//
 						break;
 					}
 					case kParameterThreshold:
@@ -196,7 +198,8 @@ namespace Carlsound
 							componentHandler->endEdit(tag);
 						}
 						*/
-						m_LevelThreshold = value; //parameter->getNormalized();
+						//m_LevelThreshold = value; 
+						//parameter->getNormalized();
 						break;
 					}
                     case kParameterColor:
@@ -436,6 +439,12 @@ namespace Carlsound
 			if (name && strcmp(name, "editor") == 0)
 			{
 				auto* view = new VSTGUI::VST3Editor(this, "view", "plug.uidesc");
+
+				m_GuiFrame = view->getFrame();
+				
+				m_GuiView_InputLevel_VuMeter = m_GuiFrame->getView(0);
+				m_GuiView_InputLevel_TextLabel = m_GuiFrame->getView(1);
+
 				return view;
 			}
 			return nullptr;
