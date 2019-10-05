@@ -1,14 +1,22 @@
-#include <windows.h>
-#include "../include/version.h"
+// Microsoft Visual C++ generated resource script.
+//
+#pragma code_page(65001)
 
-#define APSTUDIO_READONLY_SYMBOLS
+#include "resource.h"
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 /////////////////////////////////////////////////////////////////////////////
+//
 // Version
-/////////////////////////////////////////////////////////////////////////////
+//
+
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION MAJOR_VERSION_INT,SUB_VERSION_INT,RELEASE_NUMBER_INT,BUILD_NUMBER_INT
- PRODUCTVERSION MAJOR_VERSION_INT,SUB_VERSION_INT,RELEASE_NUMBER_INT,BUILD_NUMBER_INT
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -23,18 +31,15 @@ BEGIN
     BEGIN
         BLOCK "040004e4"
         BEGIN
-            VALUE "FileVersion",      FULL_VERSION_STR"\0"
-            VALUE "ProductVersion",   FULL_VERSION_STR"\0"
-            VALUE "OriginalFilename", stringOriginalFilename"\0"
-            VALUE "FileDescription",  stringFileDescription"\0"
-            VALUE "InternalName",     stringFileDescription"\0"
-            VALUE "ProductName",      stringFileDescription"\0"
-            VALUE "CompanyName",      stringCompanyName"\0"
-            VALUE "LegalCopyright",   stringLegalCopyright"\0"
-            VALUE "LegalTrademarks",  stringLegalTrademarks"\0"
-            //VALUE "PrivateBuild",     " \0"
-            //VALUE "SpecialBuild",     " \0"
-            //VALUE "Comments",         " \0"
+            VALUE "CompanyName", "Carlsound"
+            VALUE "FileDescription", "Meter_x86"" VST3-SDK"
+            VALUE "FileVersion", "1.0.0.1"
+            VALUE "InternalName", "Meter_x86"" VST3-SDK"
+            VALUE "LegalCopyright", "ï¿½ 2018 John Carlson"
+            VALUE "LegalTrademarks", "VST is a trademark of Steinberg Media Technologies GmbH"
+            VALUE "OriginalFilename", "Meter_x86.vst3"
+            VALUE "ProductName", "Meter_x86"" VST3-SDK"
+            VALUE "ProductVersion", "1.0.0.1"
         END
     END
     BLOCK "VarFileInfo"
@@ -42,3 +47,52 @@ BEGIN
         VALUE "Translation", 0x400, 1252
     END
 END
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// UIDESC
+//
+
+IDR_UIDESC1             UIDESC                  "plug.uidesc"
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

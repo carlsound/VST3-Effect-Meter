@@ -57,8 +57,10 @@ namespace Carlsound
 		//---from EditController-----
 		Steinberg::IPlugView* PLUGIN_API createView(const char* name) SMTG_OVERRIDE;
 		//
+		/*
 		Steinberg::tresult PLUGIN_API performEdit(Steinberg::Vst::ParamID tag, 
 			                                      Steinberg::Vst::ParamValue valueNormalized);
+		*/
 		//
 		//-----------------------------------------------------------------------------
 		//---from IConnectionPoint-----

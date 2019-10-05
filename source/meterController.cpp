@@ -45,6 +45,18 @@ namespace Carlsound
 				//
 				parameters.addParameter
 				(
+					STR16("Input Level Feedback"), // title
+					STR16("dB"), // units
+					0, // stepCount
+					0, // defaultValueNormalized
+					Steinberg::Vst::ParameterInfo::kNoFlags, //Steinberg::Vst::ParameterInfo::kCanAutomate, // flags
+					MeterParameters::kParameterInputLevelFeedback, // tag
+					0, // unitID
+					STR16("Input Level Feedback") // shortTitle
+				);
+				//
+				parameters.addParameter
+				(
 					STR16("Threshold Level"), // title
 					STR16("dB"), // units
 					0, // stepCount
@@ -58,7 +70,7 @@ namespace Carlsound
 				parameters.addParameter 
 				(
 					STR16 ("Color"), // title
-                    STR16(""), // units
+                    STR16("Color"), // units
 			        0, // stepCount
 			        0, // defaultValueNormalized
 					Steinberg::Vst::ParameterInfo::kIsReadOnly, // Steinberg::Vst::ParameterInfo::kCanAutomate, // flags
@@ -67,7 +79,17 @@ namespace Carlsound
 		            STR16 ("Color") // shortTitle
 				);
 				//
-				
+				parameters.addParameter
+				(
+					STR16("Color Feedback"), // title
+					STR16("Color"), // units
+					0, // stepCount
+					0, // defaultValueNormalized
+					Steinberg::Vst::ParameterInfo::kNoFlags, // Steinberg::Vst::ParameterInfo::kCanAutomate, // flags
+					MeterParameters::kParameterColorFeedback, // tag
+					0, // unitID
+					STR16("Color Feedback") // shortTitle
+				);
 				//
 				parameters.addParameter
 				(
@@ -163,14 +185,7 @@ namespace Carlsound
                 {
 					case kParameterInputLevel:
 					{
-						/*
-						if (componentHandler)
-						{
-							componentHandler->beginEdit(tag);
-							componentHandler->performEdit(tag, value);
-							componentHandler->endEdit(tag);
-						}
-						*/
+						
 						//Steinberg::Vst::ParamValue levelValue2 = value;
 						//m_Level2 = value;
 						m_LevelInput = value; //parameter->getNormalized();
@@ -185,6 +200,13 @@ namespace Carlsound
 						OutputDebugStringW(L"\n");
 						//
 						//m_GuiVuMeter_InputLevel;
+						//
+						if (componentHandler)
+						{
+							componentHandler->beginEdit(kParameterInputLevelFeedback);
+							componentHandler->performEdit(kParameterInputLevelFeedback, value);
+							componentHandler->endEdit(kParameterInputLevelFeedback);
+						}
 						//
 						break;
 					}
@@ -204,14 +226,6 @@ namespace Carlsound
 					}
                     case kParameterColor:
                     {
-						/*
-                        if (componentHandler)
-                        {
-                            componentHandler->beginEdit(tag);
-                            componentHandler->performEdit(tag, value);
-                            componentHandler->endEdit(tag);
-                        }
-						*/
                         //Steinberg::Vst::ParamValue levelValue1 = value;
                         //m_Level1 = value;
 						m_LevelColor = value; //parameter->getNormalized();
@@ -222,6 +236,13 @@ namespace Carlsound
                         OutputDebugStringW(L"Color = ");
                         OutputDebugStringW(strw.c_str());
                         OutputDebugStringW(L"\n\n");
+						//
+						if (componentHandler)
+						{
+							componentHandler->beginEdit(kParameterColorFeedback);
+							componentHandler->performEdit(kParameterColorFeedback, value);
+							componentHandler->endEdit(kParameterColorFeedback);
+						}
 						//
                         break;
                     }
@@ -246,6 +267,11 @@ namespace Carlsound
 					return value;
 					break;
 				}
+				case kParameterInputLevelFeedback:
+				{
+					return value;
+					break;
+				}
 				case kParameterThreshold:
 				{
 					return value;
@@ -257,6 +283,11 @@ namespace Carlsound
 					//OutputDebugStringW(L"mParamLevelValue = ");
 					//OutputDebugStringW((std::to_wstring(abs(mParamLevelValue*100.0)).c_str()));
 					//OutputDebugStringW(L"\n");
+					return value;
+					break;
+				}
+				case kParameterColorFeedback:
+				{
 					return value;
 					break;
 				}
@@ -281,6 +312,11 @@ namespace Carlsound
 					return value;
 					break;
 				}
+				case kParameterInputLevelFeedback:
+				{
+					return value;
+					break;
+				}
 				case kParameterThreshold:
 				{
 					return value;
@@ -292,6 +328,11 @@ namespace Carlsound
 					//OutputDebugStringW(L"mParamLevelValue = ");
 					//OutputDebugStringW((std::to_wstring(abs(mParamLevelValue*100.0)).c_str()));
 					//OutputDebugStringW(L"\n");
+					return value;
+					break;
+				}
+				case kParameterColorFeedback:
+				{
 					return value;
 					break;
 				}
@@ -336,6 +377,15 @@ namespace Carlsound
 					//
 					break;
 				}
+				case kParameterInputLevelFeedback:
+				{
+					float valuePlain = valueNormalized;
+					//
+					valuePlainAscii = std::to_string(valuePlain) + suffix_str;
+					string128copy(string, valuePlainAscii);
+					//
+					break;
+				}
 				case kParameterThreshold:
 				{
 					float valuePlain = valueNormalized;
@@ -361,6 +411,39 @@ namespace Carlsound
 					else if (valuePlain <= 0.25)
 					{
                         valuePlainAscii = /* std::to_string(valuePlain) +n*/ " dark green" + suffix_str;
+					}
+					else if (valuePlain <= 0.5)
+					{
+						valuePlainAscii = /* std::to_string(valuePlain) + */ " yellow" + suffix_str;
+					}
+					else if (valuePlain <= 0.75)
+					{
+						valuePlainAscii = /* std::to_string(valuePlain) + */ " orange" + suffix_str;
+					}
+					else
+					{
+						valuePlainAscii = /* std::to_string(valuePlain) + */ " red" + suffix_str;
+					}
+					string128copy(string, valuePlainAscii);
+					//
+					break;
+				}
+				case kParameterColorFeedback:
+				{
+					float valuePlain = valueNormalized;
+					//
+					//valuePlainAscii = std::to_string(valuePlain) + '\0';
+					if (valuePlain <= 0.05)
+					{
+						valuePlainAscii = /* std::to_string(valuePlain) + */ " light green" + suffix_str;
+					}
+					else if (valuePlain <= 0.1)
+					{
+						valuePlainAscii = /* std::to_string(valuePlain) + */ " green" + suffix_str;
+					}
+					else if (valuePlain <= 0.25)
+					{
+						valuePlainAscii = /* std::to_string(valuePlain) +n*/ " dark green" + suffix_str;
 					}
 					else if (valuePlain <= 0.5)
 					{
@@ -440,10 +523,10 @@ namespace Carlsound
 			{
 				auto* view = new VSTGUI::VST3Editor(this, "view", "plug.uidesc");
 
-				m_GuiFrame = view->getFrame();
+				//m_GuiFrame = view->getFrame();
 				
-				m_GuiView_InputLevel_VuMeter = m_GuiFrame->getView(0);
-				m_GuiView_InputLevel_TextLabel = m_GuiFrame->getView(1);
+				//m_GuiView_InputLevel_VuMeter = m_GuiFrame->getView(0);
+				//m_GuiView_InputLevel_TextLabel = m_GuiFrame->getView(1);
 
 				return view;
 			}

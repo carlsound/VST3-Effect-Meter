@@ -16,6 +16,8 @@ namespace Carlsound
 			kParameterThreshold,
 			kParameterColor,
 			kParameterBypassId,
+			kParameterInputLevelFeedback,
+			kParameterColorFeedback,
 			//
 			kQtyGlobalParameters
 		};
