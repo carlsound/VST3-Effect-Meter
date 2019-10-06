@@ -192,12 +192,19 @@ namespace Carlsound
 						//m_LevelColor = m_LevelInput;
 						//m_LevelColor = parameter->getNormalized();
 						//
-						OutputDebugStringW(L"setParamNormalized kParameterInputLevel\n");
-						std::string str = std::to_string(m_LevelInput);
-						std::wstring strw = std::wstring(str.begin(), str.end());
-						OutputDebugStringW(L"Input Level = ");
-						OutputDebugStringW(strw.c_str());
-						OutputDebugStringW(L"\n");
+						if(SMTG_OS_WINDOWS)
+                        {
+                            OutputDebugStringW(L"setParamNormalized kParameterInputLevel\n");
+                            std::string str = std::to_string(m_LevelInput);
+                            std::wstring strw = std::wstring(str.begin(), str.end());
+                            OutputDebugStringW(L"Input Level = ");
+                            OutputDebugStringW(strw.c_str());
+                            OutputDebugStringW(L"\n");
+                        }
+						if(SMTG_OS_MACOS || SMTG_OS_OSX)
+                        {
+
+                        }
 						//
 						//m_GuiVuMeter_InputLevel;
 						//
@@ -230,12 +237,19 @@ namespace Carlsound
                         //m_Level1 = value;
 						m_LevelColor = value; //parameter->getNormalized();
                         //
-                        OutputDebugStringW(L"setParamNormalized kParameterColor\n");
-                        std::string str = std::to_string(m_LevelColor);
-                        std::wstring strw = std::wstring(str.begin(), str.end());
-                        OutputDebugStringW(L"Color = ");
-                        OutputDebugStringW(strw.c_str());
-                        OutputDebugStringW(L"\n\n");
+                        if(SMTG_OS_WINDOWS)
+                        {
+                            OutputDebugStringW(L"setParamNormalized kParameterColor\n");
+                            std::string str = std::to_string(m_LevelColor);
+                            std::wstring strw = std::wstring(str.begin(), str.end());
+                            OutputDebugStringW(L"Color = ");
+                            OutputDebugStringW(strw.c_str());
+                            OutputDebugStringW(L"\n\n");
+                        }
+                        if(SMTG_OS_MACOS || SMTG_OS_OSX)
+                        {
+
+                        }
 						//
 						if (componentHandler)
 						{

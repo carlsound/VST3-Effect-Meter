@@ -1,5 +1,10 @@
 #pragma once
 //
+#include <codecvt>
+#include <memory>
+#include <string>
+#include <iostream>
+//
 #include "componentMessage.h"
 #include "meterParameters.h"
 #include "meterUIDs.h"
@@ -15,17 +20,20 @@
 #include "public.sdk/source/vst/hosting/hostclasses.h"
 #include "public.sdk/source/vst/hosting/stringconvert.h"
 #include "public.sdk/source/vst/vstaudioeffect.h"
-//
-#include "vstgui4/vstgui/plugin-bindings/vst3editor.h"
 #include "public.sdk/source/vst/vsteditcontroller.h"
 //
-#include <string>
+#include "vstgui4/vstgui/plugin-bindings/vst3editor.h"
+#include "vstgui4/vstgui/vstgui.h"
+#include "vstgui4/vstgui/vstgui_uidescription.h"
 //
 #if SMTG_OS_WINDOWS
 #include <atlconv.h>
 #include <tchar.h>
+#include "vstgui4/vstgui/vstgui_win32.cpp"
+#include "vstgui4/vstgui/vstgui_uidescription_win32.cpp"
 #endif
 //
-#include <codecvt>
-#include <memory>
-#include <string>
+#if SMTG_OS_MACOS || SMTG_OS_OSX
+#include "vstgui4/vstgui/vstgui_mac.mm"
+#include "vstgui4/vstgui/vstgui_uidescription_mac.mm"
+#endif
