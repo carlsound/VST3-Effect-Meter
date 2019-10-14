@@ -8,8 +8,8 @@ namespace Carlsound
 	{
 	//-----------------------------------------------------------------------------
 	class MeterController : public Steinberg::Vst::EditController,
-		                    public Steinberg::Vst::IMidiMapping,
-		                    public VSTGUI::VST3EditorDelegate
+		                    public Steinberg::Vst::IMidiMapping//,
+		                    //public VSTGUI::VST3EditorDelegate
 	{
 	public:	
 		OBJ_METHODS(MeterController, EditController)
@@ -65,10 +65,10 @@ namespace Carlsound
 		//-----------------------------------------------------------------------------
 		//---from IConnectionPoint-----
 		//Steinberg::tresult PLUGIN_API connect (IConnectionPoint* other) SMTG_OVERRIDE;
-		Steinberg::tresult PLUGIN_API notify(Steinberg::Vst::IMessage* message) SMTG_OVERRIDE;
+		//Steinberg::tresult PLUGIN_API notify(Steinberg::Vst::IMessage* message) SMTG_OVERRIDE;
 		//------------------------------------------------------------------------
 		//---from ComponentBase-----
-		Steinberg::tresult PLUGIN_API receiveText(const char* text) SMTG_OVERRIDE;
+		//Steinberg::tresult PLUGIN_API receiveText(const char* text) SMTG_OVERRIDE;
 		//Steinberg::tresult sendMessage(Steinberg::Vst::IMessage* message);
 		//-----------------------------------------------------------------------------
 		//---member variables----
@@ -76,18 +76,19 @@ namespace Carlsound
 		Steinberg::Vst::ParamValue m_LevelInput;
 		Steinberg::Vst::ParamValue m_LevelThreshold;
 		Steinberg::Vst::ParamValue m_LevelColor;
+        //
 		//Steinberg::Vst::String128 defaultMessageText;
 		//std::shared_ptr<Steinberg::Vst::IConnectionPoint> m_ConnectionPoint;
 		//std::shared_ptr<Carlsound::Vst::ComponentMessage> m_Message;
-		Carlsound::Vst::ComponentMessage *m_Message;
-		Carlsound::Vst::ComponentAttribute *m_Attribute;
-		Carlsound::Vst::ComponentAttributeList *m_AttributeList;
+		//Carlsound::Vst::ComponentMessage *m_Message;
+		//Carlsound::Vst::ComponentAttribute *m_Attribute;
+		//Carlsound::Vst::ComponentAttributeList *m_AttributeList;
 		//
-		VSTGUI::CFrame *m_GuiFrame;
-		VSTGUI::CView *m_GuiView_InputLevel_VuMeter;
-		VSTGUI::CView *m_GuiView_InputLevel_TextLabel;
-		VSTGUI::CVuMeter *m_GuiVuMeter_InputLevel;
-		VSTGUI::CTextLabel* m_GuiTextLabel_InputLevel;
+		//VSTGUI::CFrame *m_GuiFrame;
+		//VSTGUI::CView *m_GuiView_InputLevel_VuMeter;
+		//VSTGUI::CView *m_GuiView_InputLevel_TextLabel;
+		//VSTGUI::CVuMeter *m_GuiVuMeter_InputLevel;
+		//VSTGUI::CTextLabel* m_GuiTextLabel_InputLevel;
 		};
 	} // namespace Meter
 } // namespace Carlsound

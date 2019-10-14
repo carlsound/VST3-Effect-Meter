@@ -1,5 +1,5 @@
 
-#include "../include/meterController.h"
+#include "../../Cpp/include/meterController.h"
 //
 namespace Carlsound
 {
@@ -522,26 +522,15 @@ namespace Carlsound
 			if (name && strcmp(name, "editor") == 0)
 			{
 				//auto* view = new VSTGUI::VST3Editor(this, "view", "plug.uidesc");
-
-				//m_GuiFrame = view->getFrame();
-				
-				//m_GuiView_InputLevel_VuMeter = m_GuiFrame->getView(0);
-				//m_GuiView_InputLevel_TextLabel = m_GuiFrame->getView(1);
                 
-                if(SMTG_OS_OSX or SMTG_OS_MACOS)
-                {
-                    auto* view = new CocoaPlugView();
-                }
-                else if(SMTG_OS_WINDOWS)
-                {
-                    //auto* view =
-                }
-
+                auto* view = new CocoaPlugView();
+                
 				return view;
 			}
 			return nullptr;
 		}
 		//------------------------------------------------------------------------
+        /*
 		Steinberg::tresult PLUGIN_API MeterController::notify (Steinberg::Vst::IMessage* message)
 		{
 			if (!message)
@@ -601,13 +590,17 @@ namespace Carlsound
 				}
 			}
 			*/
+            /*
 			return Steinberg::kResultTrue;
 		}
+         */
 		//------------------------------------------------------------------------
-		Steinberg::tresult PLUGIN_API MeterController::receiveText(const char* text)
+		/*
+        Steinberg::tresult PLUGIN_API MeterController::receiveText(const char* text)
 		{
 			//OutputDebugStringW(L"receiveText()");
 			return Steinberg::kResultTrue;
 		}
+         */
 	} // namespace Meter
 } // namespace Carlsound

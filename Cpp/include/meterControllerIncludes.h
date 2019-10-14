@@ -6,6 +6,7 @@
 #include <iostream>
 //
 #include "componentMessage.h"
+#include "IdeConsoleWriteLine.h"
 #include "meterParameters.h"
 #include "meterUIDs.h"
 //
@@ -22,18 +23,20 @@
 #include "public.sdk/source/vst/vstaudioeffect.h"
 #include "public.sdk/source/vst/vsteditcontroller.h"
 //
-#include "vstgui4/vstgui/plugin-bindings/vst3editor.h"
-#include "vstgui4/vstgui/vstgui.h"
-#include "vstgui4/vstgui/vstgui_uidescription.h"
+//#include "vstgui4/vstgui/plugin-bindings/vst3editor.h"
+//#include "vstgui4/vstgui/vstgui.h"
+//#include "vstgui4/vstgui/vstgui_uidescription.h"
 //
 #if SMTG_OS_WINDOWS
 #include <atlconv.h>
 #include <tchar.h>
-#include "vstgui4/vstgui/vstgui_win32.cpp"
-#include "vstgui4/vstgui/vstgui_uidescription_win32.cpp"
+//#include "vstgui4/vstgui/vstgui_win32.cpp"
+//#include "vstgui4/vstgui/vstgui_uidescription_win32.cpp"
 #endif
 //
 #if SMTG_OS_MACOS || SMTG_OS_OSX
-#include "vstgui4/vstgui/vstgui_mac.mm"
-#include "vstgui4/vstgui/vstgui_uidescription_mac.mm"
+#include <Cocoa/Cocoa.h>
+#include "../../Mac_Cocoa/include/CocoaPlugView.h"
+//#include "vstgui4/vstgui/vstgui_mac.mm"
+//#include "vstgui4/vstgui/vstgui_uidescription_mac.mm"
 #endif

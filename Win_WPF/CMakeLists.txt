@@ -7,31 +7,32 @@ elseif(WIN32)
 	set(ProjectName Meter_WPF_UI_x86)
 endif()
 
-project(${ProjectName} VERSION 0.1.0 LANGUAGES CSharp)
+if(WIN32)
+	project(${ProjectName} VERSION 0.1.0 LANGUAGES CSharp)
 
-include(CSharpUtilities)
+	include(CSharpUtilities)
 
-add_library(${ProjectName} SHARED
-	#--- UserControl1.config
-	UserControl1.xaml
-	UserControl1.xaml.cs
-
-	Properties/AssemblyInfo.cs
-	Properties/Resources.Designer.cs
-	Properties/Resources.resx
-	Properties/Settings.Designer.cs
-	Properties/Settings.settings)
-
-csharp_set_designer_cs_properties(
-	Properties/AssemblyInfo.cs
-	Properties/Resources.Designer.cs
-	Properties/Resources.resx
-	Properties/Settings.Designer.cs
-	Properties/Settings.settings)
-
-csharp_set_xaml_cs_properties(
-	UserControl1.xaml
-	UserControl1.xaml.cs)
+	add_library(${ProjectName} SHARED
+		#--- UserControl1.config
+		UserControl1.xaml
+		UserControl1.xaml.cs
+		Properties/AssemblyInfo.cs
+		Properties/Resources.Designer.cs
+		Properties/Resources.resx
+		Properties/Settings.Designer.cs
+		Properties/Settings.settings)
+	
+	csharp_set_designer_cs_properties(
+		Properties/AssemblyInfo.cs
+		Properties/Resources.Designer.cs
+		Properties/Resources.resx
+		Properties/Settings.Designer.cs
+		Properties/Settings.settings)
+		
+	csharp_set_xaml_cs_properties(
+		UserControl1.xaml
+		UserControl1.xaml.cs)
+endif()
 
 if((WIN32) AND (CMAKE_SIZEOF_VOID_P EQUAL "8"))
 	set_property(TARGET ${ProjectName} PROPERTY ${SDK_IDE_MYPLUGINS_FOLDER}/Meter_x64)
@@ -39,12 +40,13 @@ elseif(WIN32)
 	set_property(TARGET ${ProjectName} PROPERTY ${SDK_IDE_MYPLUGINS_FOLDER}/Meter_x86)
 endif()
 
-set_property(SOURCE UserControl1.xaml PROPERTY VS_XAML_TYPE "ApplicationDefinition")
+if(WIN32)
+	set_property(SOURCE UserControl1.xaml PROPERTY VS_XAML_TYPE "ApplicationDefinition")
 
-set_property(TARGET ${ProjectName} PROPERTY VS_DOTNET_TARGET_FRAMEWORK_VERSION "v4.6.1")
-set_property(TARGET ${ProjectName} PROPERTY WIN32_EXECUTABLE TRUE)
+	set_property(TARGET ${ProjectName} PROPERTY VS_DOTNET_TARGET_FRAMEWORK_VERSION "v4.6.1")
+	set_property(TARGET ${ProjectName} PROPERTY WIN32_EXECUTABLE TRUE)
 
-set_property(TARGET ${ProjectName} PROPERTY VS_DOTNET_REFERENCES
+	set_property(TARGET ${ProjectName} PROPERTY VS_DOTNET_REFERENCES
 	"Microsoft.CSharp"
 	"PresentationCore"
 	"PresentationFramework"
@@ -57,3 +59,4 @@ set_property(TARGET ${ProjectName} PROPERTY VS_DOTNET_REFERENCES
 	"System.Xml"
 	"System.Xml.Linq"
 	"WindowsBase")
+endif()
