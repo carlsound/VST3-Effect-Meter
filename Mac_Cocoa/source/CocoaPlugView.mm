@@ -4,6 +4,14 @@
 
 #include "../include/CocoaPlugView.h"
 
+CocoaPlugView::CocoaPlugView()
+{
+    m_rect.left = 0;
+    m_rect.right = 0;
+    m_rect.top = 0;
+    m_rect.bottom = 0;
+}
+
 /** Is Platform UI Type supported
 	    \param type : IDString of \ref platformUIType */
 Steinberg::tresult CocoaPlugView::isPlatformTypeSupported (Steinberg::FIDString type)

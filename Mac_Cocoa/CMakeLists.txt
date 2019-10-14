@@ -45,9 +45,12 @@ if(APPLE)
     # )
 
     target_link_libraries(${ProjectName}
+            base
+            sdk
         "-framework Cocoa"
         "-framework AppKit"
         "-framework CoreData"
         "-framework Foundation"
+            objc
     )
 endif()

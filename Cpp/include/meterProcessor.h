@@ -73,7 +73,7 @@ namespace Carlsound
 			Steinberg::Vst::IParamValueQueue *m_ParameterInputLevelValueQueue = 0;
 			Steinberg::Vst::IParamValueQueue* m_ParameterColorValueQueue = 0;
 			//
-            Steinberg::Vst::Event mEvent{ {0} };
+            Steinberg::Vst::Event mEvent{ 0 };
 			//
 			//std::shared_ptr<Steinberg::Vst::IConnectionPoint> m_ConnectionPoint;
 			//std::shared_ptr<Steinberg::Vst::IMessage> m_Message;

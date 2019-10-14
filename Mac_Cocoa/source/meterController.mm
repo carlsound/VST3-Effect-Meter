@@ -523,7 +523,7 @@ namespace Carlsound
 			{
 				//auto* view = new VSTGUI::VST3Editor(this, "view", "plug.uidesc");
                 
-                auto* view = new CocoaPlugView();
+                Steinberg::IPlugView* view = new CocoaPlugView();
                 
 				return view;
 			}

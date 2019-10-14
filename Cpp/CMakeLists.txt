@@ -75,6 +75,7 @@ if(APPLE)
     "-framework AppKit"
     "-framework CoreData"
     "-framework Foundation"
+            objc
     )
 
     smtg_set_bundle(${target} INFOPLIST "${CMAKE_CURRENT_LIST_DIR}/resource/Info.plist" PREPROCESS)

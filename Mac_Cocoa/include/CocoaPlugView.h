@@ -16,7 +16,8 @@ class CocoaPlugView: public Steinberg::FObject,
                      public Steinberg::IPlugView
 {
 public:
-    CocoaPlugView (const Steinberg::ViewRect* rect = nullptr);
+    CocoaPlugView ();
+    //~CocoaPlugView ();
     
     //---from IPlugView-------
     /** Is Platform UI Type supported
@@ -83,7 +84,7 @@ public:
     REFCOUNT_METHODS(Steinberg::FObject)
     //
 protected:
-    Steinberg::ViewRect rect;
+    Steinberg::ViewRect m_rect;
     void* systemWindow;
     Steinberg::IPlugFrame* plugFrame;
     //
