@@ -1,40 +1,79 @@
-set(plug_includes
-    include/meterController.h
-    #---
-    include/meterParameters.h
-    #---
-    include/meterProcessor.h
-	include/meterProcessorIncludes.h
-    #---
-    include/meterUIDs.h
-    #---
-    include/meterVersion.h
-    #---
-    #include/componentAttribute.h
-    #---
-    #include/componentAttributeList.h
-    #---
-    #include/componentMessage.h
-    #--
-    include/IdeConsoleWriteLine.h
-)
 
 if(APPLE)
+    set(CMAKE_C_FLAGS "-x objective-c")
+
+    set(plug_includes
+            include/meterController.h
+            #---
+            include/meterParameters.h
+            #---
+            include/meterProcessor.h
+            include/meterProcessorIncludes.h
+            #---
+            include/meterUIDs.h
+            #---
+            include/meterVersion.h
+            #---
+            #include/componentAttribute.h
+            #---
+            #include/componentAttributeList.h
+            #---
+            #include/componentMessage.h
+            #--
+            include/IdeConsoleWriteLine.h
+            #
+            ../Mac_Cocoa/include/CocoaPlugView.h
+            #
+            ../Mac_Cocoa/include/MeterViewController.h
+            #../Mac_Cocoa/include/MeterWindowController.h
+            )
+
     set(plug_sources
         ../Mac_Cocoa/source/meterController.mm
         #---
-        source/meterProcessor.cpp
+        ../Mac_Cocoa/source/meterProcessor.mm
         #---
-        source/meterFactory.cpp
+        ../Mac_Cocoa/source/meterFactory.mm
         #---
         #source/componentAttribute.cpp
         #---
         #source/componentAttributeList.cpp
         #---
         #source/componentMessage.cpp
+            #
+            ../Mac_Cocoa/source/CocoaPlugView.mm
+            #
+            ../Mac_Cocoa/source/MeterViewController.mm
+            #
+            #../Mac_Cocoa/source/MeterWindowController.mm
+            #
+            ../Mac_Cocoa/UI/MeterViewController.xib
+            #
+            #../Mac_Cocoa/UI/MeterWindowController.xib
         )
 #
 elseif(WIN32)
+    set(plug_includes
+            include/meterController.h
+            #---
+            include/meterParameters.h
+            #---
+            include/meterProcessor.h
+            include/meterProcessorIncludes.h
+            #---
+            include/meterUIDs.h
+            #---
+            include/meterVersion.h
+            #---
+            #include/componentAttribute.h
+            #---
+            #include/componentAttributeList.h
+            #---
+            #include/componentMessage.h
+            #--
+            include/IdeConsoleWriteLine.h
+            )
+
     set(plug_sources
         source/meterController.cpp
         #---
@@ -70,7 +109,7 @@ if(APPLE)
     base 
     sdk 
     #vstgui_support 
-    Meter_Cocoa_UI
+    #Meter_Cocoa_UI
     "-framework Cocoa"
     "-framework AppKit"
     "-framework CoreData"
@@ -79,6 +118,12 @@ if(APPLE)
     )
 
     smtg_set_bundle(${target} INFOPLIST "${CMAKE_CURRENT_LIST_DIR}/resource/Info.plist" PREPROCESS)
+
+    set_source_files_properties(
+            ../Mac_Cocoa/UI/MeterViewController.xib
+            PROPERTIES
+            MACOSX_PACKAGE_LOCATION Resources
+    )
 #
 elseif((WIN32) AND (CMAKE_SIZEOF_VOID_P EQUAL "8"))
     target_link_libraries(${target} PRIVATE 
