@@ -11,8 +11,8 @@
 #include <vcclr.h>
 #include <windows.h>
 //
-#using <Meter_WPF_UI_x64.dll>
-
+//#using <Meter_WPF_UI_x64.dll>
+//
 #using <PresentationCore.dll>
 #using <PresentationFramework.dll>
 #using <WindowsBase.dll>

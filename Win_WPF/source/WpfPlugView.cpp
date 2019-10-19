@@ -42,8 +42,8 @@ Steinberg::tresult WpfPlugView::attached (void* parent, Steinberg::FIDString typ
 		Carlsound::Meter::MeterUserControl^ m_userControl = gcnew Carlsound::Meter::MeterUserControl;
 		//
 		System::Windows::Interop::HwndSourceParameters^ sourceParams = gcnew System::Windows::Interop::HwndSourceParameters("Meter");
-		sourceParams->PositionX = 500;
-		sourceParams->PositionY = 500;
+		sourceParams->PositionX = 100;
+		sourceParams->PositionY = 100;
 		sourceParams->Height = m_userControl->Height;
 		sourceParams->Width = m_userControl->Width;
 		sourceParams->ParentWindow = System::IntPtr(m_parentWindow);
