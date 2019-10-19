@@ -13,16 +13,19 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MeterWpfControlLibrary
+namespace Carlsound
 {
-    /// <summary>
-    /// Interaction logic for UserControl1.xaml
-    /// </summary>
-    public partial class UserControl1 : UserControl
+    namespace Meter
     {
-        public UserControl1()
+        /// <summary>
+        /// Interaction logic for UserControl1.xaml
+        /// </summary>
+        public partial class MeterUserControl : UserControl
         {
-            InitializeComponent();
+            public MeterUserControl()
+            {
+                InitializeComponent();
+            }
         }
     }
 }

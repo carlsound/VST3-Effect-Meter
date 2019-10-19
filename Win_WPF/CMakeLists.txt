@@ -13,9 +13,9 @@ if(WIN32)
 	include(CSharpUtilities)
 
 	add_library(${ProjectName} SHARED
-		#--- UserControl1.config
-		UserControl1.xaml
-		UserControl1.xaml.cs
+		#--- MeterUserControl.config
+		MeterUserControl.xaml
+		MeterUserControl.xaml.cs
 		Properties/AssemblyInfo.cs
 		Properties/Resources.Designer.cs
 		Properties/Resources.resx
@@ -30,8 +30,8 @@ if(WIN32)
 		Properties/Settings.settings)
 		
 	csharp_set_xaml_cs_properties(
-		UserControl1.xaml
-		UserControl1.xaml.cs)
+		MeterUserControl.xaml
+		MeterUserControl.xaml.cs)
 endif()
 
 if((WIN32) AND (CMAKE_SIZEOF_VOID_P EQUAL "8"))

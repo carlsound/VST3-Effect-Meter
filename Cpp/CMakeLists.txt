@@ -4,6 +4,7 @@ if(APPLE)
 
     set(plug_includes
             include/meterController.h
+	    include/meterControllerIncludes.h
             #---
             include/meterParameters.h
             #---
@@ -55,6 +56,8 @@ if(APPLE)
 elseif(WIN32)
     set(plug_includes
             include/meterController.h
+	    include/meterControllerIncludes.h
+	    ../Win_WPF/include/WpfPlugView.h
             #---
             include/meterParameters.h
             #---
@@ -76,6 +79,7 @@ elseif(WIN32)
 
     set(plug_sources
         source/meterController.cpp
+		../Win_WPF/source/WpfPlugView.cpp
         #---
         source/meterProcessor.cpp
         #---

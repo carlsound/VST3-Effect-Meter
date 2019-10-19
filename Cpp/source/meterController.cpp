@@ -192,12 +192,12 @@ namespace Carlsound
 						//m_LevelColor = m_LevelInput;
 						//m_LevelColor = parameter->getNormalized();
 						//
-                        IdeConsoleWriteLine(L"setParamNormalized kParameterInputLevel\n");
+                        //IdeConsoleWriteLine(L"setParamNormalized kParameterInputLevel\n");
                         std::string str = std::to_string(m_LevelInput);
                         std::wstring strw = std::wstring(str.begin(), str.end());
-                        IdeConsoleWriteLine(L"Input Level = ");
-                        IdeConsoleWriteLine(strw.c_str());
-                        IdeConsoleWriteLine(L"\n");
+                        //IdeConsoleWriteLine(L"Input Level = ");
+                        //IdeConsoleWriteLine(strw.c_str());
+                        //IdeConsoleWriteLine(L"\n");
 						//
 						//m_GuiVuMeter_InputLevel;
 						//
@@ -230,12 +230,12 @@ namespace Carlsound
                         //m_Level1 = value;
 						m_LevelColor = value; //parameter->getNormalized();
                         //
-                        IdeConsoleWriteLine(L"setParamNormalized kParameterColor\n");
+						//IdeConsoleWriteLine(L"setParamNormalized kParameterColor\n");
                         std::string str = std::to_string(m_LevelColor);
                         std::wstring strw = std::wstring(str.begin(), str.end());
-                        IdeConsoleWriteLine(L"Color = ");
-                        IdeConsoleWriteLine(strw.c_str());
-                        IdeConsoleWriteLine(L"\n\n");
+                        //IdeConsoleWriteLine(L"Color = ");
+                        //IdeConsoleWriteLine(strw.c_str());
+                        //IdeConsoleWriteLine(L"\n\n");
 						//
 						if (componentHandler)
 						{
@@ -528,20 +528,25 @@ namespace Carlsound
 				//m_GuiView_InputLevel_VuMeter = m_GuiFrame->getView(0);
 				//m_GuiView_InputLevel_TextLabel = m_GuiFrame->getView(1);
                 
-                if(SMTG_OS_OSX or SMTG_OS_MACOS)
+				#if(SMTG_OS_OSX || SMTG_OS_MACOS)
                 {
                     auto* view = new CocoaPlugView();
+					return view;
                 }
-                else if(SMTG_OS_WINDOWS)
-                {
-                    //auto* view =
-                }
+				#endif
 
-				return view;
+				#if(SMTG_OS_WINDOWS)
+                {
+					auto* view = new WpfPlugView();
+					return view;
+                }
+				#endif
+
 			}
 			return nullptr;
 		}
 		//------------------------------------------------------------------------
+		/*
 		Steinberg::tresult PLUGIN_API MeterController::notify (Steinberg::Vst::IMessage* message)
 		{
 			if (!message)
@@ -601,13 +606,17 @@ namespace Carlsound
 				}
 			}
 			*/
+			/*
 			return Steinberg::kResultTrue;
 		}
+		*/
 		//------------------------------------------------------------------------
+		/*
 		Steinberg::tresult PLUGIN_API MeterController::receiveText(const char* text)
 		{
 			//OutputDebugStringW(L"receiveText()");
 			return Steinberg::kResultTrue;
 		}
+		*/
 	} // namespace Meter
 } // namespace Carlsound
