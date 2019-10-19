@@ -1,7 +1,5 @@
+// https://weblogs.thinktecture.com/cnagel/2010/04/mfc-and-wpf-interop.html
 //
-// Created by John Carlson on 10/13/19.
-//
-
 // public.sdk/source/common/pluginview.h
 //
 #pragma once
@@ -11,6 +9,8 @@
 #include "pluginterfaces/gui/iplugview.h"
 //
 #include <vcclr.h>
+#include <WinDef.h>
+#include <WinUser.h> //<Windows.h>
 //
 #using <Meter_WPF_UI_x64.dll>
 
@@ -19,7 +19,7 @@
 #using <WindowsBase.dll>
 //
 class WpfPlugView: public Steinberg::FObject,
-                     public Steinberg::IPlugView
+                   public Steinberg::IPlugView
 {
 public:
     WpfPlugView ();
@@ -93,6 +93,8 @@ protected:
     Steinberg::ViewRect m_rect;
     void* systemWindow;
     Steinberg::IPlugFrame* plugFrame;
+	//
+	HWND m_parentWindow;
     //
     //Carlsound::Meter::UserControl ^m_userControl;
 };

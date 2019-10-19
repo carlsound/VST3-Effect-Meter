@@ -35,8 +35,27 @@ Steinberg::tresult WpfPlugView::isPlatformTypeSupported (Steinberg::FIDString ty
     \param type : \ref platformUIType which should be created */
 Steinberg::tresult WpfPlugView::attached (void* parent, Steinberg::FIDString type)
 {
-	Carlsound::Meter::MeterUserControl^ m_userControl = gcnew Carlsound::Meter::MeterUserControl;
-    return Steinberg::kResultTrue;
+	if (Steinberg::kPlatformTypeHWND == type)
+	{
+		m_parentWindow = static_cast<HWND>(parent);
+		//
+		Carlsound::Meter::MeterUserControl^ m_userControl = gcnew Carlsound::Meter::MeterUserControl;
+		//
+		System::Windows::Interop::HwndSourceParameters^ sourceParams = gcnew System::Windows::Interop::HwndSourceParameters("Meter");
+		sourceParams->PositionX = 500;
+		sourceParams->PositionY = 500;
+		sourceParams->Height = m_userControl->Height;
+		sourceParams->Width = m_userControl->Width;
+		sourceParams->ParentWindow = System::IntPtr(m_parentWindow);
+		sourceParams->WindowStyle = WS_VISIBLE | WS_CHILD;
+		//
+		System::Windows::Interop::HwndSource^ m_hwndSource = gcnew System::Windows::Interop::HwndSource(*sourceParams);
+		//
+		m_hwndSource->RootVisual = m_userControl;
+		//
+		return Steinberg::kResultTrue;
+	}
+	return Steinberg::kResultFalse;
 }
 
 /** The parent window of the view is about to be destroyed.
