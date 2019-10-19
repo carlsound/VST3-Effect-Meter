@@ -9,8 +9,7 @@
 #include "pluginterfaces/gui/iplugview.h"
 //
 #include <vcclr.h>
-#include <WinDef.h>
-#include <WinUser.h> //<Windows.h>
+#include <windows.h>
 //
 #using <Meter_WPF_UI_x64.dll>
 
