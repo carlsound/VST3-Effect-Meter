@@ -4,7 +4,7 @@ if(APPLE)
 
     set(plug_includes
             include/meterController.h
-	    include/meterControllerIncludes.h
+	        include/meterControllerIncludes.h
             #---
             include/meterParameters.h
             #---
@@ -30,11 +30,14 @@ if(APPLE)
             )
 
     set(plug_sources
+            # source/meterController.cpp
         ../Mac_Cocoa/source/meterController.mm
         #---
-        ../Mac_Cocoa/source/meterProcessor.mm
+            source/meterProcessor.cpp
+        #../Mac_Cocoa/source/meterProcessor.mm
         #---
-        ../Mac_Cocoa/source/meterFactory.mm
+            source/meterFactory.cpp
+        #../Mac_Cocoa/source/meterFactory.mm
         #---
         #source/componentAttribute.cpp
         #---
@@ -109,6 +112,8 @@ set_target_properties(${target} PROPERTIES ${SDK_IDE_MYPLUGINS_FOLDER}/${target}
 #target_include_directories(${target} PUBLIC ${VSTGUI_ROOT}/vstgui4)
 #
 if(APPLE)
+    #find_library(UI MeterUI)
+
     target_link_libraries(${target} PRIVATE 
     base 
     sdk 
@@ -119,6 +124,7 @@ if(APPLE)
     "-framework CoreData"
     "-framework Foundation"
             objc
+            #${UI}
     )
 
     smtg_set_bundle(${target} INFOPLIST "${CMAKE_CURRENT_LIST_DIR}/resource/Info.plist" PREPROCESS)
@@ -128,6 +134,10 @@ if(APPLE)
             PROPERTIES
             MACOSX_PACKAGE_LOCATION Resources
     )
+
+    set_target_properties(${target} PROPERTIES
+            MACOSX_BUNDLE_BUNDLE_NAME net.carlsound.meter
+            XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "Apple Development")
 #
 elseif((WIN32) AND (CMAKE_SIZEOF_VOID_P EQUAL "8"))
     target_link_libraries(${target} PRIVATE 

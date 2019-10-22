@@ -37,7 +37,7 @@ Steinberg::tresult CocoaPlugView::attached (void* parent, Steinberg::FIDString t
 {
     if (Steinberg::kPlatformTypeNSView == type)
     {
-          m_parentWindow = static_cast<NSView>(parent);
+          m_parentWindow = static_cast<NSView*>(parent);
           //
           m_viewController = [[MeterViewController alloc] init];
           return Steinberg::kResultTrue;

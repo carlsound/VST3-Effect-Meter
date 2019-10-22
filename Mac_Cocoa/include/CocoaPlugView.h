@@ -88,5 +88,6 @@ protected:
     void* systemWindow;
     Steinberg::IPlugFrame* plugFrame;
     //
+    NSView *m_parentWindow;
     MeterViewController *m_viewController;
 };

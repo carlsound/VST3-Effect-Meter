@@ -3,23 +3,25 @@
 
 
 if(APPLE)
-    set(ProjectName Meter_Cocoa_UI)
+    set(ProjectName MeterUI)
     
     set(CMAKE_C_FLAGS "-x objective-c")
 
     set(HEADER 
-        ./include/CocoaPlugView.h    
+        #./include/CocoaPlugView.h
         ./include/MeterViewController.h
-        ./include/MeterWindowController.h
+            ./include/MeterUI.h
+            #./Info.plist
+        # ./include/MeterWindowController.h
     )
     set(SOURCE 
-        ./source/CocoaPlugView.mm
+        #./source/CocoaPlugView.mm
         ./source/MeterViewController.mm
-        ./source/MeterWindowController.mm
+        # ./source/MeterWindowController.mm
     )
     set(XIB
         ./UI/MeterViewController.xib
-        ./UI/MeterWindowController.xib
+        # ./UI/MeterWindowController.xib
     )
 
     add_library(${ProjectName} SHARED
@@ -32,9 +34,9 @@ if(APPLE)
     set_property(TARGET ${ProjectName} PROPERTY ${SDK_IDE_MYPLUGINS_FOLDER}/Meter_OSX)
 
     set_source_files_properties(
-        ${XIB}
-        PROPERTIES
-        MACOSX_PACKAGE_LOCATION Resources
+            ${XIB}
+            PROPERTIES
+            MACOSX_PACKAGE_LOCATION Resources
     )
 
     # set_target_properties(
@@ -43,6 +45,19 @@ if(APPLE)
     #    MACOSX_BUNDLE TRUE
     #    MACOSX_BUNDLE_INFO_PLIST Info.plist
     # )
+
+    set_target_properties(${ProjectName} PROPERTIES
+            FRAMEWORK TRUE
+            FRAMEWORK_VERSION C
+            MACOSX_FRAMEWORK_IDENTIFIER net.carlsound.meterUI
+            #MACOSX_FRAMEWORK_INFO_PLIST Info.plist
+            # "current version" in semantic format in Mach-O binary file
+            VERSION 16.4.0
+            # "compatibility version" in semantic format in Mach-O binary file
+            SOVERSION 1.0.0
+            PUBLIC_HEADER dynamicFramework.h
+            XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "MacOS Developer"
+            )
 
     target_link_libraries(${ProjectName}
             base

@@ -36,8 +36,8 @@
 #endif
 //
 #if SMTG_OS_MACOS || SMTG_OS_OSX
-#include <Cocoa/Cocoa.h>
-#include "../../Mac_Cocoa/include/CocoaPlugView.h"
+//#include <Cocoa/Cocoa.h>
+//#include "../../Mac_Cocoa/include/CocoaPlugView.h"
 //#include "vstgui4/vstgui/vstgui_mac.mm"
 //#include "vstgui4/vstgui/vstgui_uidescription_mac.mm"
 #endif

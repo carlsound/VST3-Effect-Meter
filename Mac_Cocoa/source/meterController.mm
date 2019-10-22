@@ -1,6 +1,9 @@
 
 #include "../../Cpp/include/meterController.h"
 //
+#include <Cocoa/Cocoa.h>
+#include "../../Mac_Cocoa/include/CocoaPlugView.h"
+//
 namespace Carlsound
 {
 	namespace Meter 

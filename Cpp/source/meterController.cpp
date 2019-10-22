@@ -530,7 +530,7 @@ namespace Carlsound
                 
 				#if(SMTG_OS_OSX || SMTG_OS_MACOS)
                 {
-                    auto* view = new CocoaPlugView();
+                    //auto* view = new CocoaPlugView();
 					return view;
                 }
 				#endif
