@@ -1,7 +1,7 @@
 
 #include "../../Cpp/include/meterController.h"
 //
-#include <Cocoa/Cocoa.h>
+//#include <Cocoa/Cocoa.h>
 #include "../../Mac_Cocoa/include/CocoaPlugView.h"
 //
 namespace Carlsound
@@ -517,6 +517,7 @@ namespace Carlsound
 			return Steinberg::kResultFalse;
 		}
 		//------------------------------------------------------------------------
+        
 		Steinberg::IPlugView* PLUGIN_API MeterController::createView
 		(
 			const char* name
@@ -532,6 +533,7 @@ namespace Carlsound
 			}
 			return nullptr;
 		}
+         
 		//------------------------------------------------------------------------
         /*
 		Steinberg::tresult PLUGIN_API MeterController::notify (Steinberg::Vst::IMessage* message)

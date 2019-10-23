@@ -35,11 +35,17 @@ Steinberg::tresult CocoaPlugView::isPlatformTypeSupported (Steinberg::FIDString 
     \param type : \ref platformUIType which should be created */
 Steinberg::tresult CocoaPlugView::attached (void* parent, Steinberg::FIDString type)
 {
-    if (Steinberg::kPlatformTypeNSView == type)
+    if (Steinberg::kPlatformTypeNSView == type)// TODO: evaluates to false; change to std::string comparison
     {
           m_parentWindow = static_cast<NSView*>(parent);
           //
           m_viewController = [[MeterViewController alloc] init];
+          //
+        CGFloat width = 800;
+        CGFloat height = 400;
+        [m_parentWindow setFrameSize: NSMakeSize(width, height)];
+          [m_parentWindow addSubview: m_viewController.view];
+          //
           return Steinberg::kResultTrue;
      }
      return Steinberg::kResultFalse;
