@@ -21,12 +21,14 @@ if(APPLE)
             #---
             #include/componentMessage.h
             #--
-            include/IdeConsoleWriteLine.h
+            include/ideConsoleWriteLine.h
             #
-            ../Mac_Cocoa/include/CocoaPlugView.h
+            ../Mac_Cocoa/include/cocoaPlugView.h
             #
-            ../Mac_Cocoa/include/MeterViewController.h
-            #../Mac_Cocoa/include/MeterWindowController.h
+            ../Mac_Cocoa/include/meterView.h
+            #
+            ../Mac_Cocoa/include/meterViewController.h
+            #../Mac_Cocoa/include/meterWindowController.h
             )
 
     set(plug_sources
@@ -45,15 +47,17 @@ if(APPLE)
         #---
         #source/componentMessage.cpp
             #
-            ../Mac_Cocoa/source/CocoaPlugView.mm
+            ../Mac_Cocoa/source/cocoaPlugView.mm
             #
-            ../Mac_Cocoa/source/MeterViewController.mm
+            ../Mac_Cocoa/source/meterView.mm
             #
-            #../Mac_Cocoa/source/MeterWindowController.mm
+            ../Mac_Cocoa/source/meterViewController.mm
             #
-            ../Mac_Cocoa/UI/MeterViewController.xib
+            #../Mac_Cocoa/source/meterWindowController.mm
             #
-            #../Mac_Cocoa/UI/MeterWindowController.xib
+            ../Mac_Cocoa/UI/meterViewController.xib
+            #
+            #../Mac_Cocoa/UI/meterWindowController.xib
         )
 #
 elseif(WIN32)
@@ -77,7 +81,7 @@ elseif(WIN32)
             #---
             #include/componentMessage.h
             #--
-            include/IdeConsoleWriteLine.h
+            include/ideConsoleWriteLine.h
             )
 
     set(plug_sources
@@ -130,7 +134,7 @@ if(APPLE)
     smtg_set_bundle(${target} INFOPLIST "${CMAKE_CURRENT_LIST_DIR}/resource/Info.plist" PREPROCESS)
 
     set_source_files_properties(
-            ../Mac_Cocoa/UI/MeterViewController.xib
+            ../Mac_Cocoa/UI/meterViewController.xib
             PROPERTIES
             MACOSX_PACKAGE_LOCATION Resources
     )

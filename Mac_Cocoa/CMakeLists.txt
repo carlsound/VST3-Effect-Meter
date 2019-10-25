@@ -8,20 +8,22 @@ if(APPLE)
     set(CMAKE_C_FLAGS "-x objective-c")
 
     set(HEADER 
-        #./include/CocoaPlugView.h
-        ./include/MeterViewController.h
-            ./include/MeterUI.h
+        #./include/cocoaPlugView.h
+            #../Mac_Cocoa/include/meterView.h
+        ./include/meterViewController.h
+            ./include/meterUI.h
             #./Info.plist
-        # ./include/MeterWindowController.h
+        # ./include/meterWindowController.h
     )
     set(SOURCE 
-        #./source/CocoaPlugView.mm
-        ./source/MeterViewController.mm
-        # ./source/MeterWindowController.mm
+        #./source/cocoaPlugView.mm
+            # ../Mac_Cocoa/source/meterView.mm
+        ./source/meterViewController.mm
+        # ./source/meterWindowController.mm
     )
     set(XIB
-        ./UI/MeterViewController.xib
-        # ./UI/MeterWindowController.xib
+        ./UI/meterViewController.xib
+        # ./UI/meterWindowController.xib
     )
 
     add_library(${ProjectName} SHARED

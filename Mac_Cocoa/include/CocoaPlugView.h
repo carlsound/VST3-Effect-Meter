@@ -1,3 +1,4 @@
+// https://www.youtube.com/watch?v=Ms5hhdRFRvc
 //
 // Created by John Carlson on 10/13/19.
 //
@@ -10,7 +11,8 @@
 //
 #include "pluginterfaces/gui/iplugview.h"
 //
-#include "MeterViewController.h"
+#include "meterView.h"
+#include "meterViewController.h"
 //
 class CocoaPlugView: public Steinberg::FObject,
                      public Steinberg::IPlugView
@@ -88,6 +90,8 @@ protected:
     void* systemWindow;
     Steinberg::IPlugFrame* plugFrame;
     //
-    NSView *m_parentWindow;
-    MeterViewController *m_viewController;
+    NSView *m_parentView;
+    //NSWindow* m_parentWindow;
+    meterView* m_view;
+    meterViewController *m_viewController;
 };

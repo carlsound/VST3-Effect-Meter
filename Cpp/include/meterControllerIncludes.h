@@ -6,7 +6,7 @@
 #include <iostream>
 //
 #include "componentMessage.h"
-#include "IdeConsoleWriteLine.h"
+#include "ideConsoleWriteLine.h"
 #include "meterParameters.h"
 #include "meterUIDs.h"
 //

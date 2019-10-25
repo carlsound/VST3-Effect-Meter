@@ -1,4 +1,5 @@
 // https://weblogs.thinktecture.com/cnagel/2010/04/mfc-and-wpf-interop.html
+// https://www.abhishekshukla.com/wpf/advanced-wpf-part-5-of-5-interop-in-windows-presentation-foundation/
 //
 // public.sdk/source/common/pluginview.h
 //

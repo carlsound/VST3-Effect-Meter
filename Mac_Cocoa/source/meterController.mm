@@ -2,7 +2,7 @@
 #include "../../Cpp/include/meterController.h"
 //
 //#include <Cocoa/Cocoa.h>
-#include "../../Mac_Cocoa/include/CocoaPlugView.h"
+#include "../../Mac_Cocoa/include/cocoaPlugView.h"
 //
 namespace Carlsound
 {

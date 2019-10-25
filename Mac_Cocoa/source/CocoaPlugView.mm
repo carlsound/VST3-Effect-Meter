@@ -2,7 +2,8 @@
 // Created by John Carlson on 10/13/19.
 //
 
-#include "../include/CocoaPlugView.h"
+#include "../include/cocoaPlugView.h"
+#include <string.h>
 
 CocoaPlugView::CocoaPlugView()
 {
@@ -35,27 +36,54 @@ Steinberg::tresult CocoaPlugView::isPlatformTypeSupported (Steinberg::FIDString 
     \param type : \ref platformUIType which should be created */
 Steinberg::tresult CocoaPlugView::attached (void* parent, Steinberg::FIDString type)
 {
-    if (Steinberg::kPlatformTypeNSView == type)// TODO: evaluates to false; change to std::string comparison
+    if(NULL != type)
     {
-          m_parentWindow = static_cast<NSView*>(parent);
-          //
-          m_viewController = [[MeterViewController alloc] init];
-          //
-        CGFloat width = 800;
-        CGFloat height = 400;
-        [m_parentWindow setFrameSize: NSMakeSize(width, height)];
-          [m_parentWindow addSubview: m_viewController.view];
-          //
-          return Steinberg::kResultTrue;
-     }
-     return Steinberg::kResultFalse;
+        bool isTypeNSView = false;
+        for(int i = 0; i < (sizeof(type)-2); i++)
+        {
+            if(type[i] == Steinberg::kPlatformTypeNSView[i])
+            {
+                isTypeNSView = true;
+            }
+            else
+            {
+                isTypeNSView = false;
+            }
+        }
+        if(isTypeNSView)
+        {
+            m_parentView = static_cast<NSView*>(parent);
+            //m_parentWindow = static_cast<NSWindow*>(parent); //static_cast<NSView*>(parent);
+            //
+            m_view = [[meterView alloc] initWithFrame: NSMakeRect(0, 0, 480, 272)];
+            m_viewController = [[meterViewController alloc] init];
+            //
+            [m_parentView setFrameSize: m_view.frame.size];
+            m_parentView.bounds = m_view.bounds;
+            [m_parentView addSubview: m_view];
+            m_parentView.needsDisplay = YES;
+            //
+            //m_parentWindow.contentView = m_view;
+            //m_parentWindow.viewsNeedDisplay = YES;
+            //
+            m_parentView.layer.backgroundColor = NSColor.yellowColor.CGColor;
+            m_view.layer.backgroundColor = NSColor.blueColor.CGColor;
+            //
+            return Steinberg::kResultTrue;
+        }
+    }
+    return Steinberg::kResultFalse;
 }
 
 /** The parent window of the view is about to be destroyed.
     You have to remove all your own views from the parent window or view. */
 Steinberg::tresult CocoaPlugView::removed ()
 {
-    [MeterViewController dealloc];
+    [m_view removeFromSuperview];
+    [m_parentView dealloc];
+    [m_viewController dealloc];
+    [m_view dealloc];
+    //
     return Steinberg::kResultTrue;
 }
 

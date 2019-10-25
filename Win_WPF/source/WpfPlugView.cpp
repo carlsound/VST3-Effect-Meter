@@ -2,7 +2,7 @@
 // Created by John Carlson on 10/13/19.
 //
 
-#include "../../Win_WPF/include/WpfPlugView.h"
+#include "../../Win_WPF/include/wpfPlugView.h"
 
 WpfPlugView::WpfPlugView()
 {
@@ -35,34 +35,49 @@ Steinberg::tresult WpfPlugView::isPlatformTypeSupported (Steinberg::FIDString ty
     \param type : \ref platformUIType which should be created */
 Steinberg::tresult WpfPlugView::attached (void* parent, Steinberg::FIDString type)
 {
-	if (Steinberg::kPlatformTypeHWND == type)
-	{
-		m_parentWindow = static_cast<HWND>(parent);
-		//
-		Carlsound::Meter::MeterUserControl^ m_userControl = gcnew Carlsound::Meter::MeterUserControl;
-		//
-		System::Windows::Interop::HwndSourceParameters^ sourceParams = gcnew System::Windows::Interop::HwndSourceParameters("Meter");
-		sourceParams->PositionX = 100;
-		sourceParams->PositionY = 100;
-		sourceParams->Height = m_userControl->Height;
-		sourceParams->Width = m_userControl->Width;
-		sourceParams->ParentWindow = System::IntPtr(m_parentWindow);
-		sourceParams->WindowStyle = WS_VISIBLE | WS_CHILD;
-		//
-		System::Windows::Interop::HwndSource^ m_hwndSource = gcnew System::Windows::Interop::HwndSource(*sourceParams);
-		//
-		m_hwndSource->RootVisual = m_userControl;
-		//
-		return Steinberg::kResultTrue;
-	}
-	return Steinberg::kResultFalse;
+    if(NULL != type)
+    {
+        bool isTypeHWND = false;
+        for(int i = 0; i < (sizeof(type)-2); i++)
+        {
+            if(type[i] == Steinberg::kPlatformTypeHWND[i])
+            {
+                isTypeHWND = true;
+            }
+            else
+            {
+                isTypeHWND = false;
+            }
+        }
+        if(isTypeHWND)
+        {
+            Carlsound::Meter::MeterUserControl^ m_userControl = gcnew Carlsound::Meter::MeterUserControl;
+            //
+            System::Windows::Interop::HwndSourceParameters^ sourceParams = gcnew System::Windows::Interop::HwndSourceParameters("Meter");
+            sourceParams->PositionX = 100;
+            sourceParams->PositionY = 100;
+            sourceParams->Height = m_userControl->Height;
+            sourceParams->Width = m_userControl->Width;
+            sourceParams->ParentWindow = System::IntPtr(m_parentWindow);
+            sourceParams->WindowStyle = WS_VISIBLE | WS_CHILD;
+            //
+            System::Windows::Interop::HwndSource^ m_hwndSource = gcnew System::Windows::Interop::HwndSource(*sourceParams);
+            //
+            m_hwndSource->RootVisual = m_userControl;
+            //
+            int i = 0;
+            //
+            return Steinberg::kResultTrue;
+        }
+    }
+    return Steinberg::kResultFalse;
 }
 
 /** The parent window of the view is about to be destroyed.
     You have to remove all your own views from the parent window or view. */
 Steinberg::tresult WpfPlugView::removed ()
 {
-    //[MeterViewController dealloc];
+    m_userControl.delete();
     return Steinberg::kResultTrue;
 }
 

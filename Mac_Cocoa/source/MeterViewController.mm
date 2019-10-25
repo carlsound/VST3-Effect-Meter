@@ -6,13 +6,13 @@
 //  Copyright © 2019 John Carlson. All rights reserved.
 //
 
-#import "../include/MeterViewController.h"
+#import "../include/meterViewController.h"
 
-@interface MeterViewController ()
+@interface meterViewController ()
 
 @end
 
-@implementation MeterViewController
+@implementation meterViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
