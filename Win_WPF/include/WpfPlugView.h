@@ -11,6 +11,7 @@
 //
 #include <vcclr.h>
 #include <windows.h>
+#include <WinUser.h>
 //
 //#using <Meter_WPF_UI_x64.dll>
 //

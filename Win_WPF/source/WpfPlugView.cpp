@@ -35,7 +35,7 @@ Steinberg::tresult WpfPlugView::isPlatformTypeSupported (Steinberg::FIDString ty
     \param type : \ref platformUIType which should be created */
 Steinberg::tresult WpfPlugView::attached (void* parent, Steinberg::FIDString type)
 {
-    if(NULL != type)
+    if(nullptr != type)
     {
         bool isTypeHWND = false;
         for(int i = 0; i < (sizeof(type)-2); i++)
@@ -54,10 +54,10 @@ Steinberg::tresult WpfPlugView::attached (void* parent, Steinberg::FIDString typ
             Carlsound::Meter::MeterUserControl^ m_userControl = gcnew Carlsound::Meter::MeterUserControl;
             //
             System::Windows::Interop::HwndSourceParameters^ sourceParams = gcnew System::Windows::Interop::HwndSourceParameters("Meter");
-            sourceParams->PositionX = 100;
-            sourceParams->PositionY = 100;
-            sourceParams->Height = m_userControl->Height;
-            sourceParams->Width = m_userControl->Width;
+            sourceParams->PositionX = 0;
+            sourceParams->PositionY = 0;
+			sourceParams->Height = 200; //m_userControl->Height;
+			sourceParams->Width = 400; //m_userControl->Width;
             sourceParams->ParentWindow = System::IntPtr(m_parentWindow);
             sourceParams->WindowStyle = WS_VISIBLE | WS_CHILD;
             //
@@ -77,7 +77,7 @@ Steinberg::tresult WpfPlugView::attached (void* parent, Steinberg::FIDString typ
     You have to remove all your own views from the parent window or view. */
 Steinberg::tresult WpfPlugView::removed ()
 {
-    m_userControl.delete();
+    //m_userControl.delete();
     return Steinberg::kResultTrue;
 }
 
