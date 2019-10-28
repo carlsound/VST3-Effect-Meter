@@ -56,11 +56,11 @@ Steinberg::tresult CocoaPlugView::attached (void* parent, Steinberg::FIDString t
             //m_parentWindow = static_cast<NSWindow*>(parent); //static_cast<NSView*>(parent);
             //
             m_view = [[meterView alloc] initWithFrame: NSMakeRect(0, 0, 480, 272)];
-            m_viewController = [[meterViewController alloc] init];
+            m_viewController = [[meterViewController alloc] initWithNibName: @"meterViewController" bundle: nil];
             //
-            [m_parentView setFrameSize: m_view.frame.size];
-            m_parentView.bounds = m_view.bounds;
-            [m_parentView addSubview: m_view];
+            //[m_parentView setFrameSize: m_view.frame.size];
+            //m_parentView.bounds = m_view.bounds;
+            [m_parentView addSubview: m_viewController.view]; //m_view];
             m_parentView.needsDisplay = YES;
             //
             //m_parentWindow.contentView = m_view;
