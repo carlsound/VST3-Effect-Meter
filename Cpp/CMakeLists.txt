@@ -1,4 +1,5 @@
 
+
 if(APPLE)
     set(CMAKE_C_FLAGS "-x objective-c")
 
@@ -140,8 +141,10 @@ if(APPLE)
     )
 
     set_target_properties(${target} PROPERTIES
-            MACOSX_BUNDLE_BUNDLE_NAME net.carlsound.meter
-            XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "Apple Development")
+            MACOSX_BUNDLE_BUNDLE_NAME "VST3-Effect-Meter"
+            MACOSX_BUNDLE_GUI_IDENTIFIER "net.carlsound.\${PRODUCT_NAME:identifier}"
+            # DEVELOPMENT_TEAM ${DEVELOPMENT_TEAM_ID}
+            XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "Mac Developer")
 #
 elseif((WIN32) AND (CMAKE_SIZEOF_VOID_P EQUAL "8"))
     target_link_libraries(${target} PRIVATE 

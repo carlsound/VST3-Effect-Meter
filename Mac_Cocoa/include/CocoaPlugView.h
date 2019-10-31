@@ -86,12 +86,12 @@ public:
     REFCOUNT_METHODS(Steinberg::FObject)
     //
 protected:
-    Steinberg::ViewRect m_rect;
-    void* systemWindow;
-    Steinberg::IPlugFrame* plugFrame;
+    //Steinberg::ViewRect m_rect;
+    //void* systemWindow;
+    //Steinberg::IPlugFrame* plugFrame;
     //
     NSView *m_parentView;
     //NSWindow* m_parentWindow;
-    meterView* m_view;
+    //meterView* m_view;
     meterViewController *m_viewController;
 };

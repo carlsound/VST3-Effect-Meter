@@ -7,10 +7,13 @@
 
 CocoaPlugView::CocoaPlugView()
 {
-    m_rect.left = 0;
-    m_rect.right = 0;
-    m_rect.top = 0;
-    m_rect.bottom = 0;
+    //m_rect.left = 0;
+    //m_rect.right = 0;
+    //m_rect.top = 0;
+    //m_rect.bottom = 0;
+    //
+    //m_view = [[meterView alloc] initWithFrame: NSMakeRect(0, 0, 480, 272)];
+    //m_viewController = [[meterViewController alloc] initWithNibName: @"meterViewController" bundle: [NSBundle mainBundle /* bundleWithPath:@"net.carlsound.VST3-Effect-Meter" */]];
 }
 
 /** Is Platform UI Type supported
@@ -55,8 +58,8 @@ Steinberg::tresult CocoaPlugView::attached (void* parent, Steinberg::FIDString t
             m_parentView = static_cast<NSView*>(parent);
             //m_parentWindow = static_cast<NSWindow*>(parent); //static_cast<NSView*>(parent);
             //
-            m_view = [[meterView alloc] initWithFrame: NSMakeRect(0, 0, 480, 272)];
-            m_viewController = [[meterViewController alloc] initWithNibName: @"meterViewController" bundle: nil];
+            //m_view = [[meterView alloc] initWithFrame: NSMakeRect(0, 0, 480, 272)];
+            m_viewController = [[meterViewController alloc] initWithNibName: @"meterViewController" bundle: [NSBundle mainBundle /* bundleWithPath:@"net.carlsound.VST3-Effect-Meter" nil */]];
             //
             //[m_parentView setFrameSize: m_view.frame.size];
             //m_parentView.bounds = m_view.bounds;
@@ -67,7 +70,7 @@ Steinberg::tresult CocoaPlugView::attached (void* parent, Steinberg::FIDString t
             //m_parentWindow.viewsNeedDisplay = YES;
             //
             m_parentView.layer.backgroundColor = NSColor.yellowColor.CGColor;
-            m_view.layer.backgroundColor = NSColor.blueColor.CGColor;
+            m_viewController.view.layer.backgroundColor = NSColor.blueColor.CGColor;
             //
             return Steinberg::kResultTrue;
         }
@@ -79,10 +82,11 @@ Steinberg::tresult CocoaPlugView::attached (void* parent, Steinberg::FIDString t
     You have to remove all your own views from the parent window or view. */
 Steinberg::tresult CocoaPlugView::removed ()
 {
-    [m_view removeFromSuperview];
-    [m_parentView dealloc];
+    //[m_view removeFromSuperview];
+    [m_viewController.view removeFromSuperview];
     [m_viewController dealloc];
-    [m_view dealloc];
+    [m_parentView dealloc];
+    //[m_view dealloc];
     //
     return Steinberg::kResultTrue;
 }

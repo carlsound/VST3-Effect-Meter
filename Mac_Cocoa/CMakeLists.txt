@@ -1,6 +1,6 @@
 # https://stackoverflow.com/questions/20962869/cmakelists-txt-for-an-objective-c-project
 # https://stackoverflow.com/questions/53129648/how-to-have-info-plist-bundled-in-a-macosx-application-with-cmake
-
+# https://stackoverflow.com/questions/822404/how-to-set-up-cmake-to-build-an-app-for-the-iphone
 
 if(APPLE)
     set(ProjectName MeterUI)
