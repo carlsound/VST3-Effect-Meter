@@ -59,7 +59,7 @@ Steinberg::tresult CocoaPlugView::attached (void* parent, Steinberg::FIDString t
             //m_parentWindow = static_cast<NSWindow*>(parent); //static_cast<NSView*>(parent);
             //
             //m_view = [[meterView alloc] initWithFrame: NSMakeRect(0, 0, 480, 272)];
-            m_viewController = [[meterViewController alloc] initWithNibName: @"meterViewController" bundle: [NSBundle mainBundle /* bundleWithPath:@"net.carlsound.VST3-Effect-Meter" nil */]];
+            m_viewController = [[meterViewController alloc] initWithNibName: @"meterViewController" bundle: [NSBundle bundleWithIdentifier:@"net.carlsound.VST3-Effect-Meter" /* nil */]];
             //
             //[m_parentView setFrameSize: m_view.frame.size];
             //m_parentView.bounds = m_view.bounds;
@@ -84,8 +84,8 @@ Steinberg::tresult CocoaPlugView::removed ()
 {
     //[m_view removeFromSuperview];
     [m_viewController.view removeFromSuperview];
-    [m_viewController dealloc];
-    [m_parentView dealloc];
+    //[m_viewController dealloc];
+    //[m_parentView dealloc];
     //[m_view dealloc];
     //
     return Steinberg::kResultTrue;
