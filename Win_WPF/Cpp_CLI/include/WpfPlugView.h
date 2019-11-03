@@ -8,6 +8,7 @@
 #include "base/source/fobject.h"
 //
 #include "pluginterfaces/gui/iplugview.h"
+#include "public.sdk/source/vst/vsteditcontroller.h"
 //
 //#include <vcclr.h>
 #include <windows.h>
@@ -21,13 +22,25 @@
 //
 #include "../Cpp_CLI/include/nativeInterface.h"
 //
-class WpfPlugView: public Steinberg::FObject,
-                   public Steinberg::IPlugView,
-	               public Steinberg::IPlugFrame
+//extern void* moduleHandle;
+//
+//
+//
+class WpfPlugView: public Steinberg::Vst::EditorView,
+	               public Steinberg::FObject //,
+	               //public Steinberg::IPlugFrame
 {
 public:
-    WpfPlugView ();
-    //~CocoaPlugView ();
+	//---Interface------
+	OBJ_METHODS(WpfPlugView, Steinberg::FObject)
+		DEFINE_INTERFACES
+			//DEF_INTERFACE(Steinberg::IPlugView)
+			//DEF_INTERFACE(Steinberg::IPlugFrame)
+		END_DEFINE_INTERFACES(Steinberg::Vst::EditorView)
+	REFCOUNT_METHODS(Steinberg::Vst::EditorViewS)
+	//
+	WpfPlugView (void* controller, Steinberg::ViewRect* size = nullptr);
+    //~WpfPlugView ();
     
     //---from IPlugView-------
     /** Is Platform UI Type supported
@@ -88,15 +101,7 @@ public:
 
 	/** Called to inform the host about the resize of a given view.
 	 *	Afterwards the host has to call IPlugView::onSize (). */
-	Steinberg::tresult PLUGIN_API resizeView(Steinberg::IPlugView* view, Steinberg::ViewRect* newSize) SMTG_OVERRIDE;
-    //
-    //---Interface------
-    OBJ_METHODS (WpfPlugView, Steinberg::FObject)
-    DEFINE_INTERFACES
-        DEF_INTERFACE (Steinberg::IPlugView)
-		DEF_INTERFACE(Steinberg::IPlugFrame)
-    END_DEFINE_INTERFACES (Steinberg::FObject)
-    REFCOUNT_METHODS(Steinberg::FObject)
+	//Steinberg::tresult PLUGIN_API resizeView(Steinberg::IPlugView* view, Steinberg::ViewRect* newSize) SMTG_OVERRIDE;
     //
 protected:
     //Steinberg::ViewRect m_rect;

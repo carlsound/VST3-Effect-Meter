@@ -1,9 +1,10 @@
 //
 // Created by John Carlson on 10/13/19.
 //
-
 #include "../Cpp_CLI/include/WpfPlugView.h"
-
+//
+extern void* moduleHandle;
+/*
 WpfPlugView::WpfPlugView()
 {
 	m_parentWindow = nullptr;
@@ -12,12 +13,18 @@ WpfPlugView::WpfPlugView()
     //m_rect.top = 0;
     //m_rect.bottom = 0;
 }
+*/
+
+WpfPlugView::WpfPlugView(void* controller, Steinberg::ViewRect* size = nullptr) : EditorView (static_cast<Steinberg::Vst::EditController*> (controller), size)
+{
+
+}
 
 /** Is Platform UI Type supported
 	    \param type : IDString of \ref platformUIType */
 Steinberg::tresult WpfPlugView::isPlatformTypeSupported (Steinberg::FIDString type)
 {
-    if(Steinberg::kPlatformTypeHWND == type)
+	if (strcmp(type, Steinberg::kPlatformTypeHWND) == 0)
     {
         return Steinberg::kResultTrue;
     }
@@ -38,6 +45,7 @@ Steinberg::tresult WpfPlugView::attached (void* parent, Steinberg::FIDString typ
 {
     if(nullptr != type)
     {
+		/*
         bool isTypeHWND = false;
         for(int i = 0; i < (sizeof(type)-2); i++)
         {
@@ -51,16 +59,23 @@ Steinberg::tresult WpfPlugView::attached (void* parent, Steinberg::FIDString typ
             }
         }
         if(isTypeHWND)
+	    */
+		if (strcmp(type, Steinberg::kPlatformTypeHWND) == 0)
         {
-			Steinberg::ViewRect *rect = new Steinberg::ViewRect(0, 0, 800, 450);
-			this->resizeView(this, rect);
-				//
-			m_parentWindow = static_cast<HWND>(parent);
+			//Steinberg::ViewRect *rect = new Steinberg::ViewRect(0, 0, 800, 450);
+			//this->resizeView(this, rect);
+			//
+			//m_parentWindow = static_cast<HWND>(parent);
 			//loadChildWindow(m_parentWindow);
             //
-            int i = 0;
+            //int i = 0;
             //
-            return Steinberg::kResultTrue;
+			Steinberg::ViewRect vr(0, 0, 800, 450);
+			setRect(vr);
+			if (plugFrame)
+				plugFrame->resizeView(this, &vr);
+			//
+            //return Steinberg::kResultTrue;
         }
     }
     return Steinberg::kResultFalse;
@@ -124,9 +139,10 @@ Steinberg::tresult WpfPlugView::onFocus (Steinberg::TBool state)
 /** Sets IPlugFrame object to allow the Plug-in to inform the host about resizing. */
 Steinberg::tresult WpfPlugView::setFrame (Steinberg::IPlugFrame* frame)
 {
-	Steinberg::ViewRect *rect = new Steinberg::ViewRect(0, 0, 800, 450);
-	frame->resizeView(this, rect);
-    return Steinberg::kResultTrue;
+	//Steinberg::ViewRect *rect = new Steinberg::ViewRect(0, 0, 800, 450);
+	//frame->resizeView(this, rect);
+    //return Steinberg::kResultTrue;
+	return EditorView::setFrame(frame);
 }
 
 /** Is view sizable by user. */
@@ -157,7 +173,9 @@ Steinberg::tresult WpfPlugView::checkSizeConstraint (Steinberg::ViewRect* rect)
 
 /** Called to inform the host about the resize of a given view.
 	 *	Afterwards the host has to call IPlugView::onSize (). */
+/*
 Steinberg::tresult WpfPlugView::resizeView(Steinberg::IPlugView* view, Steinberg::ViewRect* newSize)
 {
 	return view->getSize(newSize);
 }
+*/
