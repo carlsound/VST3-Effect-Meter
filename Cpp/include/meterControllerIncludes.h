@@ -30,7 +30,7 @@
 #if SMTG_OS_WINDOWS
 #include <atlconv.h>
 #include <tchar.h>
-#include "../../Win_WPF/include/WpfPlugView.h"
+#include "../Cpp_CLI/include/WpfPlugView.h"
 //#include "vstgui4/vstgui/vstgui_win32.cpp"
 //#include "vstgui4/vstgui/vstgui_uidescription_win32.cpp"
 #endif

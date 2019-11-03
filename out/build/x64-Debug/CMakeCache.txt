@@ -201,6 +201,30 @@ EXECUTABLE_OUTPUT_PATH:PATH=
 LIBRARY_OUTPUT_PATH:PATH=
 
 //Value Computed by CMake
+Meter_CLR_x64_BINARY_DIR:STATIC=C:/Users/john_/Documents/VST_SDK_3.6.13/my_plugins/VST3-Effect-Meter/out/build/x64-Debug/Win_WPF/Cpp_CLI
+
+//Value Computed by CMake
+Meter_CLR_x64_SOURCE_DIR:STATIC=C:/Users/john_/Documents/VST_SDK_3.6.13/my_plugins/VST3-Effect-Meter/Win_WPF/Cpp_CLI
+
+//Value Computed by CMake
+Meter_WPF_CLR_x64_BINARY_DIR:STATIC=C:/Users/john_/Documents/VST_SDK_3.6.13/my_plugins/VST3-Effect-Meter/out/build/x64-Debug/Win_WPF/Cpp_CLI
+
+//Value Computed by CMake
+Meter_WPF_CLR_x64_SOURCE_DIR:STATIC=C:/Users/john_/Documents/VST_SDK_3.6.13/my_plugins/VST3-Effect-Meter/Win_WPF/Cpp_CLI
+
+//Value Computed by CMake
+Meter_WPF_UI_CppCLI_x64_BINARY_DIR:STATIC=C:/Users/john_/Documents/VST_SDK_3.6.13/my_plugins/VST3-Effect-Meter/out/build/x64-Debug/Win_WPF/Cpp_CLI
+
+//Value Computed by CMake
+Meter_WPF_UI_CppCLI_x64_SOURCE_DIR:STATIC=C:/Users/john_/Documents/VST_SDK_3.6.13/my_plugins/VST3-Effect-Meter/Win_WPF/Cpp_CLI
+
+//Value Computed by CMake
+Meter_WPF_UI_CppCLR_x64_BINARY_DIR:STATIC=C:/Users/john_/Documents/VST_SDK_3.6.13/my_plugins/VST3-Effect-Meter/out/build/x64-Debug/Win_WPF/Cpp_CLI
+
+//Value Computed by CMake
+Meter_WPF_UI_CppCLR_x64_SOURCE_DIR:STATIC=C:/Users/john_/Documents/VST_SDK_3.6.13/my_plugins/VST3-Effect-Meter/Win_WPF/Cpp_CLI
+
+//Value Computed by CMake
 Project_BINARY_DIR:STATIC=C:/Users/john_/Documents/VST_SDK_3.6.13/my_plugins/VST3-Effect-Meter/out/build/x64-Debug
 
 //Value Computed by CMake
@@ -295,7 +319,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_MT
 CMAKE_MT-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=2
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=3
 //Platform information initialized
 CMAKE_PLATFORM_INFO_INITIALIZED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_RC_COMPILER

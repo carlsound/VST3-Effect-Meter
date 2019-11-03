@@ -9,15 +9,17 @@
 //
 #include "pluginterfaces/gui/iplugview.h"
 //
-#include <vcclr.h>
+//#include <vcclr.h>
 #include <windows.h>
 #include <WinUser.h>
 //
 //#using <Meter_WPF_UI_x64.dll>
 //
-#using <PresentationCore.dll>
-#using <PresentationFramework.dll>
-#using <WindowsBase.dll>
+//#using <PresentationCore.dll>
+//#using <PresentationFramework.dll>
+//#using <WindowsBase.dll>
+//
+#include "../Cpp_CLI/include/nativeInterface.h"
 //
 class WpfPlugView: public Steinberg::FObject,
                    public Steinberg::IPlugView
@@ -91,9 +93,9 @@ public:
     REFCOUNT_METHODS(Steinberg::FObject)
     //
 protected:
-    Steinberg::ViewRect m_rect;
-    void* systemWindow;
-    Steinberg::IPlugFrame* plugFrame;
+    //Steinberg::ViewRect m_rect;
+    //void* systemWindow;
+    //Steinberg::IPlugFrame* plugFrame;
 	//
 	HWND m_parentWindow;
     //

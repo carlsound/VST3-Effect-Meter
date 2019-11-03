@@ -2,14 +2,15 @@
 // Created by John Carlson on 10/13/19.
 //
 
-#include "../../Win_WPF/include/wpfPlugView.h"
+#include "../Cpp_CLI/include/WpfPlugView.h"
 
 WpfPlugView::WpfPlugView()
 {
-    m_rect.left = 0;
-    m_rect.right = 0;
-    m_rect.top = 0;
-    m_rect.bottom = 0;
+	m_parentWindow = nullptr;
+    //m_rect.left = 0;
+    //m_rect.right = 0;
+    //m_rect.top = 0;
+    //m_rect.bottom = 0;
 }
 
 /** Is Platform UI Type supported
@@ -51,19 +52,8 @@ Steinberg::tresult WpfPlugView::attached (void* parent, Steinberg::FIDString typ
         }
         if(isTypeHWND)
         {
-            Carlsound::Meter::MeterUserControl^ m_userControl = gcnew Carlsound::Meter::MeterUserControl;
-            //
-            System::Windows::Interop::HwndSourceParameters^ sourceParams = gcnew System::Windows::Interop::HwndSourceParameters("Meter");
-            sourceParams->PositionX = 0;
-            sourceParams->PositionY = 0;
-			sourceParams->Height = 200; //m_userControl->Height;
-			sourceParams->Width = 400; //m_userControl->Width;
-            sourceParams->ParentWindow = System::IntPtr(m_parentWindow);
-            sourceParams->WindowStyle = WS_VISIBLE | WS_CHILD;
-            //
-            System::Windows::Interop::HwndSource^ m_hwndSource = gcnew System::Windows::Interop::HwndSource(*sourceParams);
-            //
-            m_hwndSource->RootVisual = m_userControl;
+			m_parentWindow = static_cast<HWND>(parent);
+			//loadChildWindow(m_parentWindow);
             //
             int i = 0;
             //

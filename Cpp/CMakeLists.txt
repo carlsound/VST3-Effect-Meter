@@ -1,39 +1,37 @@
-
-
 if(APPLE)
     set(CMAKE_C_FLAGS "-x objective-c")
 
     set(plug_includes
-            include/meterController.h
-	        include/meterControllerIncludes.h
-            #---
-            include/meterParameters.h
-            #---
-            include/meterProcessor.h
-            include/meterProcessorIncludes.h
-            #---
-            include/meterUIDs.h
-            #---
-            include/meterVersion.h
-            #---
-            #include/componentAttribute.h
-            #---
-            #include/componentAttributeList.h
-            #---
-            #include/componentMessage.h
-            #--
-            include/ideConsoleWriteLine.h
-            #
-            ../Mac_Cocoa/include/cocoaPlugView.h
-            #
-            ../Mac_Cocoa/include/meterView.h
-            #
-            ../Mac_Cocoa/include/meterViewController.h
-            #../Mac_Cocoa/include/meterWindowController.h
-            )
+		include/meterController.h
+	    include/meterControllerIncludes.h
+        #---
+        include/meterParameters.h
+        #---
+        include/meterProcessor.h
+        include/meterProcessorIncludes.h
+        #---
+        include/meterUIDs.h
+        #---
+        include/meterVersion.h
+        #---
+        #include/componentAttribute.h
+        #---
+        #include/componentAttributeList.h
+        #---
+        #include/componentMessage.h
+        #--
+        include/ideConsoleWriteLine.h
+        #
+        ../Mac_Cocoa/include/cocoaPlugView.h
+        #
+        ../Mac_Cocoa/include/meterView.h
+        #
+        ../Mac_Cocoa/include/meterViewController.h
+        #../Mac_Cocoa/include/meterWindowController.h
+        )
 
     set(plug_sources
-            # source/meterController.cpp
+        # source/meterController.cpp
         ../Mac_Cocoa/source/meterController.mm
         #---
             source/meterProcessor.cpp
@@ -47,47 +45,47 @@ if(APPLE)
         #source/componentAttributeList.cpp
         #---
         #source/componentMessage.cpp
-            #
-            ../Mac_Cocoa/source/cocoaPlugView.mm
-            #
-            ../Mac_Cocoa/source/meterView.mm
-            #
-            ../Mac_Cocoa/source/meterViewController.mm
-            #
-            #../Mac_Cocoa/source/meterWindowController.mm
-            #
-            ../Mac_Cocoa/UI/meterViewController.xib
-            #
-            #../Mac_Cocoa/UI/meterWindowController.xib
+        #
+        ../Mac_Cocoa/source/cocoaPlugView.mm
+        #
+        ../Mac_Cocoa/source/meterView.mm
+        #
+        ../Mac_Cocoa/source/meterViewController.mm
+        #
+        #../Mac_Cocoa/source/meterWindowController.mm
+        #
+        ../Mac_Cocoa/UI/meterViewController.xib
+        #
+        #../Mac_Cocoa/UI/meterWindowController.xib
         )
 #
 elseif(WIN32)
     set(plug_includes
-            include/meterController.h
+        include/meterController.h
 	    include/meterControllerIncludes.h
-	    ../Win_WPF/include/WpfPlugView.h
-            #---
-            include/meterParameters.h
-            #---
-            include/meterProcessor.h
-            include/meterProcessorIncludes.h
-            #---
-            include/meterUIDs.h
-            #---
-            include/meterVersion.h
-            #---
-            #include/componentAttribute.h
-            #---
-            #include/componentAttributeList.h
-            #---
-            #include/componentMessage.h
-            #--
-            include/ideConsoleWriteLine.h
-            )
+	    ../Win_WPF/Cpp_CLI/include/WpfPlugView.h
+        #---
+        include/meterParameters.h
+        #---
+        include/meterProcessor.h
+        include/meterProcessorIncludes.h
+        #---
+        include/meterUIDs.h
+        #---
+        include/meterVersion.h
+        #---
+        #include/componentAttribute.h
+        #---
+        #include/componentAttributeList.h
+        #---
+        #include/componentMessage.h
+        #--
+        include/ideConsoleWriteLine.h
+        )
 
     set(plug_sources
         source/meterController.cpp
-		../Win_WPF/source/WpfPlugView.cpp
+		../Win_WPF/Cpp_CLI/source/WpfPlugView.cpp
         #---
         source/meterProcessor.cpp
         #---
@@ -151,28 +149,27 @@ elseif((WIN32) AND (CMAKE_SIZEOF_VOID_P EQUAL "8"))
     base 
     sdk 
     #vstgui_support 
-    Meter_WPF_UI_x64
+    Meter_WPF_UI_CppCLI_x64
     )
 
-    target_sources(${target} PRIVATE resource/plug.rc)
+	target_include_directories(${target} PRIVATE ../Win_WPF/Cpp_CLI)
+	#
+    #target_sources(${target} PRIVATE resource/plug.rc)
     set_property(TARGET ${target} PROPERTY CXX_STANDARD 17)
-    set_property(TARGET ${target} PROPERTY COMMON_LANGUAGE_RUNTIME "")
-    set_property(TARGET ${target} PROPERTY VS_GLOBAL_CLRSupport "true")
-    target_compile_options(${target} PRIVATE /fp:precise) #/fp:strict is incompatible with /clr
 #
 elseif(WIN32)
     target_link_libraries(${target} PRIVATE 
     base 
     sdk 
     #vstgui_support 
-    Meter_WPF_UI_x86
+    Meter_WPF_CLI_x86
     )
 
-    target_sources(${target} PRIVATE resource/plug.rc)
+
+	#
+    #target_sources(${target} PRIVATE resource/plug.rc)
     set_property(TARGET ${target} PROPERTY CXX_STANDARD 17)
-    set_property(TARGET ${target} PROPERTY COMMON_LANGUAGE_RUNTIME "")
-    set_property(TARGET ${target} PROPERTY VS_GLOBAL_CLRSupport "true")
-    target_compile_options(${target} PRIVATE /fp:precise) #/fp:strict is incompatible with /clr
+#   
 endif()
 #
 # smtg_add_vst3_resource(${target} "resource/plug.uidesc")

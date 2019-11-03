@@ -7,7 +7,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Slider HorizontalAlignment="Left" Margin="206,163,0,0" VerticalAlignment="Top" Width="434"/>
+        <Rectangle Fill="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}" HorizontalAlignment="Left" Height="144" Stroke="Black" VerticalAlignment="Top" Width="530"/>
+
+        <Slider HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="434"/>
 
     </Grid>
 </UserControl>
