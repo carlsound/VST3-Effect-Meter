@@ -140,7 +140,7 @@ if(APPLE)
 
     set_target_properties(${target} PROPERTIES
             MACOSX_BUNDLE_BUNDLE_NAME "VST3-Effect-Meter"
-            MACOSX_BUNDLE_GUI_IDENTIFIER "net.carlsound.\${PRODUCT_NAME:identifier}"
+            MACOSX_BUNDLE_GUI_IDENTIFIER "net.carlsound.VST3-Effect-Meter"
             # DEVELOPMENT_TEAM ${DEVELOPMENT_TEAM_ID}
             XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "Mac Developer")
 #
