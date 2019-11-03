@@ -22,7 +22,8 @@
 #include "../Cpp_CLI/include/nativeInterface.h"
 //
 class WpfPlugView: public Steinberg::FObject,
-                   public Steinberg::IPlugView
+                   public Steinberg::IPlugView,
+	               public Steinberg::IPlugFrame
 {
 public:
     WpfPlugView ();
@@ -84,11 +85,16 @@ public:
     /** On live resize this is called to check if the view can be resized to the given rect, if not
      *	adjust the rect to the allowed size. */
     Steinberg::tresult PLUGIN_API checkSizeConstraint (Steinberg::ViewRect* rect) SMTG_OVERRIDE;
+
+	/** Called to inform the host about the resize of a given view.
+	 *	Afterwards the host has to call IPlugView::onSize (). */
+	Steinberg::tresult PLUGIN_API resizeView(Steinberg::IPlugView* view, Steinberg::ViewRect* newSize) SMTG_OVERRIDE;
     //
     //---Interface------
     OBJ_METHODS (WpfPlugView, Steinberg::FObject)
     DEFINE_INTERFACES
         DEF_INTERFACE (Steinberg::IPlugView)
+		DEF_INTERFACE(Steinberg::IPlugFrame)
     END_DEFINE_INTERFACES (Steinberg::FObject)
     REFCOUNT_METHODS(Steinberg::FObject)
     //

@@ -52,6 +52,9 @@ Steinberg::tresult WpfPlugView::attached (void* parent, Steinberg::FIDString typ
         }
         if(isTypeHWND)
         {
+			Steinberg::ViewRect *rect = new Steinberg::ViewRect(0, 0, 800, 450);
+			this->resizeView(this, rect);
+				//
 			m_parentWindow = static_cast<HWND>(parent);
 			//loadChildWindow(m_parentWindow);
             //
@@ -121,6 +124,8 @@ Steinberg::tresult WpfPlugView::onFocus (Steinberg::TBool state)
 /** Sets IPlugFrame object to allow the Plug-in to inform the host about resizing. */
 Steinberg::tresult WpfPlugView::setFrame (Steinberg::IPlugFrame* frame)
 {
+	Steinberg::ViewRect *rect = new Steinberg::ViewRect(0, 0, 800, 450);
+	frame->resizeView(this, rect);
     return Steinberg::kResultTrue;
 }
 
@@ -134,5 +139,25 @@ Steinberg::tresult WpfPlugView::canResize ()
  *	adjust the rect to the allowed size. */
 Steinberg::tresult WpfPlugView::checkSizeConstraint (Steinberg::ViewRect* rect)
 {
-    return Steinberg::kResultTrue;
+	Steinberg::int32 rectHeight = rect->getHeight();
+	Steinberg::int32 rectWidth = rect->getWidth();
+	//
+	const Steinberg::int32 minHeight = 450;
+	const Steinberg::int32 minWidth = 800;
+	//
+	if ((rectHeight >= minHeight) && (rectWidth >= minWidth))
+	{
+		return Steinberg::kResultTrue;
+	}
+	else
+	{
+		return Steinberg::kResultFalse;
+	}
+}
+
+/** Called to inform the host about the resize of a given view.
+	 *	Afterwards the host has to call IPlugView::onSize (). */
+Steinberg::tresult WpfPlugView::resizeView(Steinberg::IPlugView* view, Steinberg::ViewRect* newSize)
+{
+	return view->getSize(newSize);
 }
