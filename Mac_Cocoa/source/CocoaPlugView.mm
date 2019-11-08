@@ -11,7 +11,7 @@ namespace Carlsound
     {
         //------------------------------------------------------------------------
         CocoaPlugView::CocoaPlugView():
-                        m_rect(0, 0, 0, 0),
+                        m_rect(0, 0, 480, 272),
                         m_systemWindow(nullptr),
                         m_plugFrame(nullptr)
         {
@@ -20,7 +20,7 @@ namespace Carlsound
     
         //------------------------------------------------------------------------
         CocoaPlugView::CocoaPlugView(const Steinberg::ViewRect* rect):
-                        m_rect(0, 0, 0, 0),
+                        m_rect(0, 0, 480, 272),
                         m_systemWindow(nullptr),
                         m_plugFrame(nullptr)
         {
@@ -32,9 +32,6 @@ namespace Carlsound
             //m_rect.right = 0;
             //m_rect.top = 0;
             //m_rect.bottom = 0;
-            //
-            //m_view = [[meterView alloc] initWithFrame: NSMakeRect(0, 0, 480, 272)];
-            //m_viewController = [[meterViewController alloc] initWithNibName: @"meterViewController" bundle: [NSBundle mainBundle /* bundleWithPath:@"net.carlsound.VST3-Effect-Meter" */]];
         }
         
         //------------------------------------------------------------------------
@@ -47,7 +44,7 @@ namespace Carlsound
         /** Returns its current frame rectangle. */
         const Steinberg::ViewRect& CocoaPlugView::getRect () const
         {
-            return rect;
+            return m_rect;
         }
         
         //------------------------------------------------------------------------
@@ -68,22 +65,21 @@ namespace Carlsound
         /** Calls when this view will be attached to its parent view. */
         void CocoaPlugView::attachedToParent ()
         {
-            m_parentView = static_cast<NSView*>(m_systemWindow);
-            //m_parentWindow = static_cast<NSWindow*>(parent); //static_cast<NSView*>(parent);
-            //
             //m_view = [[meterView alloc] initWithFrame: NSMakeRect(0, 0, 480, 272)];
             m_viewController = [[meterViewController alloc] initWithNibName: @"meterViewController" bundle: [NSBundle bundleWithIdentifier:@"net.carlsound.VST3-Effect-Meter" /* nil */]];
             //
             //[m_parentView setFrameSize: m_view.frame.size];
             //m_parentView.bounds = m_view.bounds;
             [m_parentView addSubview: m_viewController.view]; //m_view];
-            m_parentView.needsDisplay = YES;
+            //m_parentView.needsDisplay = YES;
             //
             //m_parentWindow.contentView = m_view;
             //m_parentWindow.viewsNeedDisplay = YES;
             //
-            m_parentView.layer.backgroundColor = NSColor.yellowColor.CGColor;
-            m_viewController.view.layer.backgroundColor = NSColor.blueColor.CGColor;
+            //m_parentView.layer.backgroundColor = NSColor.yellowColor.CGColor;
+            m_viewController.view.wantsLayer = YES;
+            //m_viewController.view.layer.backgroundColor = NSColor.yellowColor.CGColor;
+            //m_viewController.view.needsDisplay = YES;
             //
         }
         
@@ -123,10 +119,15 @@ namespace Carlsound
             \param type : \ref platformUIType which should be created */
         Steinberg::tresult CocoaPlugView::attached (void* parent, Steinberg::FIDString type)
         {
-            
             if (strcmp (type, Steinberg::kPlatformTypeNSView) == 0)
             {
                 m_systemWindow = parent;
+                m_parentView = static_cast<NSView*>(m_systemWindow);
+                //
+                if(m_plugFrame != nullptr)
+                {
+                    m_plugFrame->resizeView(this, &m_rect);
+                }
                 //
                 attachedToParent ();
                 return Steinberg::kResultOk;
@@ -139,9 +140,10 @@ namespace Carlsound
             You have to remove all your own views from the parent window or view. */
         Steinberg::tresult CocoaPlugView::removed ()
         {
+            removedFromParent ();
+            //
             m_systemWindow = nullptr;
             //
-            attachedToParent ();
             return Steinberg::kResultOk;
         }
         
@@ -193,7 +195,7 @@ namespace Carlsound
          *    requests a resize (IPlugFrame::resizeView ()) onSize has to be called afterward. */
         Steinberg::tresult CocoaPlugView::onSize (Steinberg::ViewRect* newSize)
         {
-            if (newSize)
+            if ((newSize->right - newSize->left >= 480) && (newSize->bottom-newSize->top >= 272))
                 m_rect = *newSize;
             return Steinberg::kResultTrue;
         }
@@ -209,7 +211,16 @@ namespace Carlsound
         /** Sets IPlugFrame object to allow the Plug-in to inform the host about resizing. */
         Steinberg::tresult CocoaPlugView::setFrame (Steinberg::IPlugFrame* frame)
         {
-            return Steinberg::kResultTrue;
+            m_plugFrame = frame;
+            if(m_plugFrame != nullptr)
+            {
+                return Steinberg::kResultTrue;
+            }
+            else
+            {
+                return Steinberg::kResultFalse;
+            }
+            
         }
         
         //------------------------------------------------------------------------
