@@ -55,7 +55,7 @@ namespace Carlsound
 			Steinberg::Vst::ParamID& id) SMTG_OVERRIDE;
 		//-----------------------------------------------------------------------------
 		//---from EditController-----
-		Steinberg::IPlugView* PLUGIN_API createView(const char* name) SMTG_OVERRIDE;
+		//Steinberg::IPlugView* PLUGIN_API createView(const char* name) SMTG_OVERRIDE;
 		//
 		/*
 		Steinberg::tresult PLUGIN_API performEdit(Steinberg::Vst::ParamID tag, 
@@ -89,6 +89,8 @@ namespace Carlsound
 		//VSTGUI::CView *m_GuiView_InputLevel_TextLabel;
 		//VSTGUI::CVuMeter *m_GuiVuMeter_InputLevel;
 		//VSTGUI::CTextLabel* m_GuiTextLabel_InputLevel;
+		//
+		Steinberg::IPlugView* m_view;
 		};
 	} // namespace Meter
 } // namespace Carlsound

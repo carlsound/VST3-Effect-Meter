@@ -102,6 +102,8 @@ namespace Carlsound
 					0, // unitUD
 					STR16 ("Bypass") // shortTitle
 				);
+				//
+				m_view = new WpfPlugView();
 			}
 			return Steinberg::kResultTrue;
 		}
@@ -514,6 +516,7 @@ namespace Carlsound
 			return Steinberg::kResultFalse;
 		}
 		//------------------------------------------------------------------------
+		/*
 		Steinberg::IPlugView* PLUGIN_API MeterController::createView
 		(
 			const char* name
@@ -537,14 +540,15 @@ namespace Carlsound
 
 				#if(SMTG_OS_WINDOWS)
                 {
-					auto* view = new WpfPlugView();
-					return view;
+					
+					return m_view;
                 }
 				#endif
 
 			}
 			return nullptr;
 		}
+		*/
 		//------------------------------------------------------------------------
 		/*
 		Steinberg::tresult PLUGIN_API MeterController::notify (Steinberg::Vst::IMessage* message)

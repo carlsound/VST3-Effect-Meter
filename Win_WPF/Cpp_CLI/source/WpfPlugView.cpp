@@ -2,8 +2,9 @@
 // Created by John Carlson on 10/13/19.
 //
 #include "../Cpp_CLI/include/WpfPlugView.h"
+#include <string.h>
 //
-extern void* moduleHandle;
+//extern void* moduleHandle;
 /*
 WpfPlugView::WpfPlugView()
 {
@@ -70,7 +71,7 @@ namespace Carlsound
 		/** Calls when this view will be attached to its parent view. */
 		void WpfPlugView::attachedToParent()
 		{
-			loadChildWindow(m_parentWindow);
+			//loadChildWindow(*m_parentWindow);
 		}
 
 		//------------------------------------------------------------------------
