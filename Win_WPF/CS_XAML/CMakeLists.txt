@@ -43,7 +43,7 @@ endif()
 if(WIN32)
 	set_property(SOURCE UserControl1.xaml PROPERTY VS_XAML_TYPE "ApplicationDefinition")
 
-	set_property(TARGET ${ProjectName} PROPERTY VS_DOTNET_TARGET_FRAMEWORK_VERSION "v4.7.2")
+	set_property(TARGET ${ProjectName} PROPERTY VS_DOTNET_TARGET_FRAMEWORK_VERSION "v4.8")
 	set_property(TARGET ${ProjectName} PROPERTY WIN32_EXECUTABLE TRUE)
 
 	set_property(TARGET ${ProjectName} PROPERTY VS_DOTNET_REFERENCES

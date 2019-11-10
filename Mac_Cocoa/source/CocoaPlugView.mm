@@ -220,7 +220,6 @@ namespace Carlsound
             {
                 return Steinberg::kResultFalse;
             }
-            
         }
         
         //------------------------------------------------------------------------

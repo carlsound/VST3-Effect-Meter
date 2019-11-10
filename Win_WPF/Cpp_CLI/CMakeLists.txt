@@ -43,7 +43,7 @@ if(WIN32)
 	set_property(TARGET ${ProjectName} PROPERTY CXX_STANDARD 17)
     set_property(TARGET ${ProjectName} PROPERTY COMMON_LANGUAGE_RUNTIME "")
     set_property(TARGET ${ProjectName} PROPERTY VS_GLOBAL_CLRSupport "true")
-    set_property(TARGET ${ProjectName} PROPERTY VS_DOTNET_TARGET_FRAMEWORK_VERSION "v4.7.2")
+    set_property(TARGET ${ProjectName} PROPERTY VS_DOTNET_TARGET_FRAMEWORK_VERSION "v4.8")
     target_compile_options(${ProjectName} PRIVATE /fp:precise) #/fp:strict is incompatible with /clr
     target_compile_options(${ProjectName} PRIVATE /Zi) #/ZI is incompatible with /clr
 	#
