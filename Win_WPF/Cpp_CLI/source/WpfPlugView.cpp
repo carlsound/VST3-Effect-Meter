@@ -20,7 +20,7 @@ namespace Carlsound
 	{
 		//------------------------------------------------------------------------
 		WpfPlugView::WpfPlugView() :
-			m_rect(0, 0, 800, 400),
+			m_rect(0, 0, 800, 450),
 			m_systemWindow(nullptr),
 			m_plugFrame(nullptr)
 		{
@@ -29,11 +29,14 @@ namespace Carlsound
 
 		//------------------------------------------------------------------------
 		WpfPlugView::WpfPlugView(const Steinberg::ViewRect* rect) : 
-			m_rect(0, 0, 800, 400),
+			m_rect(0, 0, 800, 450),
 			m_systemWindow(nullptr),
 			m_plugFrame(nullptr)
 		{
-
+			if (rect)
+			{
+				m_rect = *rect;
+			}
 		}
 
 		//------------------------------------------------------------------------
@@ -105,7 +108,7 @@ namespace Carlsound
 			if (strcmp(type, Steinberg::kPlatformTypeHWND) == 0)
 			{
 				m_systemWindow = parent;
-				m_parentWindow = static_cast<HWND>(m_systemWindow);
+				m_parentWindow = static_cast<HWND*>(m_systemWindow);
 				//
 				if (m_plugFrame != nullptr)
 				{
