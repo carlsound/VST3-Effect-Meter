@@ -10,12 +10,12 @@ namespace Carlsound
 		class MeterProcessor : public Steinberg::Vst::AudioEffect
 		{
 		public:
-			OBJ_METHODS(MeterProcessor, AudioEffect)
-				DEFINE_INTERFACES
+			//OBJ_METHODS(MeterProcessor, AudioEffect)
+				//DEFINE_INTERFACES
 				//DEF_INTERFACE(INoteExpressionController)
 				//DEF_INTERFACE(IMidiMapping)
-			END_DEFINE_INTERFACES(AudioEffect)
-			REFCOUNT_METHODS(AudioEffect)
+			//END_DEFINE_INTERFACES(AudioEffect)
+			//REFCOUNT_METHODS(AudioEffect)
 			//------------------------------------------------------------------------
 			MeterProcessor ();
 			//------------------------------------------------------------------------
@@ -37,10 +37,10 @@ namespace Carlsound
 				T outBuffer,
 				const int sampleLocation);
 			//------------------------------------------------------------------------
-			Steinberg::tresult PLUGIN_API processInputParameters (Steinberg::Vst::ProcessData& data);
-			Steinberg::tresult PLUGIN_API processAudio (Steinberg::Vst::ProcessData& data);
-			Steinberg::tresult PLUGIN_API processOutputParameters (Steinberg::Vst::ProcessData& data);
-			Steinberg::tresult PLUGIN_API processMidiOutputEvents (Steinberg::Vst::ProcessData& data);
+			//Steinberg::tresult PLUGIN_API processInputParameters (Steinberg::Vst::ProcessData& data);
+			//Steinberg::tresult PLUGIN_API processAudio (Steinberg::Vst::ProcessData& data);
+			//Steinberg::tresult PLUGIN_API processOutputParameters (Steinberg::Vst::ProcessData& data);
+			//Steinberg::tresult PLUGIN_API processMidiOutputEvents (Steinberg::Vst::ProcessData& data);
 			Steinberg::tresult PLUGIN_API process (Steinberg::Vst::ProcessData& data) SMTG_OVERRIDE;
 			//------------------------------------------------------------------------
 			Steinberg::tresult PLUGIN_API setState (Steinberg::IBStream* state) SMTG_OVERRIDE;
