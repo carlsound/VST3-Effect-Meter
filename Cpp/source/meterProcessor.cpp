@@ -81,61 +81,61 @@ namespace Carlsound
 		{
             //--- Read inputs parameter changes-----------
             //--- ----------------------------------
-            {
-                if (data.inputParameterChanges)
-                {
-                    Steinberg::int32 numParamsChanged = data.inputParameterChanges->getParameterCount();
-                    for (Steinberg::int32 index = 0; index < numParamsChanged; index++)
-                    {
-                        Steinberg::Vst::IParamValueQueue* paramQueue = data.inputParameterChanges->getParameterData(index);
-                        if (paramQueue)
-                        {
-                            Steinberg::Vst::ParamValue value;
-                            Steinberg::int32 sampleOffset;
-                            Steinberg::int32 numPoints = paramQueue->getPointCount();
-                            switch (paramQueue->getParameterId())
-                            {
-                                case MeterParameters::kParameterInputLevel:
-                                {
-                                    if (paramQueue->getPoint(numPoints - 1, sampleOffset, value) ==
-                                                Steinberg::kResultTrue)
-                                    {
-                                        m_ParameterInputLevelValue = value;
-                                        break;
-                                    }
-                                }
-                                case MeterParameters::kParameterThreshold:
-                                {
-                                    if (paramQueue->getPoint(numPoints - 1, sampleOffset, value) ==
-                                        Steinberg::kResultTrue)
-                                    {
-                                        m_ParameterThresholdlValue = value;
-                                        break;
-                                    }
-                                }
-                                case MeterParameters::kParameterBypassId:
-                                {
-                                    if (paramQueue->getPoint
-                                    (
-                                        numPoints - 1,
-                                        sampleOffset,
-                                        value
-                                    ) ==
-                                        Steinberg::kResultTrue)
-                                    {
-                                        m_BypassState = (value > 0.5f);
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+			{
+				if (data.inputParameterChanges)
+				{
+					Steinberg::int32 numParamsChanged = data.inputParameterChanges->getParameterCount();
+					for (Steinberg::int32 index = 0; index < numParamsChanged; index++)
+					{
+						Steinberg::Vst::IParamValueQueue* paramQueue = data.inputParameterChanges->getParameterData(index);
+						if (paramQueue)
+						{
+							Steinberg::Vst::ParamValue value;
+							Steinberg::int32 sampleOffset;
+							Steinberg::int32 numPoints = paramQueue->getPointCount();
+							switch (paramQueue->getParameterId())
+							{
+							case MeterParameters::kParameterInputLevel:
+							{
+								if (paramQueue->getPoint(numPoints - 1, sampleOffset, value) ==
+									Steinberg::kResultTrue)
+								{
+									m_ParameterInputLevelValue = value;
+									break;
+								}
+							}
+							case MeterParameters::kParameterThreshold:
+							{
+								if (paramQueue->getPoint(numPoints - 1, sampleOffset, value) ==
+									Steinberg::kResultTrue)
+								{
+									m_ParameterThresholdlValue = value;
+									break;
+								}
+							}
+							case MeterParameters::kParameterBypassId:
+							{
+								if (paramQueue->getPoint
+								(
+									numPoints - 1,
+									sampleOffset,
+									value
+								) ==
+									Steinberg::kResultTrue)
+								{
+									m_BypassState = (value > 0.5f);
+									break;
+								}
+							}
+							}
+						}
+					}
+				}
+			}
 			//
             //--- Process Audio---------------------
             //--- ----------------------------------
-            
+			{
                 if (data.numInputs == 0 || data.numOutputs == 0)
                 {
                     // nothing to do
@@ -255,106 +255,98 @@ namespace Carlsound
                         }
                     }
                 }
-            
-            //
-            // Write outputs parameter changes-----------
-            //--- ----------------------------------
-            {
-                m_OutputParameterChanges = data.outputParameterChanges;
-                //if (m_OutputParameterChanges)
-                //{
-                m_ParameterInputLevelValueQueue = m_OutputParameterChanges->addParameterData(kParameterInputLevel,
-                    m_OutputParameterChangesDataIndex);
-                if (m_ParameterInputLevelValueQueue)
-                {
-                    if (m_ParameterInputLevelValue > 1.0)
-                    {
-                        m_ParameterInputLevelValue = 1.0;
-                    }
-                    Steinberg::int32 index2 = 0;
-                    Steinberg::tresult test = m_ParameterInputLevelValueQueue->addPoint(0,
-                        abs(m_ParameterInputLevelValue),
-                        index2);
-                    //
-                    if (test == Steinberg::kResultOk)
-                    {
-                        //
-                    }
-                }
-                //
-                //
-                //
-                m_ParameterColorValueQueue = m_OutputParameterChanges->addParameterData(kParameterColor,
-                    m_OutputParameterChangesDataIndex);
-                if (m_ParameterColorValueQueue)
-                {
-                    if (m_ParameterColorValue > 1.0)
-                    {
-                        m_ParameterColorValue = 1.0;
-                    }
-                    Steinberg::int32 index2 = 0;
-                    Steinberg::tresult test = m_ParameterColorValueQueue->addPoint(0,
-                        abs(m_ParameterColorValue),
-                        index2);
-                    if (test == Steinberg::kResultOk)
-                    {
-                        return Steinberg::kResultTrue;
-                    }
-                }
             }
-            //
-            // Write outputs parameter changes-----------
-            //--- ----------------------------------
-            {
-                if (data.outputEvents)
-                {
-                    //
-                    if (m_ParameterInputLevelValue <= m_ParameterThresholdlValue)
-                    {
-                        m_ParameterColorValue = 0.0;
-                        //
-                        mEvent.type = Steinberg::Vst::Event::kNoteOffEvent;
-                        mEvent.noteOff.pitch = 24;
-                        //
-                        //mEvent[1].type = Steinberg::Vst::Event::kNoteOffEvent;
-                        //mEvent[1].noteOff.pitch = 25;
-                        //mEvent[2].type = Steinberg::Vst::Event::kNoteOffEvent;
-                        //mEvent[2].noteOff.pitch = 26;
-                        //mEvent[3].type = Steinberg::Vst::Event::kNoteOffEvent;
-                        //mEvent[3].noteOff.pitch = 27;
-                        //mEvent[4].type = Steinberg::Vst::Event::kNoteOffEvent;
-                        //mEvent[4].noteOff.pitch = 28;
-                    }
-                    else
-                    {
-                        m_ParameterColorValue = 1.0;
-                        //
-                        mEvent.type = Steinberg::Vst::Event::kNoteOnEvent;
-                        mEvent.noteOn.pitch = 24;
-                        mEvent.noteOn.velocity = 127;
-                        //
-                        //mEvent[1].type = Steinberg::Vst::Event::kNoteOnEvent;
-                        //mEvent[1].noteOn.pitch = 25;
-                        //mEvent[1].noteOn.velocity = 127;
-                        //mEvent[2].type = Steinberg::Vst::Event::kNoteOnEvent;
-                        //mEvent[2].noteOn.pitch = 26;
-                        //mEvent[2].noteOn.velocity = 127;
-                        //mEvent[3].type = Steinberg::Vst::Event::kNoteOnEvent;
-                        //mEvent[3].noteOn.pitch = 27;
-                        //mEvent[3].noteOn.velocity = 127;
-                        //mEvent[4].type = Steinberg::Vst::Event::kNoteOnEvent;
-                        //mEvent[4].noteOn.pitch = 28;
-                        //mEvent[4].noteOn.velocity = 127;
-                    }
-                    //
-                    data.outputEvents->addEvent(mEvent);
-                    //Steinberg::Vst::IEventList* outputEvents = data.outputEvents;
-                    //for (int i = 0; i < 5; i++)
-                    //{
-                    //    outputEvents->addEvent(mEvent[i]);
-                    //}
-                }
-            }
+			//
+			// Write outputs parameter changes-----------
+			//--- ----------------------------------
+			{
+				m_OutputParameterChanges = data.outputParameterChanges;
+				if (m_OutputParameterChanges)
+				{
+					m_ParameterInputLevelValueQueue = m_OutputParameterChanges->addParameterData(kParameterInputLevelFeedback,
+						m_OutputParameterChangesDataIndex);
+					if (m_ParameterInputLevelValueQueue)
+					{
+						if (m_ParameterInputLevelValue > 1.0)
+						{
+							m_ParameterInputLevelValue = 1.0;
+						}
+						Steinberg::int32 index2 = 0;
+						Steinberg::tresult test = m_ParameterInputLevelValueQueue->addPoint(0,
+							abs(m_ParameterInputLevelValue),
+							index2);
+					}
+					//
+					//
+					//
+					m_ParameterColorValueQueue = m_OutputParameterChanges->addParameterData(kParameterColor,
+						m_OutputParameterChangesDataIndex);
+					if (m_ParameterColorValueQueue)
+					{
+						if (m_ParameterColorValue > 1.0)
+						{
+							m_ParameterColorValue = 1.0;
+						}
+						Steinberg::int32 index2 = 0;
+						Steinberg::tresult test = m_ParameterColorValueQueue->addPoint(0,
+							abs(m_ParameterColorValue),
+							index2);
+					}
+				}
+			 }
+			 //
+			 // Write outputs MIDI events-----------
+			 //--- ----------------------------------
+			{
+				if (data.outputEvents)
+				{
+					//
+					if (m_ParameterInputLevelValue <= m_ParameterThresholdlValue)
+					{
+						m_ParameterColorValue = 0.0;
+						//
+						mEvent.type = Steinberg::Vst::Event::kNoteOffEvent;
+						mEvent.noteOff.pitch = 24;
+						//
+						//mEvent[1].type = Steinberg::Vst::Event::kNoteOffEvent;
+						//mEvent[1].noteOff.pitch = 25;
+						//mEvent[2].type = Steinberg::Vst::Event::kNoteOffEvent;
+						//mEvent[2].noteOff.pitch = 26;
+						//mEvent[3].type = Steinberg::Vst::Event::kNoteOffEvent;
+						//mEvent[3].noteOff.pitch = 27;
+						//mEvent[4].type = Steinberg::Vst::Event::kNoteOffEvent;
+						//mEvent[4].noteOff.pitch = 28;
+					}
+					else
+					{
+						m_ParameterColorValue = 1.0;
+						//
+						mEvent.type = Steinberg::Vst::Event::kNoteOnEvent;
+						mEvent.noteOn.pitch = 24;
+						mEvent.noteOn.velocity = 127;
+						//
+						//mEvent[1].type = Steinberg::Vst::Event::kNoteOnEvent;
+						//mEvent[1].noteOn.pitch = 25;
+						//mEvent[1].noteOn.velocity = 127;
+						//mEvent[2].type = Steinberg::Vst::Event::kNoteOnEvent;
+						//mEvent[2].noteOn.pitch = 26;
+						//mEvent[2].noteOn.velocity = 127;
+						//mEvent[3].type = Steinberg::Vst::Event::kNoteOnEvent;
+						//mEvent[3].noteOn.pitch = 27;
+						//mEvent[3].noteOn.velocity = 127;
+						//mEvent[4].type = Steinberg::Vst::Event::kNoteOnEvent;
+						//mEvent[4].noteOn.pitch = 28;
+						//mEvent[4].noteOn.velocity = 127;
+					}
+					//
+					data.outputEvents->addEvent(mEvent);
+					//Steinberg::Vst::IEventList* outputEvents = data.outputEvents;
+					//for (int i = 0; i < 5; i++)
+					//{
+					//    outputEvents->addEvent(mEvent[i]);
+					//}
+				}
+			}
 			//
 			return Steinberg::kResultTrue;
 		}
