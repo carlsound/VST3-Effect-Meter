@@ -34,7 +34,7 @@ if(APPLE)
         # source/meterController.cpp
         ../Mac_Cocoa/source/meterController.mm
         #---
-            source/meterProcessor.cpp
+        source/meterProcessor.cpp
         #../Mac_Cocoa/source/meterProcessor.mm
         #---
             source/meterFactory.cpp

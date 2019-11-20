@@ -75,430 +75,286 @@ namespace Carlsound
 			//
 			*outBuffer = *inBuffer;
 		}
-		//-----------------------------------------------------------------------------
-		/*
-		Steinberg::tresult PLUGIN_API MeterProcessor::processInputParameters (Steinberg::Vst::ProcessData& data)
-		{
-			//--- Read inputs parameter changes-----------
-			if (data.inputParameterChanges)
-			{
-				Steinberg::int32 numParamsChanged = data.inputParameterChanges->getParameterCount();
-				for (Steinberg::int32 index = 0; index < numParamsChanged; index++)
-				{
-					Steinberg::Vst::IParamValueQueue* paramQueue =
-						data.inputParameterChanges->getParameterData(index);
-					if (paramQueue)
-					{
-						Steinberg::Vst::ParamValue value;
-						Steinberg::int32 sampleOffset;
-						Steinberg::int32 numPoints = paramQueue->getPointCount();
-						switch (paramQueue->getParameterId())
-						{
-							case MeterParameters::kParameterInputLevel:
-							{
-							if (paramQueue->getPoint(numPoints - 1, sampleOffset, value) ==
-								Steinberg::kResultTrue)
-								{
-									m_ParameterInputLevelValue = value;
-									break;
-								}
-							}
-
-							case MeterParameters::kParameterThreshold:
-							{
-								if (paramQueue->getPoint(numPoints - 1, sampleOffset, value) ==
-									Steinberg::kResultTrue)
-								{
-									m_ParameterThresholdlValue = value;
-									break;
-								}
-							}
-			
-							case MeterParameters::kParameterBypassId:
-							{
-								if (paramQueue->getPoint
-								(
-									numPoints - 1,
-									sampleOffset,
-									value
-								) ==
-									Steinberg::kResultTrue)
-								{
-									m_BypassState = (value > 0.5f);
-									break;
-								}
-							}
-						}
-					}
-				}
-			}
-			return Steinberg::kResultTrue;
-		}
-		 */
-		//-----------------------------------------------------------------------------
-		/*
-		Steinberg::tresult PLUGIN_API MeterProcessor::processAudio (Steinberg::Vst::ProcessData& data)
-		{
-			//--- Process Audio---------------------
-			//--- ----------------------------------
-			if (data.numInputs == 0 || data.numOutputs == 0)
-			{
-				// nothing to do
-				return Steinberg::kResultOk;
-			}
-			//
-			if (data.numSamples > 0)
-			{
-				// Process Algorithm
-				// Ex: algo.process (data.inputs[0].channelBuffers32, data.outputs[0].channelBuffers32,
-				// data.numSamples);
-				//
-				//
-				// assume the same input channel count as the output
-				Steinberg::int32 numChannels = data.inputs[0].numChannels;
-				//
-				//---get audio buffers----------------
-				Steinberg::uint32 sampleFramesSize = getSampleFramesSizeInBytes
-				(
-					processSetup,
-					data.numSamples
-				);
-				void** in = getChannelBuffersPointer
-				(
-					processSetup,
-					data.inputs[0]
-				);
-				void** out = getChannelBuffersPointer
-				(
-					processSetup,
-					data.outputs[0]
-				);
-				//
-				//---check if silence---------------
-				// normally we have to check each channel (simplification)
-				if (data.inputs[0].silenceFlags != 0)
-				{
-					// mark output silence too
-					data.outputs[0].silenceFlags = data.inputs[0].silenceFlags;
-					//
-					// the Plug-in has to be sure that if it sets the flags silence that the output buffer are clear
-					for (Steinberg::int32 i = 0; i < numChannels; i++)
-					{
-						// do not need to be cleared if the buffers are the same (in this case input buffer are already cleared by the host)
-						if (in[i] != out[i])
-						{
-							std::memset(out[i], 0, sampleFramesSize);
-						}
-					}
-					// nothing to do at this point
-					return Steinberg::kResultOk;
-				}
-				// mark our outputs has not silent
-				data.outputs[0].silenceFlags = 0;
-				//
-				if (!m_BypassState)
-				{
-					m_GainValue[0] = 1.0;
-					m_GainValue[1] = 1.0;
-					//
-					if (data.symbolicSampleSize == Steinberg::Vst::kSample64) //64-Bit
-					{
-						m_ParameterInputLevelValue = static_cast<Steinberg::Vst::Sample64*>(in[0])[0];
-						//m_ParameterLightsValue = m_ParameterInputLevelValue;
-                        //m_ParameterLightsValue = static_cast<Steinberg::Vst::Sample64*>(in[0])[0];
-						if (static_cast<Steinberg::Vst::Sample64*>(in[0])[0] >= m_ParameterThresholdlValue)
-						{
-							m_ParameterColorValue = 1.0;
-						}
-						else
-						{
-							m_ParameterColorValue = 0.0;
-						}
-						//TODO: add notify message here for a callback to the controller
-						//sendMessage()
-						//sendTextMessage("Level");
-					}
-					else // 32-bit
-					{
-						m_ParameterInputLevelValue = static_cast<Steinberg::Vst::Sample32*>(in[0])[0];
-                        //m_ParameterLightsValue = m_ParameterInputLevelValue;
-                        //m_ParameterLightsValue = static_cast<Steinberg::Vst::Sample32*>(in[0])[0];
-						if (static_cast<Steinberg::Vst::Sample32*>(in[0])[0] >= m_ParameterThresholdlValue)
-						{
-							m_ParameterColorValue = 1.0;
-						}
-						else
-						{
-							m_ParameterColorValue = 0.0;
-						}
-                        //TODO: add notify message here for a callback to the controller
-					}
-					//
-					for (int sample = 0; sample < data.numSamples; sample++)
-					{
-						for (int channel = 0; channel < data.outputs->numChannels; channel++)
-						{
-							if (data.symbolicSampleSize == Steinberg::Vst::kSample64) //64-Bit
-							{
-								bufferSampleGain
-								(
-									static_cast<Steinberg::Vst::Sample64*>(in[channel]),
-									static_cast<Steinberg::Vst::Sample64*>(out[channel]),
-									sample
-								);
-							}
-							else // 32-Bit
-							{
-								bufferSampleGain
-								(
-									static_cast<Steinberg::Vst::Sample32*>(in[channel]),
-									static_cast<Steinberg::Vst::Sample32*>(out[channel]),
-									sample
-								);
-							}
-						}
-					}
-				}
-			}
-			return Steinberg::kResultTrue;
-		}
-		 */
-		//-----------------------------------------------------------------------------
-		/*
-		Steinberg::tresult PLUGIN_API MeterProcessor::processOutputParameters(Steinberg::Vst::ProcessData& data)
-		{
-			// Write outputs parameter changes-----------
-			m_OutputParameterChanges = data.outputParameterChanges;
-			//if (m_OutputParameterChanges)
-			//{
-				m_ParameterInputLevelValueQueue = m_OutputParameterChanges->addParameterData(kParameterInputLevel,
-					m_OutputParameterChangesDataIndex);
-				if (m_ParameterInputLevelValueQueue)
-				{
-					if (m_ParameterInputLevelValue > 1.0)
-					{
-						m_ParameterInputLevelValue = 1.0;
-					}
-                    Steinberg::int32 index2 = 0;
-					Steinberg::tresult test = m_ParameterInputLevelValueQueue->addPoint(0,
-						abs(m_ParameterInputLevelValue),
-                        index2);
-					//
-					if (test == Steinberg::kResultOk)
-					{
-						//
-					}
-				}
-				//
-				//
-				//
-				m_ParameterColorValueQueue = m_OutputParameterChanges->addParameterData(kParameterColor,
-					m_OutputParameterChangesDataIndex);
-				if (m_ParameterColorValueQueue)
-				{
-					if (m_ParameterColorValue > 1.0)
-					{
-						m_ParameterColorValue = 1.0;
-					}
-					Steinberg::int32 index2 = 0;
-					Steinberg::tresult test = m_ParameterColorValueQueue->addPoint(0,
-						abs(m_ParameterColorValue),
-						index2);
-					if (test == Steinberg::kResultOk)
-					{
-						return Steinberg::kResultTrue;
-					}
-				}
-			//}
-			return Steinberg::kResultFalse;
-		}
-		 */
-		//-----------------------------------------------------------------------------
-		/*
-		Steinberg::tresult PLUGIN_API MeterProcessor::processMidiOutputEvents (Steinberg::Vst::ProcessData& data)
-		{
-			// Write outputs parameter changes-----------
-			if (data.outputEvents)
-			{
-				//
-				if (m_ParameterInputLevelValue <= m_ParameterThresholdlValue)
-				{
-					m_ParameterColorValue = 0.0;
-					//
-					mEvent.type = Steinberg::Vst::Event::kNoteOffEvent;
-					mEvent.noteOff.pitch = 24;
-					//
-					//mEvent[1].type = Steinberg::Vst::Event::kNoteOffEvent;
-					//mEvent[1].noteOff.pitch = 25;
-					//mEvent[2].type = Steinberg::Vst::Event::kNoteOffEvent;
-					//mEvent[2].noteOff.pitch = 26;
-					//mEvent[3].type = Steinberg::Vst::Event::kNoteOffEvent;
-					//mEvent[3].noteOff.pitch = 27;
-					//mEvent[4].type = Steinberg::Vst::Event::kNoteOffEvent;
-					//mEvent[4].noteOff.pitch = 28;
-				}
-				else
-				{
-					m_ParameterColorValue = 1.0;
-					//
-					mEvent.type = Steinberg::Vst::Event::kNoteOnEvent;
-					mEvent.noteOn.pitch = 24;
-					mEvent.noteOn.velocity = 127;
-					//
-					//mEvent[1].type = Steinberg::Vst::Event::kNoteOnEvent;
-					//mEvent[1].noteOn.pitch = 25;
-					//mEvent[1].noteOn.velocity = 127;
-					//mEvent[2].type = Steinberg::Vst::Event::kNoteOnEvent;
-					//mEvent[2].noteOn.pitch = 26;
-					//mEvent[2].noteOn.velocity = 127;
-					//mEvent[3].type = Steinberg::Vst::Event::kNoteOnEvent;
-					//mEvent[3].noteOn.pitch = 27;
-					//mEvent[3].noteOn.velocity = 127;
-					//mEvent[4].type = Steinberg::Vst::Event::kNoteOnEvent;
-					//mEvent[4].noteOn.pitch = 28;
-					//mEvent[4].noteOn.velocity = 127;
-				}
-				//
-				data.outputEvents->addEvent(mEvent);
-				//Steinberg::Vst::IEventList* outputEvents = data.outputEvents;
-				//for (int i = 0; i < 5; i++)
-				//{
-				//	outputEvents->addEvent(mEvent[i]);
-				//}
-			}
-			return Steinberg::kResultTrue;
-		}
-		 */
+		
 		//-----------------------------------------------------------------------------
 		Steinberg::tresult PLUGIN_API MeterProcessor::process(Steinberg::Vst::ProcessData& data)
 		{
-			//processInputParameters(data);
-			//processAudio(data);
-			//processOutputParameters(data);
-			//processMidiOutputEvents(data);
+            //--- Read inputs parameter changes-----------
+            //--- ----------------------------------
+            {
+                if (data.inputParameterChanges)
+                {
+                    Steinberg::int32 numParamsChanged = data.inputParameterChanges->getParameterCount();
+                    for (Steinberg::int32 index = 0; index < numParamsChanged; index++)
+                    {
+                        Steinberg::Vst::IParamValueQueue* paramQueue = data.inputParameterChanges->getParameterData(index);
+                        if (paramQueue)
+                        {
+                            Steinberg::Vst::ParamValue value;
+                            Steinberg::int32 sampleOffset;
+                            Steinberg::int32 numPoints = paramQueue->getPointCount();
+                            switch (paramQueue->getParameterId())
+                            {
+                                case MeterParameters::kParameterInputLevel:
+                                {
+                                    if (paramQueue->getPoint(numPoints - 1, sampleOffset, value) ==
+                                                Steinberg::kResultTrue)
+                                    {
+                                        m_ParameterInputLevelValue = value;
+                                        break;
+                                    }
+                                }
+                                case MeterParameters::kParameterThreshold:
+                                {
+                                    if (paramQueue->getPoint(numPoints - 1, sampleOffset, value) ==
+                                        Steinberg::kResultTrue)
+                                    {
+                                        m_ParameterThresholdlValue = value;
+                                        break;
+                                    }
+                                }
+                                case MeterParameters::kParameterBypassId:
+                                {
+                                    if (paramQueue->getPoint
+                                    (
+                                        numPoints - 1,
+                                        sampleOffset,
+                                        value
+                                    ) ==
+                                        Steinberg::kResultTrue)
+                                    {
+                                        m_BypassState = (value > 0.5f);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
 			//
-			
-				//--- Process Audio---------------------
-				//--- ----------------------------------
-				if (data.numInputs == 0 || data.numOutputs == 0)
-				{
-					// nothing to do
-					return Steinberg::kResultOk;
-				}
-				//
-				if (data.numSamples > 0)
-				{
-					// Process Algorithm
-					// Ex: algo.process (data.inputs[0].channelBuffers32, data.outputs[0].channelBuffers32,
-					// data.numSamples);
-					//
-					//
-					// assume the same input channel count as the output
-					Steinberg::int32 numChannels = data.inputs[0].numChannels;
-					//
-					//---get audio buffers----------------
-					Steinberg::uint32 sampleFramesSize = getSampleFramesSizeInBytes
-					(
-						processSetup,
-						data.numSamples
-					);
-					void** in = getChannelBuffersPointer
-					(
-						processSetup,
-						data.inputs[0]
-					);
-					void** out = getChannelBuffersPointer
-					(
-						processSetup,
-						data.outputs[0]
-					);
-					//
-					//---check if silence---------------
-					// normally we have to check each channel (simplification)
-					if (data.inputs[0].silenceFlags != 0)
-					{
-						// mark output silence too
-						data.outputs[0].silenceFlags = data.inputs[0].silenceFlags;
-						//
-						// the Plug-in has to be sure that if it sets the flags silence that the output buffer are clear
-						for (Steinberg::int32 i = 0; i < numChannels; i++)
-						{
-							// do not need to be cleared if the buffers are the same (in this case input buffer are already cleared by the host)
-							if (in[i] != out[i])
-							{
-								std::memset(out[i], 0, sampleFramesSize);
-							}
-						}
-						// nothing to do at this point
-						return Steinberg::kResultOk;
-					}
-					// mark our outputs has not silent
-					data.outputs[0].silenceFlags = 0;
-					//
-					if (!m_BypassState)
-					{
-						m_GainValue[0] = 1.0;
-						m_GainValue[1] = 1.0;
-						//
-						if (data.symbolicSampleSize == Steinberg::Vst::kSample64) //64-Bit
-						{
-							m_ParameterInputLevelValue = static_cast<Steinberg::Vst::Sample64*>(in[0])[0];
-							//m_ParameterLightsValue = m_ParameterInputLevelValue;
-							//m_ParameterLightsValue = static_cast<Steinberg::Vst::Sample64*>(in[0])[0];
-							if (static_cast<Steinberg::Vst::Sample64*>(in[0])[0] >= m_ParameterThresholdlValue)
-							{
-								m_ParameterColorValue = 1.0;
-							}
-							else
-							{
-								m_ParameterColorValue = 0.0;
-							}
-							//TODO: add notify message here for a callback to the controller
-							//sendMessage()
-							//sendTextMessage("Level");
-						}
-						else // 32-bit
-						{
-							m_ParameterInputLevelValue = static_cast<Steinberg::Vst::Sample32*>(in[0])[0];
-							//m_ParameterLightsValue = m_ParameterInputLevelValue;
-							//m_ParameterLightsValue = static_cast<Steinberg::Vst::Sample32*>(in[0])[0];
-							if (static_cast<Steinberg::Vst::Sample32*>(in[0])[0] >= m_ParameterThresholdlValue)
-							{
-								m_ParameterColorValue = 1.0;
-							}
-							else
-							{
-								m_ParameterColorValue = 0.0;
-							}
-							//TODO: add notify message here for a callback to the controller
-						}
-						//
-						for (int sample = 0; sample < data.numSamples; sample++)
-						{
-							for (int channel = 0; channel < data.outputs->numChannels; channel++)
-							{
-								if (data.symbolicSampleSize == Steinberg::Vst::kSample64) //64-Bit
-								{
-									bufferSampleGain
-									(
-										static_cast<Steinberg::Vst::Sample64*>(in[channel]),
-										static_cast<Steinberg::Vst::Sample64*>(out[channel]),
-										sample
-									);
-								}
-								else // 32-Bit
-								{
-									bufferSampleGain
-									(
-										static_cast<Steinberg::Vst::Sample32*>(in[channel]),
-										static_cast<Steinberg::Vst::Sample32*>(out[channel]),
-										sample
-									);
-								}
-							}
-						}
-					}
-				}
+            //--- Process Audio---------------------
+            //--- ----------------------------------
+            
+                if (data.numInputs == 0 || data.numOutputs == 0)
+                {
+                    // nothing to do
+                    return Steinberg::kResultOk;
+                }
+                //
+                if (data.numSamples > 0)
+                {
+                    // Process Algorithm
+                    // Ex: algo.process (data.inputs[0].channelBuffers32, data.outputs[0].channelBuffers32,
+                    // data.numSamples);
+                    //
+                    //
+                    // assume the same input channel count as the output
+                    Steinberg::int32 numChannels = data.inputs[0].numChannels;
+                    //
+                    //---get audio buffers----------------
+                    Steinberg::uint32 sampleFramesSize = getSampleFramesSizeInBytes
+                    (
+                        processSetup,
+                        data.numSamples
+                    );
+                    void** in = getChannelBuffersPointer
+                    (
+                        processSetup,
+                        data.inputs[0]
+                    );
+                    void** out = getChannelBuffersPointer
+                    (
+                        processSetup,
+                        data.outputs[0]
+                    );
+                    //
+                    //---check if silence---------------
+                    // normally we have to check each channel (simplification)
+                    if (data.inputs[0].silenceFlags != 0)
+                    {
+                        // mark output silence too
+                        data.outputs[0].silenceFlags = data.inputs[0].silenceFlags;
+                        //
+                        // the Plug-in has to be sure that if it sets the flags silence that the output buffer are clear
+                        for (Steinberg::int32 i = 0; i < numChannels; i++)
+                        {
+                            // do not need to be cleared if the buffers are the same (in this case input buffer are already cleared by the host)
+                            if (in[i] != out[i])
+                            {
+                                std::memset(out[i], 0, sampleFramesSize);
+                            }
+                        }
+                        // nothing to do at this point
+                        return Steinberg::kResultOk;
+                    }
+                    // mark our outputs has not silent
+                    data.outputs[0].silenceFlags = 0;
+                    //
+                    if (!m_BypassState)
+                    {
+                        m_GainValue[0] = 1.0;
+                        m_GainValue[1] = 1.0;
+                        //
+                        if (data.symbolicSampleSize == Steinberg::Vst::kSample64) //64-Bit
+                        {
+                            m_ParameterInputLevelValue = static_cast<Steinberg::Vst::Sample64*>(in[0])[0];
+                            //m_ParameterLightsValue = m_ParameterInputLevelValue;
+                            //m_ParameterLightsValue = static_cast<Steinberg::Vst::Sample64*>(in[0])[0];
+                            if (static_cast<Steinberg::Vst::Sample64*>(in[0])[0] >= m_ParameterThresholdlValue)
+                            {
+                                m_ParameterColorValue = 1.0;
+                            }
+                            else
+                            {
+                                m_ParameterColorValue = 0.0;
+                            }
+                            //TODO: add notify message here for a callback to the controller
+                            //sendMessage()
+                            //sendTextMessage("Level");
+                        }
+                        else // 32-bit
+                        {
+                            m_ParameterInputLevelValue = static_cast<Steinberg::Vst::Sample32*>(in[0])[0];
+                            //m_ParameterLightsValue = m_ParameterInputLevelValue;
+                            //m_ParameterLightsValue = static_cast<Steinberg::Vst::Sample32*>(in[0])[0];
+                            if (static_cast<Steinberg::Vst::Sample32*>(in[0])[0] >= m_ParameterThresholdlValue)
+                            {
+                                m_ParameterColorValue = 1.0;
+                            }
+                            else
+                            {
+                                m_ParameterColorValue = 0.0;
+                            }
+                            //TODO: add notify message here for a callback to the controller
+                        }
+                        //
+                        for (int sample = 0; sample < data.numSamples; sample++)
+                        {
+                            for (int channel = 0; channel < data.outputs->numChannels; channel++)
+                            {
+                                if (data.symbolicSampleSize == Steinberg::Vst::kSample64) //64-Bit
+                                {
+                                    bufferSampleGain
+                                    (
+                                        static_cast<Steinberg::Vst::Sample64*>(in[channel]),
+                                        static_cast<Steinberg::Vst::Sample64*>(out[channel]),
+                                        sample
+                                    );
+                                }
+                                else // 32-Bit
+                                {
+                                    bufferSampleGain
+                                    (
+                                        static_cast<Steinberg::Vst::Sample32*>(in[channel]),
+                                        static_cast<Steinberg::Vst::Sample32*>(out[channel]),
+                                        sample
+                                    );
+                                }
+                            }
+                        }
+                    }
+                }
+            
+            //
+            // Write outputs parameter changes-----------
+            //--- ----------------------------------
+            {
+                m_OutputParameterChanges = data.outputParameterChanges;
+                //if (m_OutputParameterChanges)
+                //{
+                m_ParameterInputLevelValueQueue = m_OutputParameterChanges->addParameterData(kParameterInputLevel,
+                    m_OutputParameterChangesDataIndex);
+                if (m_ParameterInputLevelValueQueue)
+                {
+                    if (m_ParameterInputLevelValue > 1.0)
+                    {
+                        m_ParameterInputLevelValue = 1.0;
+                    }
+                    Steinberg::int32 index2 = 0;
+                    Steinberg::tresult test = m_ParameterInputLevelValueQueue->addPoint(0,
+                        abs(m_ParameterInputLevelValue),
+                        index2);
+                    //
+                    if (test == Steinberg::kResultOk)
+                    {
+                        //
+                    }
+                }
+                //
+                //
+                //
+                m_ParameterColorValueQueue = m_OutputParameterChanges->addParameterData(kParameterColor,
+                    m_OutputParameterChangesDataIndex);
+                if (m_ParameterColorValueQueue)
+                {
+                    if (m_ParameterColorValue > 1.0)
+                    {
+                        m_ParameterColorValue = 1.0;
+                    }
+                    Steinberg::int32 index2 = 0;
+                    Steinberg::tresult test = m_ParameterColorValueQueue->addPoint(0,
+                        abs(m_ParameterColorValue),
+                        index2);
+                    if (test == Steinberg::kResultOk)
+                    {
+                        return Steinberg::kResultTrue;
+                    }
+                }
+            }
+            //
+            // Write outputs parameter changes-----------
+            //--- ----------------------------------
+            {
+                if (data.outputEvents)
+                {
+                    //
+                    if (m_ParameterInputLevelValue <= m_ParameterThresholdlValue)
+                    {
+                        m_ParameterColorValue = 0.0;
+                        //
+                        mEvent.type = Steinberg::Vst::Event::kNoteOffEvent;
+                        mEvent.noteOff.pitch = 24;
+                        //
+                        //mEvent[1].type = Steinberg::Vst::Event::kNoteOffEvent;
+                        //mEvent[1].noteOff.pitch = 25;
+                        //mEvent[2].type = Steinberg::Vst::Event::kNoteOffEvent;
+                        //mEvent[2].noteOff.pitch = 26;
+                        //mEvent[3].type = Steinberg::Vst::Event::kNoteOffEvent;
+                        //mEvent[3].noteOff.pitch = 27;
+                        //mEvent[4].type = Steinberg::Vst::Event::kNoteOffEvent;
+                        //mEvent[4].noteOff.pitch = 28;
+                    }
+                    else
+                    {
+                        m_ParameterColorValue = 1.0;
+                        //
+                        mEvent.type = Steinberg::Vst::Event::kNoteOnEvent;
+                        mEvent.noteOn.pitch = 24;
+                        mEvent.noteOn.velocity = 127;
+                        //
+                        //mEvent[1].type = Steinberg::Vst::Event::kNoteOnEvent;
+                        //mEvent[1].noteOn.pitch = 25;
+                        //mEvent[1].noteOn.velocity = 127;
+                        //mEvent[2].type = Steinberg::Vst::Event::kNoteOnEvent;
+                        //mEvent[2].noteOn.pitch = 26;
+                        //mEvent[2].noteOn.velocity = 127;
+                        //mEvent[3].type = Steinberg::Vst::Event::kNoteOnEvent;
+                        //mEvent[3].noteOn.pitch = 27;
+                        //mEvent[3].noteOn.velocity = 127;
+                        //mEvent[4].type = Steinberg::Vst::Event::kNoteOnEvent;
+                        //mEvent[4].noteOn.pitch = 28;
+                        //mEvent[4].noteOn.velocity = 127;
+                    }
+                    //
+                    data.outputEvents->addEvent(mEvent);
+                    //Steinberg::Vst::IEventList* outputEvents = data.outputEvents;
+                    //for (int i = 0; i < 5; i++)
+                    //{
+                    //    outputEvents->addEvent(mEvent[i]);
+                    //}
+                }
+            }
 			//
 			return Steinberg::kResultTrue;
 		}
