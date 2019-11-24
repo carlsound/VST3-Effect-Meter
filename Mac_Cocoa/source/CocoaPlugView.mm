@@ -51,7 +51,7 @@ namespace Carlsound
         /** Sets a new frame rectangle. */
         void CocoaPlugView::setRect (const Steinberg::ViewRect& r)
         {
-            rect = r;
+            m_rect = r;
         }
         
         //------------------------------------------------------------------------

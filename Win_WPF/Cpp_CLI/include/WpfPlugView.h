@@ -130,7 +130,7 @@ namespace Carlsound
 			void* m_systemWindow;
 			Steinberg::IPlugFrame* m_plugFrame;
 			//
-			HWND *m_parentWindow;
+			//HWND m_parentWindow;
 			//
 			//Carlsound::Meter::UserControl ^m_userControl;
 		};

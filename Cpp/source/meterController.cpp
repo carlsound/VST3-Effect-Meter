@@ -516,7 +516,7 @@ namespace Carlsound
 			return Steinberg::kResultFalse;
 		}
 		//------------------------------------------------------------------------
-		/*
+		
 		Steinberg::IPlugView* PLUGIN_API MeterController::createView
 		(
 			const char* name
@@ -540,7 +540,9 @@ namespace Carlsound
 
 				#if(SMTG_OS_WINDOWS)
                 {
-					
+					//m_view = std::make_shared<Steinberg::IPlugView*>( WpfPlugView() );
+					m_view = new WpfPlugView();
+					//
 					return m_view;
                 }
 				#endif
@@ -548,7 +550,7 @@ namespace Carlsound
 			}
 			return nullptr;
 		}
-		*/
+		
 		//------------------------------------------------------------------------
 		/*
 		Steinberg::tresult PLUGIN_API MeterController::notify (Steinberg::Vst::IMessage* message)

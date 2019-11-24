@@ -71,7 +71,26 @@ namespace Carlsound
 		/** Calls when this view will be attached to its parent view. */
 		void WpfPlugView::attachedToParent()
 		{
-			//loadChildWindow(*m_parentWindow);
+			//loadChildWindow(m_systemWindow);
+
+			const wchar_t CLASS_NAME[] = L"Sample Window Class";
+
+			// Create the window.
+
+			HWND hwnd = CreateWindowEx(
+				0,                              // Optional window styles.
+				CLASS_NAME,                     // Window class
+				L"Learn to Program Windows",    // Window text
+				WS_OVERLAPPEDWINDOW,            // Window style
+
+				// Size and position
+				CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
+
+				static_cast<HWND>(m_systemWindow),       // Parent window    
+				NULL,       // Menu
+				NULL,  // Instance handle
+				NULL        // Additional application data
+			);
 		}
 
 		//------------------------------------------------------------------------
@@ -109,7 +128,8 @@ namespace Carlsound
 			if (strcmp(type, Steinberg::kPlatformTypeHWND) == 0)
 			{
 				m_systemWindow = parent;
-				m_parentWindow = static_cast<HWND*>(m_systemWindow);
+				//m_parentWindow = static_cast<HWND*>(m_systemWindow);
+				//m_parentWindow = static_cast<HWND>(parent);
 				//
 				if (m_plugFrame != nullptr)
 				{
@@ -183,8 +203,11 @@ namespace Carlsound
 		Steinberg::tresult WpfPlugView::onSize(Steinberg::ViewRect* newSize)
 		{
 			if ((newSize->right - newSize->left >= 800) && (newSize->bottom - newSize->top >= 450))
+			{
 				m_rect = *newSize;
-			return Steinberg::kResultTrue;
+				return Steinberg::kResultTrue;
+			}
+			return Steinberg::kResultFalse;
 		}
 
 		//------------------------------------------------------------------------
@@ -203,10 +226,7 @@ namespace Carlsound
 			{
 				return Steinberg::kResultTrue;
 			}
-			else
-			{
-				return Steinberg::kResultFalse;
-			}
+			return Steinberg::kResultFalse;
 		}
 
 		//------------------------------------------------------------------------

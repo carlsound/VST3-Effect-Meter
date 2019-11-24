@@ -7,6 +7,7 @@
 
 #include "../include/meterCppClrClassLibrary.h"
 #include "../include/nativeInterface.h"
+//#include <MeterUserControl.xaml>
 //
 
 

@@ -10,8 +10,6 @@ namespace Carlsound
 		{
 			// register its editor class
 			setControllerClass (MeterControllerUID);
-			//
-			//m_Message = std::make_shared<Steinberg::Vst::IMessage*>();
 		}
 		//-----------------------------------------------------------------------------
 		Steinberg::tresult PLUGIN_API MeterProcessor::initialize 
@@ -49,6 +47,18 @@ namespace Carlsound
 			return Steinberg::kResultFalse;
 		}
 		//-----------------------------------------------------------------------------
+		Steinberg::tresult PLUGIN_API MeterProcessor::setupProcessing (Steinberg::Vst::ProcessSetup& setup)
+		{
+			// here you get, with setup, information about:
+			// sampleRate, processMode, maximum number of samples per audio block
+			m_processMode = setup.processMode;
+			m_symbolicSampleSize = setup.symbolicSampleSize;
+			m_maxSamplesPerBlock = setup.maxSamplesPerBlock;
+			m_sampleRate = setup.sampleRate;
+			//
+			return AudioEffect::setupProcessing(setup);
+		}
+		//-----------------------------------------------------------------------------
 		Steinberg::tresult PLUGIN_API MeterProcessor::setActive (Steinberg::TBool state)
 		{
 			if (state) // Initialize
@@ -62,6 +72,18 @@ namespace Carlsound
 				// Ex: if(algo.isCreated ()) { algo.destroy (); }
 			}
 			return AudioEffect::setActive (state);
+		}
+		//-----------------------------------------------------------------------------
+		Steinberg::tresult PLUGIN_API MeterProcessor::canProcessSampleSize(Steinberg::int32 symbolicSampleSize)
+		{
+			if (symbolicSampleSize == Steinberg::Vst::kSample32)
+				return Steinberg::kResultTrue;
+
+			// we support double processing
+			if (symbolicSampleSize == Steinberg::Vst::kSample64)
+				return Steinberg::kResultTrue;
+
+			return Steinberg::kResultFalse;
 		}
 		//-----------------------------------------------------------------------------
 		template<class T>
@@ -148,26 +170,13 @@ namespace Carlsound
                     // Ex: algo.process (data.inputs[0].channelBuffers32, data.outputs[0].channelBuffers32,
                     // data.numSamples);
                     //
-                    //
                     // assume the same input channel count as the output
                     Steinberg::int32 numChannels = data.inputs[0].numChannels;
                     //
                     //---get audio buffers----------------
-                    Steinberg::uint32 sampleFramesSize = getSampleFramesSizeInBytes
-                    (
-                        processSetup,
-                        data.numSamples
-                    );
-                    void** in = getChannelBuffersPointer
-                    (
-                        processSetup,
-                        data.inputs[0]
-                    );
-                    void** out = getChannelBuffersPointer
-                    (
-                        processSetup,
-                        data.outputs[0]
-                    );
+                    Steinberg::uint32 sampleFramesSize = getSampleFramesSizeInBytes(processSetup, data.numSamples);
+                    void** in = getChannelBuffersPointer(processSetup, data.inputs[0]);
+                    void** out = getChannelBuffersPointer(processSetup, data.outputs[0]);
                     //
                     //---check if silence---------------
                     // normally we have to check each channel (simplification)
@@ -193,10 +202,10 @@ namespace Carlsound
                     //
                     if (!m_BypassState)
                     {
-                        m_GainValue[0] = 1.0;
-                        m_GainValue[1] = 1.0;
+                        //m_GainValue[0] = 1.0;
+                        //m_GainValue[1] = 1.0;
                         //
-                        if (data.symbolicSampleSize == Steinberg::Vst::kSample64) //64-Bit
+                        if (m_symbolicSampleSize /* data.symbolicSampleSize */ == Steinberg::Vst::kSample64) //64-Bit
                         {
                             m_ParameterInputLevelValue = static_cast<Steinberg::Vst::Sample64*>(in[0])[0];
                             //m_ParameterLightsValue = m_ParameterInputLevelValue;
@@ -209,9 +218,6 @@ namespace Carlsound
                             {
                                 m_ParameterColorValue = 0.0;
                             }
-                            //TODO: add notify message here for a callback to the controller
-                            //sendMessage()
-                            //sendTextMessage("Level");
                         }
                         else // 32-bit
                         {
@@ -226,14 +232,13 @@ namespace Carlsound
                             {
                                 m_ParameterColorValue = 0.0;
                             }
-                            //TODO: add notify message here for a callback to the controller
                         }
                         //
                         for (int sample = 0; sample < data.numSamples; sample++)
                         {
                             for (int channel = 0; channel < data.outputs->numChannels; channel++)
                             {
-                                if (data.symbolicSampleSize == Steinberg::Vst::kSample64) //64-Bit
+                                if (m_symbolicSampleSize /* data.symbolicSampleSize */ == Steinberg::Vst::kSample64) //64-Bit
                                 {
                                     bufferSampleGain
                                     (
