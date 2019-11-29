@@ -79,17 +79,32 @@ namespace Carlsound
 
 			HWND hwnd = CreateWindowEx(
 				0,                              // Optional window styles.
-				CLASS_NAME,                     // Window class
-				L"Learn to Program Windows",    // Window text
-				WS_OVERLAPPEDWINDOW,            // Window style
+				TEXT("ComboBox"),                     // Window class
+				TEXT("Learn to Program Windows"),    // Window text
+				WS_VISIBLE | WS_CHILD, //WS_OVERLAPPEDWINDOW,            // Window style
 
 				// Size and position
-				CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
+				0, 0, 100, 100,
 
 				static_cast<HWND>(m_systemWindow),       // Parent window    
 				NULL,       // Menu
 				NULL,  // Instance handle
 				NULL        // Additional application data
+			);
+
+			HWND hwndButton = CreateWindowEx(
+				0,						// Optional window styles.
+				TEXT("Button"),			// lpClassName,
+				TEXT("Meter x64"),			// lpWindowName,
+				WS_VISIBLE | WS_CHILD,	// dwStyle,
+				200,						// X,
+				200,						// Y,
+				100,					// nWidth,
+				100,					// nHeight,
+				static_cast<HWND>(m_systemWindow),      // hWndParent,
+				nullptr,				// hMenu,
+				nullptr,				// hInstance,
+				nullptr					// lpParam
 			);
 		}
 
