@@ -6,6 +6,8 @@ using namespace System;
 
 using namespace System::Runtime::InteropServices;
 
+#using <Meter_WPF_UI_CS_XAML_x64.dll>
+
 //using namespace WpfUserControlLibrary1;
 
 namespace Carlsound

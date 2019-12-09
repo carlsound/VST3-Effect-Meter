@@ -9,17 +9,19 @@
 #include "../include/nativeInterface.h"
 //#include <MeterUserControl.xaml>
 //
-
+//#using <Meter_WPF_UI_CS_XAML_x64.dll>
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
+	[System::STAThread]
 	__declspec(dllexport)  void loadChildWindow(void* hWnd)
 	{
-		Carlsound::Meter::MeterUserControl^ m_userControl = gcnew Carlsound::Meter::MeterUserControl(); //CppClrClassLibrary1::Class1::Instance->usrCtrlObj;
-
+		
+		//Carlsound::Meter::MeterUserControl^ m_userControl = gcnew Carlsound::Meter::MeterUserControl(); //CppClrClassLibrary1::Class1::Instance->usrCtrlObj;
+		/*
 		System::Windows::Interop::HwndSourceParameters^ sourceParams = gcnew System::Windows::Interop::HwndSourceParameters("Meter");
 		sourceParams->PositionX = 0;
 		sourceParams->PositionY = 0;
@@ -32,6 +34,7 @@ extern "C"
 		//
 		m_hwndSource->RootVisual = m_userControl;
 		//
+		*/
 		int i = 0;
 	}
 #ifdef __cplusplus 

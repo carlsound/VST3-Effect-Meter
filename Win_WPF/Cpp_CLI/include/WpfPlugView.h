@@ -1,9 +1,12 @@
 // https://weblogs.thinktecture.com/cnagel/2010/04/mfc-and-wpf-interop.html
 // https://www.abhishekshukla.com/wpf/advanced-wpf-part-5-of-5-interop-in-windows-presentation-foundation/
+// https://stackoverflow.com/questions/1373100/how-to-add-folder-to-assembly-search-path-at-runtime-in-net
 //
 // public.sdk/source/common/pluginview.h
 //
 #pragma once
+//
+#include "LoadMissingDll.h"
 //
 #include "base/source/fobject.h"
 //
@@ -15,14 +18,13 @@
 #include <windows.h>
 #include <WinUser.h>
 //
-//#using <Meter_WPF_UI_x64.dll>
-//
 //#using <PresentationCore.dll>
 //#using <PresentationFramework.dll>
 //#using <WindowsBase.dll>
 //
-#include "../Cpp_CLI/include/nativeInterface.h"
+//#include "../Cpp_CLI/include/nativeInterface.h"
 //
+#using "C:/Program Files/Common Files/VST3/Meter_WPF_UI_CS_XAML_x64.dll"
 //extern void* moduleHandle;
 //
 //
@@ -132,7 +134,7 @@ namespace Carlsound
 			//
 			//HWND m_parentWindow;
 			//
-			//Carlsound::Meter::UserControl ^m_userControl;
+			//UserControl ^m_userControl;
 		};
 	} // namespace Meter
 } // namespace Carlsound

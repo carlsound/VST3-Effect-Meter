@@ -1,7 +1,7 @@
 //
 // Created by John Carlson on 10/13/19.
 //
-#include "../Cpp_CLI/include/WpfPlugView.h"
+#include "../include/WpfPlugView.h"
 #include <string.h>
 //
 //extern void* moduleHandle;
@@ -71,12 +71,32 @@ namespace Carlsound
 		/** Calls when this view will be attached to its parent view. */
 		void WpfPlugView::attachedToParent()
 		{
-			//loadChildWindow(m_systemWindow);
-
-			const wchar_t CLASS_NAME[] = L"Sample Window Class";
-
 			// Create the window.
 
+			//loadChildWindow(m_systemWindow);
+
+			LoadMissingDll^ loadmgr = gcnew LoadMissingDll();
+
+			int i = 1;
+			
+			MeterUserControl ^m_userControl = gcnew MeterUserControl(); //CppClrClassLibrary1::Class1::Instance->usrCtrlObj;
+			
+			System::Windows::Interop::HwndSourceParameters^ sourceParams = gcnew System::Windows::Interop::HwndSourceParameters("Meter");
+			sourceParams->PositionX = 0;
+			sourceParams->PositionY = 0;
+			sourceParams->Height = 100; //m_userControl->Height;
+			sourceParams->Width = 100; // m_userControl->Width;
+			sourceParams->ParentWindow = System::IntPtr(m_systemWindow);
+			sourceParams->WindowStyle = WS_VISIBLE | WS_CHILD;
+			//
+			System::Windows::Interop::HwndSource^ m_hwndSource = gcnew System::Windows::Interop::HwndSource(*sourceParams);
+			//
+			m_hwndSource->RootVisual = m_userControl;
+
+
+			//const wchar_t CLASS_NAME[] = L"Sample Window Class";
+
+			/*
 			HWND hwnd = CreateWindowEx(
 				0,                              // Optional window styles.
 				TEXT("ComboBox"),                     // Window class
@@ -91,7 +111,9 @@ namespace Carlsound
 				NULL,  // Instance handle
 				NULL        // Additional application data
 			);
+			*/
 
+			/*
 			HWND hwndButton = CreateWindowEx(
 				0,						// Optional window styles.
 				TEXT("Button"),			// lpClassName,
@@ -106,6 +128,7 @@ namespace Carlsound
 				nullptr,				// hInstance,
 				nullptr					// lpParam
 			);
+			*/
 		}
 
 		//------------------------------------------------------------------------
