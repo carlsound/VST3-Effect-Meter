@@ -74,42 +74,43 @@ namespace Carlsound
 		{
 			// Create the window.
 
-			
-
+			/*
 			if (SMTG_PLATFORM_64)
 			{
-				SetDllDirectoryA("C:\\Program Files\\Common Files\\VST3");
+				//SetDllDirectoryA("C:\\Program Files\\Common Files\\VST3");
 				//LoadLibraryA("C:\\Program Files\\Common Files\\VST3\\Meter_WPF_UI_CppCLI_x64.dll");
 				//LoadLibraryA("C:\\Program Files\\Common Files\\VST3\\Meter_WPF_UI_CS_XAML_x64.dll");
+				//System::Reflection::Assembly::LoadFile("C:\\Program Files\\Common Files\\VST3\\Meter_WPF_UI_CS_XAML_AnyCPU.dll");
 			}
 			else
 			{
-				SetDllDirectoryA("C:\\Program Files (x86)\\Common Files\\VST3");
+				//SetDllDirectoryA("C:\\Program Files (x86)\\Common Files\\VST3");
 				//LoadLibraryA("C:\\Program Files (x86)\\Common Files\\VST3\\Meter_WPF_UI_CppCLI_x86.dll");
 				//LoadLibraryA("C:\\Program Files (x86)\\Common Files\\VST3\\Meter_WPF_UI_CS_XAML_x86.dll");
+				//System::Reflection::Assembly::LoadFile("C:\\Program Files (x86)\\Common Files\\VST3\\Meter_WPF_UI_CS_XAML_AnyCPU.dll");
 			}
+			*/
 
 			//int i = 1;
 
-			loadChildWindow(m_systemWindow);
+			//loadChildWindow(m_systemWindow);
 			
 			//CppClrClassLibrary1::Class1::Instance->usrCtrlObj;
 
-			/*
 			MeterUserControl ^m_userControl = gcnew MeterUserControl(); 
 			
 			System::Windows::Interop::HwndSourceParameters^ sourceParams = gcnew System::Windows::Interop::HwndSourceParameters("Meter");
 			sourceParams->PositionX = 0;
 			sourceParams->PositionY = 0;
-			sourceParams->Height = 100; //m_userControl->Height;
-			sourceParams->Width = 100; // m_userControl->Width;
+			sourceParams->Height = m_rect.getHeight(); //m_userControl->Height;
+			sourceParams->Width = m_rect.getWidth(); // m_userControl->Width;
 			sourceParams->ParentWindow = System::IntPtr(m_systemWindow);
 			sourceParams->WindowStyle = WS_VISIBLE | WS_CHILD;
 			//
 			System::Windows::Interop::HwndSource^ m_hwndSource = gcnew System::Windows::Interop::HwndSource(*sourceParams);
 			//
 			m_hwndSource->RootVisual = m_userControl;
-			*/
+			
 
 			//const wchar_t CLASS_NAME[] = L"Sample Window Class";
 
@@ -321,6 +322,13 @@ namespace Carlsound
 				 return view->getSize(newSize);
 			 }
 			 */
+
+		//------------------------------------------------------------------------
+		Steinberg::tresult WpfPlugView::setInputLevelFeedback(Steinberg::Vst::ParamValue)
+		{
+			m_
+			return Steinberg::kResultTrue;
+		}
 		//
 	} // namespace Meter
 } // namespace Carlsound

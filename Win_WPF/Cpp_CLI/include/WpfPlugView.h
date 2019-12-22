@@ -23,8 +23,9 @@
 //#using <WindowsBase.dll>
 //
 #include "nativeInterface.h"
+#include <pluginterfaces\vst\vsttypes.h>
 //
-//#using "C:/Program Files/Common Files/VST3/Meter_WPF_UI_CS_XAML_x64.dll"
+#using "C:/Program Files/Common Files/VST3/Meter_WPF_UI_CS_XAML_AnyCPU.dll"
 //extern void* moduleHandle;
 //
 //
@@ -127,14 +128,21 @@ namespace Carlsound
 			 *	Afterwards the host has to call IPlugView::onSize (). */
 			 //Steinberg::tresult PLUGIN_API resizeView(Steinberg::IPlugView* view, Steinberg::ViewRect* newSize) SMTG_OVERRIDE;
 			 //
+
+
+			//------------------------------------------------------------------------
+			Steinberg::tresult PLUGIN_API setInputLevelFeedback(Steinberg::Vst::ParamValue);
+
 		protected:
 			Steinberg::ViewRect m_rect;
 			void* m_systemWindow;
 			Steinberg::IPlugFrame* m_plugFrame;
 			//
+			//Steinberg::Vst::ParamValue m_inputLevelFeedback;
+			//
 			//HWND m_parentWindow;
 			//
-			//UserControl ^m_userControl;
+			//MeterUserControl ^m_meterUserControl;
 		};
 	} // namespace Meter
 } // namespace Carlsound

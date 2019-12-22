@@ -151,8 +151,8 @@ elseif((WIN32) AND (CMAKE_SIZEOF_VOID_P EQUAL "8"))
     base 
     sdk 
     #vstgui_support 
-    Meter_WPF_UI_CppCLI_x64
-    #Meter_WPF_UI_CS_XAML_x64
+    #Meter_WPF_UI_CppCLI_x64
+    Meter_WPF_UI_CS_XAML_AnyCPU
     )
 #
 elseif(WIN32)
@@ -160,8 +160,8 @@ elseif(WIN32)
     base 
     sdk 
     #vstgui_support 
-    Meter_WPF_UI_CLI_x86
-    #Meter_WPF_UI_CS_XAML_x86
+    #Meter_WPF_UI_CLI_x86
+    Meter_WPF_UI_CS_XAML_AnyCPU
     )
 #   
 endif()

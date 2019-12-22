@@ -36,20 +36,20 @@ extern "C"
 		
 		//Carlsound::Meter::Class1::Instance->usrCtrlObj;
 
-		//Carlsound::Meter::MeterUserControl^ m_userControl = gcnew Carlsound::Meter::MeterUserControl(); 
-		inst->usrCtrlObj = gcnew Carlsound::Meter::MeterUserControl();
+		Carlsound::Meter::MeterUserControl^ m_userControl = gcnew Carlsound::Meter::MeterUserControl(); 
+		//inst->usrCtrlObj = gcnew Carlsound::Meter::MeterUserControl();
 
 		System::Windows::Interop::HwndSourceParameters^ sourceParams = gcnew System::Windows::Interop::HwndSourceParameters("Meter");
 		sourceParams->PositionX = 0;
 		sourceParams->PositionY = 0;
-		sourceParams->Height = 450; //inst->usrCtrlObj->Height; //200; //m_userControl->Height;
-		sourceParams->Width  = 800; //inst->usrCtrlObj->Width; //200; // m_userControl->Width;
+		sourceParams->Height = 450; // m_userControl->Height; //inst->usrCtrlObj->Height; //450;
+		sourceParams->Width = 800; // m_userControl->Width; //inst->usrCtrlObj->Width; //800;
 		sourceParams->ParentWindow = System::IntPtr(hWnd);
 		sourceParams->WindowStyle = WS_VISIBLE | WS_CHILD;
 		//
 		System::Windows::Interop::HwndSource^ m_hwndSource = gcnew System::Windows::Interop::HwndSource(*sourceParams);
 		//
-		//m_hwndSource->RootVisual = m_userControl;
+		m_hwndSource->RootVisual = m_userControl;
 		//m_hwndSource->RootVisual = Carlsound::Meter::Class1::Instance->usrCtrlObj;
 		//m_hwndSource->RootVisual = inst->usrCtrlObj;
 		//

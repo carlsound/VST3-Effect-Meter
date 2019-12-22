@@ -5,11 +5,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Carlsound.Meter"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <Grid>
         <Rectangle Fill="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}" HorizontalAlignment="Left" Height="144" Stroke="Black" VerticalAlignment="Top" Width="530"/>
-
-        <Slider HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="434"/>
-
+        <Rectangle Fill="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" HorizontalAlignment="Left" Height="144" Stroke="Black" VerticalAlignment="Top" Width="530" Margin="0,144,0,0"/>
+        <Rectangle Fill="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" HorizontalAlignment="Left" Height="144" Stroke="Black" VerticalAlignment="Top" Width="270" Margin="530,0,0,0"/>
+        <Rectangle Fill="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}" HorizontalAlignment="Left" Height="144" Stroke="Black" VerticalAlignment="Top" Width="272" Margin="530,143,-2,0"/>
+        
+        <Slider Name="InputLevelFeedbackSlider" HorizontalAlignment="Left" Margin="10,56,0,0" VerticalAlignment="Top" Width="505" Value="{Binding Path=m_inputLevelFeedback}"/>
+        
     </Grid>
 </UserControl>
