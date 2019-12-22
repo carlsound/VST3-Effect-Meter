@@ -25,7 +25,7 @@ namespace Carlsound
 			m_systemWindow(nullptr),
 			m_plugFrame(nullptr)
 		{
-
+			//LoadMissingDll^ loadmgr = gcnew LoadMissingDll();
 		}
 
 		//------------------------------------------------------------------------
@@ -38,6 +38,7 @@ namespace Carlsound
 			{
 				m_rect = *rect;
 			}
+			//LoadMissingDll^ loadmgr = gcnew LoadMissingDll();
 		}
 
 		//------------------------------------------------------------------------
@@ -73,13 +74,29 @@ namespace Carlsound
 		{
 			// Create the window.
 
-			//loadChildWindow(m_systemWindow);
-
-			LoadMissingDll^ loadmgr = gcnew LoadMissingDll();
-
-			int i = 1;
 			
-			MeterUserControl ^m_userControl = gcnew MeterUserControl(); //CppClrClassLibrary1::Class1::Instance->usrCtrlObj;
+
+			if (SMTG_PLATFORM_64)
+			{
+				SetDllDirectoryA("C:\\Program Files\\Common Files\\VST3");
+				//LoadLibraryA("C:\\Program Files\\Common Files\\VST3\\Meter_WPF_UI_CppCLI_x64.dll");
+				//LoadLibraryA("C:\\Program Files\\Common Files\\VST3\\Meter_WPF_UI_CS_XAML_x64.dll");
+			}
+			else
+			{
+				SetDllDirectoryA("C:\\Program Files (x86)\\Common Files\\VST3");
+				//LoadLibraryA("C:\\Program Files (x86)\\Common Files\\VST3\\Meter_WPF_UI_CppCLI_x86.dll");
+				//LoadLibraryA("C:\\Program Files (x86)\\Common Files\\VST3\\Meter_WPF_UI_CS_XAML_x86.dll");
+			}
+
+			//int i = 1;
+
+			loadChildWindow(m_systemWindow);
+			
+			//CppClrClassLibrary1::Class1::Instance->usrCtrlObj;
+
+			/*
+			MeterUserControl ^m_userControl = gcnew MeterUserControl(); 
 			
 			System::Windows::Interop::HwndSourceParameters^ sourceParams = gcnew System::Windows::Interop::HwndSourceParameters("Meter");
 			sourceParams->PositionX = 0;
@@ -92,7 +109,7 @@ namespace Carlsound
 			System::Windows::Interop::HwndSource^ m_hwndSource = gcnew System::Windows::Interop::HwndSource(*sourceParams);
 			//
 			m_hwndSource->RootVisual = m_userControl;
-
+			*/
 
 			//const wchar_t CLASS_NAME[] = L"Sample Window Class";
 

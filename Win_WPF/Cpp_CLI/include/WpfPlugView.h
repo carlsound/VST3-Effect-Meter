@@ -6,7 +6,7 @@
 //
 #pragma once
 //
-#include "LoadMissingDll.h"
+//#include "LoadMissingDll.h"
 //
 #include "base/source/fobject.h"
 //
@@ -22,9 +22,9 @@
 //#using <PresentationFramework.dll>
 //#using <WindowsBase.dll>
 //
-//#include "../Cpp_CLI/include/nativeInterface.h"
+#include "nativeInterface.h"
 //
-#using "C:/Program Files/Common Files/VST3/Meter_WPF_UI_CS_XAML_x64.dll"
+//#using "C:/Program Files/Common Files/VST3/Meter_WPF_UI_CS_XAML_x64.dll"
 //extern void* moduleHandle;
 //
 //

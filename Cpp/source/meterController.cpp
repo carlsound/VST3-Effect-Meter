@@ -1,4 +1,3 @@
-
 #include "../include/meterController.h"
 //
 namespace Carlsound

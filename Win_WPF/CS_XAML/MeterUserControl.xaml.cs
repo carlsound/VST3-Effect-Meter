@@ -25,6 +25,12 @@ namespace Carlsound
             public MeterUserControl()
             {
                 InitializeComponent();
+                //int i = 0;
+            }
+
+            public void Initialize()
+            {
+                InitializeComponent();
             }
         }
     }

@@ -64,7 +64,7 @@ elseif(WIN32)
         include/meterController.h
 	    include/meterControllerIncludes.h
 	    ../Win_WPF/Cpp_CLI/include/WpfPlugView.h
-        ../Win_WPF/Cpp_CLI/include/LoadMissingDll.h
+        #../Win_WPF/Cpp_CLI/include/LoadMissingDll.h
         #---
         include/meterParameters.h
         #---
@@ -87,7 +87,7 @@ elseif(WIN32)
     set(plug_sources
         source/meterController.cpp
 		../Win_WPF/Cpp_CLI/source/WpfPlugView.cpp
-        ../Win_WPF/Cpp_CLI/source/LoadMissingDll.cpp
+        #../Win_WPF/Cpp_CLI/source/LoadMissingDll.cpp
         #---
         source/meterProcessor.cpp
         #---
@@ -151,8 +151,8 @@ elseif((WIN32) AND (CMAKE_SIZEOF_VOID_P EQUAL "8"))
     base 
     sdk 
     #vstgui_support 
-    #Meter_WPF_UI_CppCLI_x64
-    Meter_WPF_UI_CS_XAML_x64
+    Meter_WPF_UI_CppCLI_x64
+    #Meter_WPF_UI_CS_XAML_x64
     )
 #
 elseif(WIN32)
@@ -160,8 +160,8 @@ elseif(WIN32)
     base 
     sdk 
     #vstgui_support 
-    #Meter_WPF_UI_CLI_x86
-    Meter_WPF_UI_CS_XAML_x86
+    Meter_WPF_UI_CLI_x86
+    #Meter_WPF_UI_CS_XAML_x86
     )
 #   
 endif()
