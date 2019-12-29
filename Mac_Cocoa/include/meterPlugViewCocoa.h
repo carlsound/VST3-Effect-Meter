@@ -16,7 +16,7 @@ namespace Carlsound
 {
     namespace Meter
     {
-        class CocoaPlugView: public Steinberg::CPluginView //,
+        class MeterPlugViewCocoa: public Steinberg::CPluginView //,
                              //public Steinberg::IPlugView
         {
         public:
@@ -29,9 +29,9 @@ namespace Carlsound
             //
             //
             //
-            CocoaPlugView ();
-            CocoaPlugView (const Steinberg::ViewRect* rect);
-            ~CocoaPlugView ();
+            MeterPlugViewCocoa ();
+            MeterPlugViewCocoa (const Steinberg::ViewRect* rect);
+            ~MeterPlugViewCocoa ();
             
             //---from CPluginView-------
             /** Returns its current frame rectangle. */

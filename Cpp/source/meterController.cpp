@@ -532,15 +532,16 @@ namespace Carlsound
                 
 				#if(SMTG_OS_OSX || SMTG_OS_MACOS)
                 {
-                    //auto* view = new CocoaPlugView();
-					return view;
+                    m_view = new MeterPlugViewCocoa();
+					return m_view;
                 }
 				#endif
 
 				#if(SMTG_OS_WINDOWS)
                 {
 					//m_view = std::make_shared<Steinberg::IPlugView*>( WpfPlugView() );
-					m_view = new WpfPlugView();
+					//m_view = new MeterPlugViewWpf();
+					m_view = new MeterPlugViewUltralightWin32();
 					//
 					return m_view;
                 }

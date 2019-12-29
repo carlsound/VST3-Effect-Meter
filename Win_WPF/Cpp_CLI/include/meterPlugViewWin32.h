@@ -34,7 +34,7 @@ namespace Carlsound
 {
 	namespace Meter
 	{
-		class WpfPlugView : public Steinberg::CPluginView //Vst::EditorView,
+		class MeterPlugViewWin32 : public Steinberg::CPluginView //Vst::EditorView,
 				   //public Steinberg::FObject //,
 				   //public Steinberg::IPlugFrame
 		{
@@ -123,13 +123,7 @@ namespace Carlsound
 			/** On live resize this is called to check if the view can be resized to the given rect, if not
 			 *	adjust the rect to the allowed size. */
 			Steinberg::tresult PLUGIN_API checkSizeConstraint(Steinberg::ViewRect* rect) SMTG_OVERRIDE;
-
-			/** Called to inform the host about the resize of a given view.
-			 *	Afterwards the host has to call IPlugView::onSize (). */
-			 //Steinberg::tresult PLUGIN_API resizeView(Steinberg::IPlugView* view, Steinberg::ViewRect* newSize) SMTG_OVERRIDE;
-			 //
-
-
+			
 			//------------------------------------------------------------------------
 			Steinberg::tresult PLUGIN_API setInputLevelFeedback(Steinberg::Vst::ParamValue);
 

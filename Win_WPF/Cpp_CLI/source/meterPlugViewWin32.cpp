@@ -1,7 +1,7 @@
 //
 // Created by John Carlson on 10/13/19.
 //
-#include "../include/WpfPlugView.h"
+#include "../include/meterPlugViewWin32.h"
 #include <string.h>
 //
 //extern void* moduleHandle;
@@ -20,7 +20,7 @@ namespace Carlsound
 	namespace Meter
 	{
 		//------------------------------------------------------------------------
-		WpfPlugView::WpfPlugView() :
+		MeterPlugViewWin32::MeterPlugViewWin32() :
 			m_rect(0, 0, 800, 450),
 			m_systemWindow(nullptr),
 			m_plugFrame(nullptr)
@@ -29,7 +29,7 @@ namespace Carlsound
 		}
 
 		//------------------------------------------------------------------------
-		WpfPlugView::WpfPlugView(const Steinberg::ViewRect* rect) : 
+		MeterPlugViewWin32::MeterPlugViewWin32(const Steinberg::ViewRect* rect) : 
 			m_rect(0, 0, 800, 450),
 			m_systemWindow(nullptr),
 			m_plugFrame(nullptr)
@@ -42,35 +42,35 @@ namespace Carlsound
 		}
 
 		//------------------------------------------------------------------------
-		WpfPlugView:: ~WpfPlugView()
+		MeterPlugViewWin32:: ~MeterPlugViewWin32()
 		{
 
 		}
 
 		//------------------------------------------------------------------------
 		/** Returns its current frame rectangle. */
-		const Steinberg::ViewRect& WpfPlugView::getRect() const
+		const Steinberg::ViewRect& MeterPlugViewWin32::getRect() const
 		{
 			return m_rect;
 		}
 
 		//------------------------------------------------------------------------
 		/** Sets a new frame rectangle. */
-		void WpfPlugView::setRect(const Steinberg::ViewRect& r)
+		void MeterPlugViewWin32::setRect(const Steinberg::ViewRect& r)
 		{
 			m_rect = r;
 		}
 
 		//------------------------------------------------------------------------
 		/** Checks if this view is attached to its parent view. */
-		bool WpfPlugView::isAttached() const
+		bool MeterPlugViewWin32::isAttached() const
 		{
 			return m_systemWindow != nullptr;
 		}
 
 		//------------------------------------------------------------------------
 		/** Calls when this view will be attached to its parent view. */
-		void WpfPlugView::attachedToParent()
+		void MeterPlugViewWin32::attachedToParent()
 		{
 			// Create the window.
 
@@ -151,7 +151,7 @@ namespace Carlsound
 
 		//------------------------------------------------------------------------
 		/** Calls when this view will be removed from its parent view. */
-		void WpfPlugView::removedFromParent()
+		void MeterPlugViewWin32::removedFromParent()
 		{
 			//[m_viewController.view removeFromSuperview] ;
 		}
@@ -159,7 +159,7 @@ namespace Carlsound
 		//------------------------------------------------------------------------
 		/** Is Platform UI Type supported
 				\param type : IDString of \ref platformUIType */
-		Steinberg::tresult WpfPlugView::isPlatformTypeSupported(Steinberg::FIDString type)
+		Steinberg::tresult MeterPlugViewWin32::isPlatformTypeSupported(Steinberg::FIDString type)
 		{
 			if (strcmp(type, Steinberg::kPlatformTypeHWND) == 0)
 			{
@@ -179,7 +179,7 @@ namespace Carlsound
 			Note that in this call the Plug-in could call a IPlugFrame::resizeView ()!
 			\param parent : platform handle of the parent window or view
 			\param type : \ref platformUIType which should be created */
-		Steinberg::tresult WpfPlugView::attached(void* parent, Steinberg::FIDString type)
+		Steinberg::tresult MeterPlugViewWin32::attached(void* parent, Steinberg::FIDString type)
 		{
 			if (strcmp(type, Steinberg::kPlatformTypeHWND) == 0)
 			{
@@ -201,7 +201,7 @@ namespace Carlsound
 		//------------------------------------------------------------------------
 		/** The parent window of the view is about to be destroyed.
 			You have to remove all your own views from the parent window or view. */
-		Steinberg::tresult WpfPlugView::removed()
+		Steinberg::tresult MeterPlugViewWin32::removed()
 		{
 			removedFromParent();
 			//
@@ -212,7 +212,7 @@ namespace Carlsound
 
 		//------------------------------------------------------------------------
 		/** Handling of mouse wheel. */
-		Steinberg::tresult WpfPlugView::onWheel(float distance)
+		Steinberg::tresult MeterPlugViewWin32::onWheel(float distance)
 		{
 			return Steinberg::kResultTrue;
 		}
@@ -225,7 +225,7 @@ namespace Carlsound
 			\return kResultTrue if the key is handled, otherwise kResultFalse. \n
 					<b> Please note that kResultTrue must only be returned if the key has really been
 		   handled. </b> Otherwise key command handling of the host might be blocked! */
-		Steinberg::tresult WpfPlugView::onKeyDown(Steinberg::char16 key, Steinberg::int16 keyCode, Steinberg::int16 modifiers)
+		Steinberg::tresult MeterPlugViewWin32::onKeyDown(Steinberg::char16 key, Steinberg::int16 keyCode, Steinberg::int16 modifiers)
 		{
 			return Steinberg::kResultTrue;
 		}
@@ -236,14 +236,14 @@ namespace Carlsound
 			\param keyCode : virtual keycode for non ascii keys - see \ref VirtualKeyCodes in keycodes.h
 			\param modifiers : any combination of KeyModifier - see \ref KeyModifier in keycodes.h
 			\return kResultTrue if the key is handled, otherwise return kResultFalse. */
-		Steinberg::tresult WpfPlugView::onKeyUp(Steinberg::char16 key, Steinberg::int16 keyCode, Steinberg::int16 modifiers)
+		Steinberg::tresult MeterPlugViewWin32::onKeyUp(Steinberg::char16 key, Steinberg::int16 keyCode, Steinberg::int16 modifiers)
 		{
 			return Steinberg::kResultTrue;
 		}
 
 		//------------------------------------------------------------------------
 		/** Returns the size of the platform representation of the view. */
-		Steinberg::tresult WpfPlugView::getSize(Steinberg::ViewRect* size)
+		Steinberg::tresult MeterPlugViewWin32::getSize(Steinberg::ViewRect* size)
 		{
 			if (size)
 			{
@@ -256,7 +256,7 @@ namespace Carlsound
 		//------------------------------------------------------------------------
 		/** Resizes the platform representation of the view to the given rect. Note that if the Plug-in
 		 *	requests a resize (IPlugFrame::resizeView ()) onSize has to be called afterward. */
-		Steinberg::tresult WpfPlugView::onSize(Steinberg::ViewRect* newSize)
+		Steinberg::tresult MeterPlugViewWin32::onSize(Steinberg::ViewRect* newSize)
 		{
 			if ((newSize->right - newSize->left >= 800) && (newSize->bottom - newSize->top >= 450))
 			{
@@ -268,14 +268,14 @@ namespace Carlsound
 
 		//------------------------------------------------------------------------
 		/** Focus changed message. */
-		Steinberg::tresult WpfPlugView::onFocus(Steinberg::TBool state)
+		Steinberg::tresult MeterPlugViewWin32::onFocus(Steinberg::TBool state)
 		{
 			return Steinberg::kResultTrue;
 		}
 
 		//------------------------------------------------------------------------
 		/** Sets IPlugFrame object to allow the Plug-in to inform the host about resizing. */
-		Steinberg::tresult WpfPlugView::setFrame(Steinberg::IPlugFrame* frame)
+		Steinberg::tresult MeterPlugViewWin32::setFrame(Steinberg::IPlugFrame* frame)
 		{
 			m_plugFrame = frame;
 			if (m_plugFrame != nullptr)
@@ -287,7 +287,7 @@ namespace Carlsound
 
 		//------------------------------------------------------------------------
 		/** Is view sizable by user. */
-		Steinberg::tresult WpfPlugView::canResize()
+		Steinberg::tresult MeterPlugViewWin32::canResize()
 		{
 			return Steinberg::kResultTrue;
 		}
@@ -295,7 +295,7 @@ namespace Carlsound
 		//------------------------------------------------------------------------
 		/** On live resize this is called to check if the view can be resized to the given rect, if not
 		 *	adjust the rect to the allowed size. */
-		Steinberg::tresult WpfPlugView::checkSizeConstraint(Steinberg::ViewRect* rect)
+		Steinberg::tresult MeterPlugViewWin32::checkSizeConstraint(Steinberg::ViewRect* rect)
 		{
 			Steinberg::int32 rectHeight = rect->getHeight();
 			Steinberg::int32 rectWidth = rect->getWidth();
@@ -314,17 +314,7 @@ namespace Carlsound
 		}
 
 		//------------------------------------------------------------------------
-		/** Called to inform the host about the resize of a given view.
-			 *	Afterwards the host has to call IPlugView::onSize (). */
-			 /*
-			 Steinberg::tresult WpfPlugView::resizeView(Steinberg::IPlugView* view, Steinberg::ViewRect* newSize)
-			 {
-				 return view->getSize(newSize);
-			 }
-			 */
-
-		//------------------------------------------------------------------------
-		Steinberg::tresult WpfPlugView::setInputLevelFeedback(Steinberg::Vst::ParamValue)
+		Steinberg::tresult MeterPlugViewWin32::setInputLevelFeedback(Steinberg::Vst::ParamValue)
 		{
 			m_
 			return Steinberg::kResultTrue;

@@ -22,7 +22,7 @@ if(APPLE)
         #--
         include/ideConsoleWriteLine.h
         #
-        ../Mac_Cocoa/include/cocoaPlugView.h
+        ../Mac_Cocoa/include/meterPlugViewCocoa.h
         #
         ../Mac_Cocoa/include/meterView.h
         #
@@ -46,7 +46,7 @@ if(APPLE)
         #---
         #source/componentMessage.cpp
         #
-        ../Mac_Cocoa/source/cocoaPlugView.mm
+        ../Mac_Cocoa/source/meterPlugViewCocoa.mm
         #
         ../Mac_Cocoa/source/meterView.mm
         #
@@ -62,9 +62,10 @@ if(APPLE)
 elseif(WIN32)
     set(plug_includes
         include/meterController.h
-	    include/meterControllerIncludes.h
-	    ../Win_WPF/Cpp_CLI/include/WpfPlugView.h
-        #../Win_WPF/Cpp_CLI/include/LoadMissingDll.h
+        include/meterControllerIncludes.h
+        ../Win_Ultralight/include/meterPlugViewUltralightWin32.h
+	    #../Win_WPF/Cpp_CLI/include/meterPlugViewWin32.h
+        #../Win_WPF/Cpp_CLI/include/loadMissingDll.h
         #---
         include/meterParameters.h
         #---
@@ -86,7 +87,8 @@ elseif(WIN32)
 
     set(plug_sources
         source/meterController.cpp
-		../Win_WPF/Cpp_CLI/source/WpfPlugView.cpp
+        ../Win_Ultralight/source/meterPlugViewUltralightWin32.cpp
+		#../Win_WPF/Cpp_CLI/source/meterPlugViewWin32.cpp
         #../Win_WPF/Cpp_CLI/source/LoadMissingDll.cpp
         #---
         source/meterProcessor.cpp
@@ -152,7 +154,11 @@ elseif((WIN32) AND (CMAKE_SIZEOF_VOID_P EQUAL "8"))
     sdk 
     #vstgui_support 
     #Meter_WPF_UI_CppCLI_x64
-    Meter_WPF_UI_CS_XAML_AnyCPU
+    #Meter_WPF_UI_CS_XAML_AnyCPU
+    "C:/Users/john_/Downloads/ultralight-sdk-1.0-win/lib/win/x64/AppCore.lib"
+    "C:/Users/john_/Downloads/ultralight-sdk-1.0-win/lib/win/x64/Ultralight.lib"
+    "C:/Users/john_/Downloads/ultralight-sdk-1.0-win/lib/win/x64/UltralightCore.lib"
+    "C:/Users/john_/Downloads/ultralight-sdk-1.0-win/lib/win/x64/WebCore.lib"
     )
 #
 elseif(WIN32)
@@ -161,34 +167,41 @@ elseif(WIN32)
     sdk 
     #vstgui_support 
     #Meter_WPF_UI_CLI_x86
-    Meter_WPF_UI_CS_XAML_AnyCPU
+    #Meter_WPF_UI_CS_XAML_AnyCPU
+    "C:/Users/john_/Downloads/ultralight-sdk-1.0-win/lib/win/x86/AppCore.lib"
+    "C:/Users/john_/Downloads/ultralight-sdk-1.0-win/lib/win/x86/Ultralight.lib"
+    "C:/Users/john_/Downloads/ultralight-sdk-1.0-win/lib/win/x86/UltralightCore.lib"
+    "C:/Users/john_/Downloads/ultralight-sdk-1.0-win/lib/win/x86/WebCore.lib"
     )
 #   
 endif()
 
 if(WIN32)
-    target_compile_options(${target} PRIVATE /fp:precise) #/fp:strict is incompatible with /clr
-    target_compile_options(${target} PRIVATE /Zi) #/ZI is incompatible with /clr
+    #target_compile_options(${target} PRIVATE /fp:precise) #/fp:strict is incompatible with /clr
+    #target_compile_options(${target} PRIVATE /Zi) #/ZI is incompatible with /clr
     #
-    target_include_directories(${target} PRIVATE ..Win_WPF/CS_XAML)
+    target_include_directories(${target} PRIVATE 
+    #..Win_WPF/CS_XAML
+    "C:/Users/john_/Downloads/ultralight-sdk-1.0-win/"
+    )
     #
     set_property(TARGET ${target} PROPERTY CXX_STANDARD 17)
-    set_property(TARGET ${target} PROPERTY COMMON_LANGUAGE_RUNTIME "")
-    set_property(TARGET ${target} PROPERTY VS_GLOBAL_CLRSupport "true")
-    set_property(TARGET ${target} PROPERTY VS_DOTNET_TARGET_FRAMEWORK_VERSION "v4.8")
-    set_property(TARGET ${target} PROPERTY VS_DOTNET_REFERENCES
-	"mscorlib"
-	"PresentationCore"
-	"PresentationFramework"
-	"System"
+    #set_property(TARGET ${target} PROPERTY COMMON_LANGUAGE_RUNTIME "")
+    #set_property(TARGET ${target} PROPERTY VS_GLOBAL_CLRSupport "true")
+    #set_property(TARGET ${target} PROPERTY VS_DOTNET_TARGET_FRAMEWORK_VERSION "v4.8")
+    #set_property(TARGET ${target} PROPERTY VS_DOTNET_REFERENCES
+	#"mscorlib"
+	#"PresentationCore"
+	#"PresentationFramework"
+	#"System"
 	#"System.Core"
-	"System.Data"
+	#"System.Data"
 	#"System.Data.DataSetExtensions"
 	#"System.Net.Http"
-	"System.Xaml"
-	"System.Xml"
+	#"System.Xaml"
+	#"System.Xml"
 	#"System.Xml.Linq"
-    "WindowsBase")
+    #"WindowsBase")
     #
     #target_include_directories(${target} PRIVATE ../Win_WPF/Cpp_CLI)
 	#

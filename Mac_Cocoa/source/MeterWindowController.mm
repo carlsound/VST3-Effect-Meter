@@ -6,7 +6,7 @@
 //  Copyright © 2019 John Carlson. All rights reserved.
 //
 
-#import "../include/MeterWindowController.h"
+#import "../include/meterWindowController.h"
 
 @interface MeterWindowController ()
 

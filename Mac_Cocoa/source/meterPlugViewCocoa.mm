@@ -2,7 +2,7 @@
 // Created by John Carlson on 10/13/19.
 //
 
-#include "../include/cocoaPlugView.h"
+#include "../include/meterPlugViewCocoa.h"
 #include <string.h>
 
 namespace Carlsound
@@ -10,19 +10,19 @@ namespace Carlsound
     namespace Meter
     {
         //------------------------------------------------------------------------
-        CocoaPlugView::CocoaPlugView():
-                        m_rect(0, 0, 480, 272),
-                        m_systemWindow(nullptr),
-                        m_plugFrame(nullptr)
+        MeterPlugViewCocoa::MeterPlugViewCocoa():
+                            m_rect(0, 0, 480, 272),
+                            m_systemWindow(nullptr),
+                            m_plugFrame(nullptr)
         {
         
         }
     
         //------------------------------------------------------------------------
-        CocoaPlugView::CocoaPlugView(const Steinberg::ViewRect* rect):
-                        m_rect(0, 0, 480, 272),
-                        m_systemWindow(nullptr),
-                        m_plugFrame(nullptr)
+        MeterPlugViewCocoa::MeterPlugViewCocoa(const Steinberg::ViewRect* rect):
+                            m_rect(0, 0, 480, 272),
+                            m_systemWindow(nullptr),
+                            m_plugFrame(nullptr)
         {
             if(rect)
             {
@@ -35,35 +35,35 @@ namespace Carlsound
         }
         
         //------------------------------------------------------------------------
-        CocoaPlugView::~CocoaPlugView()
+        MeterPlugViewCocoa::~MeterPlugViewCocoa()
         {
             
         }
         
         //------------------------------------------------------------------------
         /** Returns its current frame rectangle. */
-        const Steinberg::ViewRect& CocoaPlugView::getRect () const
+        const Steinberg::ViewRect& MeterPlugViewCocoa::getRect () const
         {
             return m_rect;
         }
         
         //------------------------------------------------------------------------
         /** Sets a new frame rectangle. */
-        void CocoaPlugView::setRect (const Steinberg::ViewRect& r)
+        void MeterPlugViewCocoa::setRect (const Steinberg::ViewRect& r)
         {
             m_rect = r;
         }
         
         //------------------------------------------------------------------------
         /** Checks if this view is attached to its parent view. */
-        bool CocoaPlugView::isAttached () const
+        bool MeterPlugViewCocoa::isAttached () const
         {
             return systemWindow != nullptr;
         }
         
         //------------------------------------------------------------------------
         /** Calls when this view will be attached to its parent view. */
-        void CocoaPlugView::attachedToParent ()
+        void MeterPlugViewCocoa::attachedToParent ()
         {
             //m_view = [[meterView alloc] initWithFrame: NSMakeRect(0, 0, 480, 272)];
             m_viewController = [[meterViewController alloc] initWithNibName: @"meterViewController" bundle: [NSBundle bundleWithIdentifier:@"net.carlsound.VST3-Effect-Meter" /* nil */]];
@@ -85,7 +85,7 @@ namespace Carlsound
         
         //------------------------------------------------------------------------
         /** Calls when this view will be removed from its parent view. */
-        void CocoaPlugView::removedFromParent ()
+        void MeterPlugViewCocoa::removedFromParent ()
         {
             //[m_view removeFromSuperview];
             [m_viewController.view removeFromSuperview];
@@ -97,7 +97,7 @@ namespace Carlsound
         //------------------------------------------------------------------------
         /** Is Platform UI Type supported
                 \param type : IDString of \ref platformUIType */
-        Steinberg::tresult CocoaPlugView::isPlatformTypeSupported (Steinberg::FIDString type)
+        Steinberg::tresult MeterPlugViewCocoa::isPlatformTypeSupported (Steinberg::FIDString type)
         {
             if (strcmp (type, Steinberg::kPlatformTypeNSView) == 0)
             {
@@ -117,7 +117,7 @@ namespace Carlsound
             Note that in this call the Plug-in could call a IPlugFrame::resizeView ()!
             \param parent : platform handle of the parent window or view
             \param type : \ref platformUIType which should be created */
-        Steinberg::tresult CocoaPlugView::attached (void* parent, Steinberg::FIDString type)
+        Steinberg::tresult MeterPlugViewCocoa::attached (void* parent, Steinberg::FIDString type)
         {
             if (strcmp (type, Steinberg::kPlatformTypeNSView) == 0)
             {
@@ -138,7 +138,7 @@ namespace Carlsound
         //------------------------------------------------------------------------
         /** The parent window of the view is about to be destroyed.
             You have to remove all your own views from the parent window or view. */
-        Steinberg::tresult CocoaPlugView::removed ()
+        Steinberg::tresult MeterPlugViewCocoa::removed ()
         {
             removedFromParent ();
             //
@@ -149,7 +149,7 @@ namespace Carlsound
         
         //------------------------------------------------------------------------
         /** Handling of mouse wheel. */
-        Steinberg::tresult CocoaPlugView::onWheel (float distance)
+        Steinberg::tresult MeterPlugViewCocoa::onWheel (float distance)
         {
             return Steinberg::kResultTrue;
         }
@@ -162,7 +162,7 @@ namespace Carlsound
             \return kResultTrue if the key is handled, otherwise kResultFalse. \n
                     <b> Please note that kResultTrue must only be returned if the key has really been
            handled. </b> Otherwise key command handling of the host might be blocked! */
-        Steinberg::tresult CocoaPlugView::onKeyDown (Steinberg::char16 key, Steinberg::int16 keyCode, Steinberg::int16 modifiers)
+        Steinberg::tresult MeterPlugViewCocoa::onKeyDown (Steinberg::char16 key, Steinberg::int16 keyCode, Steinberg::int16 modifiers)
         {
             return Steinberg::kResultTrue;
         }
@@ -173,14 +173,14 @@ namespace Carlsound
             \param keyCode : virtual keycode for non ascii keys - see \ref VirtualKeyCodes in keycodes.h
             \param modifiers : any combination of KeyModifier - see \ref KeyModifier in keycodes.h
             \return kResultTrue if the key is handled, otherwise return kResultFalse. */
-        Steinberg::tresult CocoaPlugView::onKeyUp (Steinberg::char16 key, Steinberg::int16 keyCode, Steinberg::int16 modifiers)
+        Steinberg::tresult MeterPlugViewCocoa::onKeyUp (Steinberg::char16 key, Steinberg::int16 keyCode, Steinberg::int16 modifiers)
         {
             return Steinberg::kResultTrue;
         }
         
         //------------------------------------------------------------------------
         /** Returns the size of the platform representation of the view. */
-        Steinberg::tresult CocoaPlugView::getSize (Steinberg::ViewRect* size)
+        Steinberg::tresult MeterPlugViewCocoa::getSize (Steinberg::ViewRect* size)
         {
             if (size)
             {
@@ -193,7 +193,7 @@ namespace Carlsound
         //------------------------------------------------------------------------
         /** Resizes the platform representation of the view to the given rect. Note that if the Plug-in
          *    requests a resize (IPlugFrame::resizeView ()) onSize has to be called afterward. */
-        Steinberg::tresult CocoaPlugView::onSize (Steinberg::ViewRect* newSize)
+        Steinberg::tresult MeterPlugViewCocoa::onSize (Steinberg::ViewRect* newSize)
         {
             if ((newSize->right - newSize->left >= 480) && (newSize->bottom-newSize->top >= 272))
                 m_rect = *newSize;
@@ -202,14 +202,14 @@ namespace Carlsound
         
         //------------------------------------------------------------------------
         /** Focus changed message. */
-        Steinberg::tresult CocoaPlugView::onFocus (Steinberg::TBool state)
+        Steinberg::tresult MeterPlugViewCocoa::onFocus (Steinberg::TBool state)
         {
             return Steinberg::kResultTrue;
         }
         
         //------------------------------------------------------------------------
         /** Sets IPlugFrame object to allow the Plug-in to inform the host about resizing. */
-        Steinberg::tresult CocoaPlugView::setFrame (Steinberg::IPlugFrame* frame)
+        Steinberg::tresult MeterPlugViewCocoa::setFrame (Steinberg::IPlugFrame* frame)
         {
             m_plugFrame = frame;
             if(m_plugFrame != nullptr)
@@ -224,7 +224,7 @@ namespace Carlsound
         
         //------------------------------------------------------------------------
         /** Is view sizable by user. */
-        Steinberg::tresult CocoaPlugView::canResize ()
+        Steinberg::tresult MeterPlugViewCocoa::canResize ()
         {
             return Steinberg::kResultTrue;
         }
@@ -232,7 +232,7 @@ namespace Carlsound
         //------------------------------------------------------------------------
         /** On live resize this is called to check if the view can be resized to the given rect, if not
          *    adjust the rect to the allowed size. */
-        Steinberg::tresult CocoaPlugView::checkSizeConstraint (Steinberg::ViewRect* rect)
+        Steinberg::tresult MeterPlugViewCocoa::checkSizeConstraint (Steinberg::ViewRect* rect)
         {
             return Steinberg::kResultTrue;
         }
