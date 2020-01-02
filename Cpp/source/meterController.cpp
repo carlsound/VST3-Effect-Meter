@@ -1,4 +1,9 @@
+
 #include "../include/meterController.h"
+//
+#if(SMTG_OS_WINDOWS)
+#include "../include/stdafx.h"
+#endif // 
 //
 namespace Carlsound
 {
@@ -102,7 +107,7 @@ namespace Carlsound
 					STR16 ("Bypass") // shortTitle
 				);
 				//
-				m_view = new WpfPlugView();
+				m_view = new MeterControllerViewWin32WpfHost();
 			}
 			return Steinberg::kResultTrue;
 		}
@@ -523,13 +528,6 @@ namespace Carlsound
 		{
 			if (name && strcmp(name, "editor") == 0)
 			{
-				//auto* view = new VSTGUI::VST3Editor(this, "view", "plug.uidesc");
-
-				//m_GuiFrame = view->getFrame();
-				
-				//m_GuiView_InputLevel_VuMeter = m_GuiFrame->getView(0);
-				//m_GuiView_InputLevel_TextLabel = m_GuiFrame->getView(1);
-                
 				#if(SMTG_OS_OSX || SMTG_OS_MACOS)
                 {
                     m_view = new MeterPlugViewCocoa();
@@ -539,14 +537,11 @@ namespace Carlsound
 
 				#if(SMTG_OS_WINDOWS)
                 {
-					//m_view = std::make_shared<Steinberg::IPlugView*>( WpfPlugView() );
-					//m_view = new MeterPlugViewWpf();
-					m_view = new MeterPlugViewUltralightWin32();
+					m_view = new MeterControllerViewWin32WpfHost();
 					//
 					return m_view;
                 }
 				#endif
-
 			}
 			return nullptr;
 		}

@@ -30,10 +30,11 @@
 #if SMTG_OS_WINDOWS
 #include <atlconv.h>
 #include <tchar.h>
-#include "../../Win_Ultralight/include/meterPlugViewUltralightWin32.h"
-//#include "../../Win_WPF/Cpp_CLI/include/WpfPlugView.h"
+//#include "../../Win_Ultralight/include/meterPlugViewUltralightWin32.h"
+#include "../../Win_WPF/Cpp_CLI/include/meterControllerViewWin32WpfHost.h"
 //#include "vstgui4/vstgui/vstgui_win32.cpp"
 //#include "vstgui4/vstgui/vstgui_uidescription_win32.cpp"
+#include "stdafx.h"
 #endif
 //
 #if SMTG_OS_MACOS || SMTG_OS_OSX

@@ -6,6 +6,10 @@
 #include "../include/meterUIDs.h"	    // for UIDs
 #include "../include/meterVersion.h"	// for version and naming
 //
+#if(SMTG_OS_WINDOWS)
+#include "../include/stdafx.h"
+#endif
+//
 //#define stringSubCategory	"Fx|Analyzer"	// Subcategory for this Plug-in (to be changed if needed, see PlugType in ivstaudioprocessor.h)
 //
 BEGIN_FACTORY_DEF

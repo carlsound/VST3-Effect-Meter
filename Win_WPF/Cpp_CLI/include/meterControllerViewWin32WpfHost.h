@@ -1,32 +1,13 @@
 // https://weblogs.thinktecture.com/cnagel/2010/04/mfc-and-wpf-interop.html
 // https://www.abhishekshukla.com/wpf/advanced-wpf-part-5-of-5-interop-in-windows-presentation-foundation/
 // https://stackoverflow.com/questions/1373100/how-to-add-folder-to-assembly-search-path-at-runtime-in-net
+// https://docs.microsoft.com/en-us/cpp/dotnet/auto-gcroot-class?view=vs-2019
 //
 // public.sdk/source/common/pluginview.h
 //
 #pragma once
-//
-//#include "LoadMissingDll.h"
-//
-#include "base/source/fobject.h"
-//
-//#include "pluginterfaces/gui/iplugview.h"
-//#include "public.sdk/source/vst/vsteditcontroller.h"
-#include "public.sdk/source/common/pluginview.h"
-//
-//#include <vcclr.h>
-#include <windows.h>
-#include <WinUser.h>
-//
-//#using <PresentationCore.dll>
-//#using <PresentationFramework.dll>
-//#using <WindowsBase.dll>
-//
-#include "nativeInterface.h"
-#include <pluginterfaces\vst\vsttypes.h>
-//
-#using "C:/Program Files/Common Files/VST3/Meter_WPF_UI_CS_XAML_AnyCPU.dll"
-//extern void* moduleHandle;
+#include "../../../Cpp/include/stdafx.h"
+#include "meterControllerViewWin32WpfHostIncludes.h"
 //
 //
 //
@@ -34,7 +15,7 @@ namespace Carlsound
 {
 	namespace Meter
 	{
-		class MeterPlugViewWin32 : public Steinberg::CPluginView //Vst::EditorView,
+		class MeterControllerViewWin32WpfHost : public Steinberg::CPluginView //Vst::EditorView,
 				   //public Steinberg::FObject //,
 				   //public Steinberg::IPlugFrame
 		{
@@ -47,9 +28,9 @@ namespace Carlsound
 				//END_DEFINE_INTERFACES(Steinberg::Vst::EditorView)
 			//REFCOUNT_METHODS(Steinberg::Vst::EditorViewS)
 			//
-			WpfPlugView();
-			WpfPlugView(const Steinberg::ViewRect* rect);
-			~WpfPlugView();
+			MeterControllerViewWin32WpfHost();
+			MeterControllerViewWin32WpfHost(const Steinberg::ViewRect* rect);
+			~MeterControllerViewWin32WpfHost();
 
 			//---from CPluginView-------
 					/** Returns its current frame rectangle. */
@@ -137,6 +118,8 @@ namespace Carlsound
 			//HWND m_parentWindow;
 			//
 			//MeterUserControl ^m_meterUserControl;
+			msclr::auto_gcroot<MeterUserControl^> m_UIptr;
+			//HRESULT m_hr;
 		};
 	} // namespace Meter
 } // namespace Carlsound

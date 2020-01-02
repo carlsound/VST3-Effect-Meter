@@ -2,17 +2,24 @@ if(APPLE)
     set(CMAKE_C_FLAGS "-x objective-c")
 
     set(plug_includes
-		include/meterController.h
-	    include/meterControllerIncludes.h
-        #---
         include/meterParameters.h
-        #---
-        include/meterProcessor.h
-        include/meterProcessorIncludes.h
         #---
         include/meterUIDs.h
         #---
         include/meterVersion.h
+        #---
+        include/meterProcessorIncludes.h
+        include/meterProcessor.h
+        #---
+        include/meterControllerIncludes.h
+        include/meterController.h
+        #---
+        ../Mac_Cocoa/include/meterPlugViewCocoa.h
+        #---
+        ../Mac_Cocoa/include/meterView.h
+        #---
+        ../Mac_Cocoa/include/meterViewController.h
+        #../Mac_Cocoa/include/meterWindowController.h
         #---
         #include/componentAttribute.h
         #---
@@ -21,35 +28,22 @@ if(APPLE)
         #include/componentMessage.h
         #--
         include/ideConsoleWriteLine.h
-        #
-        ../Mac_Cocoa/include/meterPlugViewCocoa.h
-        #
-        ../Mac_Cocoa/include/meterView.h
-        #
-        ../Mac_Cocoa/include/meterViewController.h
-        #../Mac_Cocoa/include/meterWindowController.h
         )
 
     set(plug_sources
-        # source/meterController.cpp
-        ../Mac_Cocoa/source/meterController.mm
+        source/meterFactory.cpp
+        #../Mac_Cocoa/source/meterFactory.mm
         #---
         source/meterProcessor.cpp
         #../Mac_Cocoa/source/meterProcessor.mm
         #---
-            source/meterFactory.cpp
-        #../Mac_Cocoa/source/meterFactory.mm
+        # source/meterController.cpp
+        ../Mac_Cocoa/source/meterController.mm
         #---
-        #source/componentAttribute.cpp
-        #---
-        #source/componentAttributeList.cpp
-        #---
-        #source/componentMessage.cpp
-        #
         ../Mac_Cocoa/source/meterPlugViewCocoa.mm
-        #
+        #---
         ../Mac_Cocoa/source/meterView.mm
-        #
+        #---
         ../Mac_Cocoa/source/meterViewController.mm
         #
         #../Mac_Cocoa/source/meterWindowController.mm
@@ -57,24 +51,32 @@ if(APPLE)
         ../Mac_Cocoa/UI/meterViewController.xib
         #
         #../Mac_Cocoa/UI/meterWindowController.xib
+        #---
+        #source/componentAttribute.cpp
+        #---
+        #source/componentAttributeList.cpp
+        #---
+        #source/componentMessage.cpp
         )
 #
 elseif(WIN32)
     set(plug_includes
-        include/meterController.h
-        include/meterControllerIncludes.h
-        ../Win_Ultralight/include/meterPlugViewUltralightWin32.h
-	    #../Win_WPF/Cpp_CLI/include/meterPlugViewWin32.h
-        #../Win_WPF/Cpp_CLI/include/loadMissingDll.h
-        #---
+        include/stdafx.h
         include/meterParameters.h
-        #---
-        include/meterProcessor.h
-        include/meterProcessorIncludes.h
         #---
         include/meterUIDs.h
         #---
         include/meterVersion.h
+        #---
+        include/meterProcessorIncludes.h
+        include/meterProcessor.h
+        #---
+        include/meterControllerIncludes.h
+        include/meterController.h
+        #../Win_Ultralight/include/meterPlugViewUltralightWin32.h
+        ../Win_WPF/Cpp_CLI/include/meterControllerViewWin32WpfHostIncludes.h
+	    ../Win_WPF/Cpp_CLI/include/meterControllerViewWin32WpfHost.h
+        #../Win_WPF/Cpp_CLI/include/loadMissingDll.h
         #---
         #include/componentAttribute.h
         #---
@@ -86,14 +88,14 @@ elseif(WIN32)
         )
 
     set(plug_sources
-        source/meterController.cpp
-        ../Win_Ultralight/source/meterPlugViewUltralightWin32.cpp
-		#../Win_WPF/Cpp_CLI/source/meterPlugViewWin32.cpp
-        #../Win_WPF/Cpp_CLI/source/LoadMissingDll.cpp
+        source/meterFactory.cpp
         #---
         source/meterProcessor.cpp
         #---
-        source/meterFactory.cpp
+        source/meterController.cpp
+        #../Win_Ultralight/source/meterPlugViewUltralightWin32.cpp
+		../Win_WPF/Cpp_CLI/source/meterControllerViewWin32WpfHost.cpp
+        #../Win_WPF/Cpp_CLI/source/LoadMissingDll.cpp
         #---
         #source/componentAttribute.cpp
         #---
@@ -154,11 +156,11 @@ elseif((WIN32) AND (CMAKE_SIZEOF_VOID_P EQUAL "8"))
     sdk 
     #vstgui_support 
     #Meter_WPF_UI_CppCLI_x64
-    #Meter_WPF_UI_CS_XAML_AnyCPU
-    "C:/Users/john_/Downloads/ultralight-sdk-1.0-win/lib/win/x64/AppCore.lib"
-    "C:/Users/john_/Downloads/ultralight-sdk-1.0-win/lib/win/x64/Ultralight.lib"
-    "C:/Users/john_/Downloads/ultralight-sdk-1.0-win/lib/win/x64/UltralightCore.lib"
-    "C:/Users/john_/Downloads/ultralight-sdk-1.0-win/lib/win/x64/WebCore.lib"
+    Meter_WPF_UI_CS_XAML_AnyCPU
+    #"C:/Users/john_/Downloads/ultralight-sdk-1.0-win/lib/win/x64/AppCore.lib"
+    #"C:/Users/john_/Downloads/ultralight-sdk-1.0-win/lib/win/x64/Ultralight.lib"
+    #"C:/Users/john_/Downloads/ultralight-sdk-1.0-win/lib/win/x64/UltralightCore.lib"
+    #"C:/Users/john_/Downloads/ultralight-sdk-1.0-win/lib/win/x64/WebCore.lib"
     )
 #
 elseif(WIN32)
@@ -167,47 +169,50 @@ elseif(WIN32)
     sdk 
     #vstgui_support 
     #Meter_WPF_UI_CLI_x86
-    #Meter_WPF_UI_CS_XAML_AnyCPU
-    "C:/Users/john_/Downloads/ultralight-sdk-1.0-win/lib/win/x86/AppCore.lib"
-    "C:/Users/john_/Downloads/ultralight-sdk-1.0-win/lib/win/x86/Ultralight.lib"
-    "C:/Users/john_/Downloads/ultralight-sdk-1.0-win/lib/win/x86/UltralightCore.lib"
-    "C:/Users/john_/Downloads/ultralight-sdk-1.0-win/lib/win/x86/WebCore.lib"
+    Meter_WPF_UI_CS_XAML_AnyCPU
+    #"C:/Users/john_/Downloads/ultralight-sdk-1.0-win/lib/win/x86/AppCore.lib"
+    #"C:/Users/john_/Downloads/ultralight-sdk-1.0-win/lib/win/x86/Ultralight.lib"
+    #"C:/Users/john_/Downloads/ultralight-sdk-1.0-win/lib/win/x86/UltralightCore.lib"
+    #"C:/Users/john_/Downloads/ultralight-sdk-1.0-win/lib/win/x86/WebCore.lib"
     )
 #   
 endif()
 
 if(WIN32)
-    #target_compile_options(${target} PRIVATE /fp:precise) #/fp:strict is incompatible with /clr
-    #target_compile_options(${target} PRIVATE /Zi) #/ZI is incompatible with /clr
+    target_compile_options(${target} PRIVATE /fp:precise) #/fp:strict is incompatible with /clr
+    target_compile_options(${target} PRIVATE /Zi) #/ZI is incompatible with /clr
+    #
+    string(REPLACE "/MP" "" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
     #
     target_include_directories(${target} PRIVATE 
-    #..Win_WPF/CS_XAML
-    "C:/Users/john_/Downloads/ultralight-sdk-1.0-win/"
+    ..Win_WPF/CS_XAML
+    #"C:/Users/john_/Downloads/ultralight-sdk-1.0-win/"
     )
     #
     set_property(TARGET ${target} PROPERTY CXX_STANDARD 17)
-    #set_property(TARGET ${target} PROPERTY COMMON_LANGUAGE_RUNTIME "")
-    #set_property(TARGET ${target} PROPERTY VS_GLOBAL_CLRSupport "true")
-    #set_property(TARGET ${target} PROPERTY VS_DOTNET_TARGET_FRAMEWORK_VERSION "v4.8")
-    #set_property(TARGET ${target} PROPERTY VS_DOTNET_REFERENCES
-	#"mscorlib"
-	#"PresentationCore"
-	#"PresentationFramework"
-	#"System"
-	#"System.Core"
-	#"System.Data"
-	#"System.Data.DataSetExtensions"
-	#"System.Net.Http"
-	#"System.Xaml"
-	#"System.Xml"
+    set_property(TARGET ${target} PROPERTY COMMON_LANGUAGE_RUNTIME "")
+    set_property(TARGET ${target} PROPERTY VS_GLOBAL_CLRSupport "true")
+    set_property(TARGET ${target} PROPERTY VS_DOTNET_TARGET_FRAMEWORK_VERSION "v4.8")
+    set_property(TARGET ${target} PROPERTY VS_DOTNET_REFERENCES
+	"mscorlib"
+	"PresentationCore"
+	"PresentationFramework"
+	"System"
+	"System.Core"
+	"System.Data"
+	"System.Data.DataSetExtensions"
+	"System.Net.Http"
+	"System.Xaml"
+	"System.Xml"
 	#"System.Xml.Linq"
-    #"WindowsBase")
+    "WindowsBase")
     #
     #target_include_directories(${target} PRIVATE ../Win_WPF/Cpp_CLI)
 	#
     #target_sources(${target} PRIVATE resource/plug.rc)
 endif()
 #
+# VSTGUI
 # smtg_add_vst3_resource(${target} "resource/plug.uidesc")
 # smtg_add_vst3_resource(${target} "resource/background.png")
 # smtg_add_vst3_resource(${target} "resource/slider_background.png")

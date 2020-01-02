@@ -1,5 +1,9 @@
 #pragma once
 //
+#if(SMTG_OS_WINDOWS)
+#include "stdafx.h"
+#endif //
+//
 #include "componentMessage.h"
 #include "meterController.h"
 #include "meterParameters.h"

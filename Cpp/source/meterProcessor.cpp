@@ -1,5 +1,9 @@
-#include <cstring>
+
 #include "../include/meterProcessor.h"
+//
+#if(SMTG_OS_WINDOWS)
+#include "../include/stdafx.h"
+#endif
 //
 namespace Carlsound
 {

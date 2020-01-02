@@ -1,5 +1,6 @@
 #pragma once
 //
+#include "stdafx.h"
 #include "meterControllerIncludes.h"
 //
 namespace Carlsound
