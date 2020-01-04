@@ -14,6 +14,7 @@ if(APPLE)
         include/meterControllerIncludes.h
         include/meterController.h
         #---
+        include/iMeterControllerView.h
         ../Mac_Cocoa/include/meterPlugViewCocoa.h
         #---
         ../Mac_Cocoa/include/meterView.h
@@ -73,6 +74,8 @@ elseif(WIN32)
         #---
         include/meterControllerIncludes.h
         include/meterController.h
+        #--
+        include/iMeterControllerView.h
         #../Win_Ultralight/include/meterPlugViewUltralightWin32.h
         ../Win_WPF/Cpp_CLI/include/meterControllerViewWin32WpfHostIncludes.h
 	    ../Win_WPF/Cpp_CLI/include/meterControllerViewWin32WpfHost.h

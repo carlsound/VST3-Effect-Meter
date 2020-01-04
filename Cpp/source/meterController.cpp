@@ -191,7 +191,6 @@ namespace Carlsound
                 {
 					case kParameterInputLevel:
 					{
-						
 						//Steinberg::Vst::ParamValue levelValue2 = value;
 						//m_Level2 = value;
 						m_LevelInput = value; //parameter->getNormalized();
@@ -213,6 +212,14 @@ namespace Carlsound
 							componentHandler->performEdit(kParameterInputLevelFeedback, value);
 							componentHandler->endEdit(kParameterInputLevelFeedback);
 						}
+						//
+						#if(SMTG_OS_OSX || SMTG_OS_MACOS)
+							//m_view->setInputLevelFeedback(m_LevelInput);
+						#endif
+
+						#if(SMTG_OS_WINDOWS)
+							m_view->setInputLevelFeedback(m_LevelInput);
+						#endif
 						//
 						break;
 					}
@@ -520,32 +527,22 @@ namespace Carlsound
 			return Steinberg::kResultFalse;
 		}
 		//------------------------------------------------------------------------
-		
-		Steinberg::IPlugView* PLUGIN_API MeterController::createView
-		(
-			const char* name
-		)
+		Steinberg::IPlugView* PLUGIN_API MeterController::createView (const char* name)
 		{
 			if (name && strcmp(name, "editor") == 0)
 			{
 				#if(SMTG_OS_OSX || SMTG_OS_MACOS)
-                {
                     m_view = new MeterPlugViewCocoa();
-					return m_view;
-                }
 				#endif
 
 				#if(SMTG_OS_WINDOWS)
-                {
 					m_view = new MeterControllerViewWin32WpfHost();
-					//
-					return m_view;
-                }
 				#endif
+
+				return m_view;
 			}
 			return nullptr;
 		}
-		
 		//------------------------------------------------------------------------
 		/*
 		Steinberg::tresult PLUGIN_API MeterController::notify (Steinberg::Vst::IMessage* message)

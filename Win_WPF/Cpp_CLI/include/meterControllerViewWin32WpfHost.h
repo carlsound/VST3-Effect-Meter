@@ -2,13 +2,16 @@
 // https://www.abhishekshukla.com/wpf/advanced-wpf-part-5-of-5-interop-in-windows-presentation-foundation/
 // https://stackoverflow.com/questions/1373100/how-to-add-folder-to-assembly-search-path-at-runtime-in-net
 // https://docs.microsoft.com/en-us/cpp/dotnet/auto-gcroot-class?view=vs-2019
+// http://forums.codeguru.com/showthread.php?364152-use-CreateInstance(__uuidof(-))
 //
 // public.sdk/source/common/pluginview.h
 //
 #pragma once
-#include "../../../Cpp/include/stdafx.h"
+//#include "../../../Cpp/include/stdafx.h"
 #include "meterControllerViewWin32WpfHostIncludes.h"
 //
+//
+using namespace Meter_WPF_UI_CS_XAML_AnyCPU;
 //
 //
 namespace Carlsound
@@ -20,6 +23,7 @@ namespace Carlsound
 				   //public Steinberg::IPlugFrame
 		{
 		public:
+			//------------------------------------------------------------------------
 			//---Interface------
 			//OBJ_METHODS(WpfPlugView, Steinberg::FObject)
 				//DEFINE_INTERFACES
@@ -32,6 +36,7 @@ namespace Carlsound
 			MeterControllerViewWin32WpfHost(const Steinberg::ViewRect* rect);
 			~MeterControllerViewWin32WpfHost();
 
+			//------------------------------------------------------------------------
 			//---from CPluginView-------
 					/** Returns its current frame rectangle. */
 			const Steinberg::ViewRect& getRect() const;
@@ -48,6 +53,7 @@ namespace Carlsound
 			/** Calls when this view will be removed from its parent view. */
 			void removedFromParent() SMTG_OVERRIDE;
 
+			//------------------------------------------------------------------------
 			//---from IPlugView-------
 			/** Is Platform UI Type supported
 				\param type : IDString of \ref platformUIType */
@@ -106,7 +112,8 @@ namespace Carlsound
 			Steinberg::tresult PLUGIN_API checkSizeConstraint(Steinberg::ViewRect* rect) SMTG_OVERRIDE;
 			
 			//------------------------------------------------------------------------
-			Steinberg::tresult PLUGIN_API setInputLevelFeedback(Steinberg::Vst::ParamValue);
+			// Plug-In Specific
+			Steinberg::tresult PLUGIN_API setInputLevelFeedback(Steinberg::Vst::ParamValue newLevel);
 
 		protected:
 			Steinberg::ViewRect m_rect;
@@ -118,8 +125,9 @@ namespace Carlsound
 			//HWND m_parentWindow;
 			//
 			//MeterUserControl ^m_meterUserControl;
-			msclr::auto_gcroot<MeterUserControl^> m_UIptr;
-			//HRESULT m_hr;
+			//msclr::auto_gcroot<MeterUserControl^> m_UIptr;
+			IMeterControllerViewUserControlPtr m_UIptr;
+			HRESULT m_hr;
 		};
 	} // namespace Meter
 } // namespace Carlsound

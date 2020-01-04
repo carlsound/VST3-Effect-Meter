@@ -1,10 +1,12 @@
 //
 // Created by John Carlson on 10/13/19.
 //
-#include "../../../Cpp/include/stdafx.h"
+//#include "../../../Cpp/include/stdafx.h"
 #include "../include/meterControllerViewWin32WpfHost.h"
 //
 //extern void* moduleHandle;
+//
+using namespace Meter_WPF_UI_CS_XAML_AnyCPU;
 //
 namespace Carlsound
 {
@@ -15,12 +17,12 @@ namespace Carlsound
 		MeterControllerViewWin32WpfHost::MeterControllerViewWin32WpfHost() :
 			m_rect(0, 0, 800, 450),
 			m_systemWindow(nullptr),
-			m_plugFrame(nullptr),
-			m_UIptr(gcnew MeterUserControl())
+			m_plugFrame(nullptr) //,
+			//m_UIptr(gcnew MeterUserControl())
 		{
 			//LoadMissingDll^ loadmgr = gcnew LoadMissingDll();
-			//CoInitialize(NULL);
-			//m_hr = m_UIptr.CreateInstance(L"931E2D8E-9753-4A36-8C95-6D4E41244FC3", NULL, CLSCTX_ALL);
+			m_hr = CoInitialize(NULL);
+			m_hr = m_UIptr.CreateInstance(__uuidof(Meter_WPF_UI_CS_XAML_AnyCPU::MeterUserControl), NULL, CLSCTX_ALL);
 		}
 
 		//------------------------------------------------------------------------
@@ -28,22 +30,22 @@ namespace Carlsound
 		MeterControllerViewWin32WpfHost::MeterControllerViewWin32WpfHost(const Steinberg::ViewRect* rect) :
 			m_rect(0, 0, 800, 450),
 			m_systemWindow(nullptr),
-			m_plugFrame(nullptr),
-			m_UIptr(gcnew MeterUserControl())
+			m_plugFrame(nullptr) //,
+			//m_UIptr(gcnew MeterUserControl())
 		{
 			if (rect)
 			{
 				m_rect = *rect;
 			}
 			//LoadMissingDll^ loadmgr = gcnew LoadMissingDll();
-			//CoInitialize(NULL);
-			//m_hr = m_UIptr.CreateInstance(L"931E2D8E-9753-4A36-8C95-6D4E41244FC3", NULL, CLSCTX_ALL);
+			m_hr = CoInitialize(NULL);
+			m_hr = m_UIptr.CreateInstance(__uuidof(Meter_WPF_UI_CS_XAML_AnyCPU::MeterUserControl), NULL, CLSCTX_ALL);
 		}
 
 		//------------------------------------------------------------------------
 		MeterControllerViewWin32WpfHost::~MeterControllerViewWin32WpfHost()
 		{
-
+			m_UIptr.~_com_ptr_t();
 		}
 
 		//------------------------------------------------------------------------
@@ -90,11 +92,13 @@ namespace Carlsound
 			}
 			*/
 
-			//int i = 1;
-
-			//loadChildWindow(m_systemWindow);
-			
-			//CppClrClassLibrary1::Class1::Instance->usrCtrlObj;
+			m_UIptr->show((long)m_systemWindow);
+			//m_rect(0, 0, m_UIptr->, m_UIptr->);
+			//
+			if (m_plugFrame != nullptr)
+			{
+				m_plugFrame->resizeView(this, &m_rect);
+			}
 
 			/*
 			MeterUserControl ^m_userControl = gcnew MeterUserControl(); 
@@ -153,7 +157,9 @@ namespace Carlsound
 		/** Calls when this view will be removed from its parent view. */
 		void MeterControllerViewWin32WpfHost::removedFromParent()
 		{
-			//[m_viewController.view removeFromSuperview] ;
+			m_UIptr->hide();
+			//
+			m_systemWindow = nullptr;
 		}
 
 		//------------------------------------------------------------------------
@@ -184,8 +190,6 @@ namespace Carlsound
 			if (strcmp(type, Steinberg::kPlatformTypeHWND) == 0)
 			{
 				m_systemWindow = parent;
-				//m_parentWindow = static_cast<HWND*>(m_systemWindow);
-				//m_parentWindow = static_cast<HWND>(parent);
 				//
 				if (m_plugFrame != nullptr)
 				{
@@ -193,6 +197,7 @@ namespace Carlsound
 				}
 				//
 				attachedToParent();
+				//
 				return Steinberg::kResultOk;
 			}
 			return Steinberg::kResultFalse;
@@ -204,8 +209,6 @@ namespace Carlsound
 		Steinberg::tresult MeterControllerViewWin32WpfHost::removed()
 		{
 			removedFromParent();
-			//
-			m_systemWindow = nullptr;
 			//
 			return Steinberg::kResultOk;
 		}
@@ -314,9 +317,10 @@ namespace Carlsound
 		}
 
 		//------------------------------------------------------------------------
-		Steinberg::tresult MeterControllerViewWin32WpfHost::setInputLevelFeedback(Steinberg::Vst::ParamValue)
+		Steinberg::tresult MeterControllerViewWin32WpfHost::setInputLevelFeedback(Steinberg::Vst::ParamValue newLevel)
 		{
-			//m_
+			m_UIptr->setInputLevelFeedback(newLevel);
+			//
 			return Steinberg::kResultTrue;
 		}
 		//

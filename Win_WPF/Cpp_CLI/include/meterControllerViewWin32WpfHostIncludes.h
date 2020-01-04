@@ -20,8 +20,10 @@
 //#using <PresentationFramework.dll>
 //#using <WindowsBase.dll>
 //
-#include "nativeInterface.h"
+//#include "nativeInterface.h"
+//extern void* moduleHandle;
+//
 #include <pluginterfaces\vst\vsttypes.h>
 //
-#using "C:/Program Files/Common Files/VST3/Meter_WPF_UI_CS_XAML_AnyCPU.dll"
-//extern void* moduleHandle;
+//#using "C:/Program Files/Common Files/VST3/Meter_WPF_UI_CS_XAML_AnyCPU.dll"
+#import "./Meter_WPF_UI_CS_XAML_AnyCPU.tlb" raw_interfaces_only
