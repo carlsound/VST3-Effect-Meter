@@ -15,6 +15,12 @@ namespace Carlsound
 			Steinberg::tresult result = EditController::initialize (context);
 			if (result == Steinberg::kResultTrue)
 			{
+				//---Member Variables------------
+				m_view = nullptr;
+				m_LevelInput = 0;
+				m_LevelThreshold = 0;
+				m_LevelColor = 0;
+				//
 				//---Create Parameters------------
 				/*
 				m_speedRangeParameter = std::make_shared<Steinberg::Vst::RangeParameter>
@@ -106,8 +112,6 @@ namespace Carlsound
 					0, // unitUD
 					STR16 ("Bypass") // shortTitle
 				);
-				//
-				m_view = new MeterControllerViewWin32WpfHost();
 			}
 			return Steinberg::kResultTrue;
 		}
@@ -214,11 +218,17 @@ namespace Carlsound
 						}
 						//
 						#if(SMTG_OS_OSX || SMTG_OS_MACOS)
-							//m_view->setInputLevelFeedback(m_LevelInput);
+							if (m_view)
+							{
+								//m_view->setInputLevelFeedback(m_LevelInput);
+							}
 						#endif
 
 						#if(SMTG_OS_WINDOWS)
-							m_view->setInputLevelFeedback(m_LevelInput);
+							if (m_view)
+							{
+								m_view->setInputLevelFeedback(m_LevelInput);
+							}
 						#endif
 						//
 						break;
@@ -256,6 +266,20 @@ namespace Carlsound
 							componentHandler->performEdit(kParameterColorFeedback, value);
 							componentHandler->endEdit(kParameterColorFeedback);
 						}
+						//
+						#if(SMTG_OS_OSX || SMTG_OS_MACOS)
+							if (m_view)
+							{
+								//m_view->setInputLevelFeedback(m_LevelInput);
+							}
+						#endif
+
+						#if(SMTG_OS_WINDOWS)
+							if (m_view)
+							{
+								m_view->setColorFeedback(m_LevelColor);
+							}
+						#endif
 						//
                         break;
                     }
@@ -542,6 +566,7 @@ namespace Carlsound
 				return m_view;
 			}
 			return nullptr;
+			
 		}
 		//------------------------------------------------------------------------
 		/*

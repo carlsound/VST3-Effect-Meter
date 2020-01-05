@@ -37,6 +37,7 @@ namespace Carlsound
             void show(System.IntPtr hwnd);
             void hide();
             void setInputLevelFeedback(double newInputLevelValue);
+            void setColorFeedback(double newColor);
         }
         //
         //**************************************************
@@ -53,8 +54,10 @@ namespace Carlsound
         /// <summary>
         /// Interaction logic for UserControl1.xaml
         /// </summary>
-        [Guid("D8B20521-AED1-4546-AC48-B603E8A356B7")]
+        /// 
         [ComVisible(true)]
+        [Guid("D8B20521-AED1-4546-AC48-B603E8A356B7")]
+        [ProgId("Carlsound.Meter.MeterUserControl")]
         [ClassInterface(ClassInterfaceType.None)]
         [ComSourceInterfaces(typeof(IMeterControllerViewUserControlEvents))]
         public partial class MeterUserControl : UserControl, IMeterControllerViewUserControl
@@ -93,6 +96,12 @@ namespace Carlsound
             }
 
             //*****************************************************
+            public void setColorFeedback(double newColor)
+            {
+                m_colorFeedback = newColor;
+            }
+
+            //*****************************************************
             public void onThresholdSliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
             {
                 if (m_thresholdSlider == sender)
@@ -112,6 +121,7 @@ namespace Carlsound
             private System.Windows.Interop.HwndSourceParameters m_hwndSourceParameters;
             //
             private double m_inputLevelFeedback;
+            private double m_colorFeedback;
             //private Slider m_thresholdSlider;
         }
     }

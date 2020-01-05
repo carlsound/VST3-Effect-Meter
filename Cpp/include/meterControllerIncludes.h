@@ -27,6 +27,8 @@
 //#include "vstgui4/vstgui/vstgui.h"
 //#include "vstgui4/vstgui/vstgui_uidescription.h"
 //
+#include "IMeterPluginView.h"
+//
 #if SMTG_OS_WINDOWS
 #include <atlconv.h>
 #include <tchar.h>

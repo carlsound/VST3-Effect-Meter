@@ -13,39 +13,61 @@ namespace Carlsound
 	namespace Meter
 	{
 		//------------------------------------------------------------------------
-		[System::STAThread]
+		//[System::STAThread]
 		MeterControllerViewWin32WpfHost::MeterControllerViewWin32WpfHost() :
 			m_rect(0, 0, 800, 450),
 			m_systemWindow(nullptr),
-			m_plugFrame(nullptr) //,
+			m_plugFrame(nullptr),
 			//m_UIptr(gcnew MeterUserControl())
+			m_hr(S_OK)
 		{
 			//LoadMissingDll^ loadmgr = gcnew LoadMissingDll();
+			
+
+			if (SMTG_PLATFORM_64)
+			{
+				//SetDllDirectoryA("C:\\Program Files\\Common Files\\VST3");
+				//LoadLibraryA("C:\\Program Files\\Common Files\\VST3\\Meter_WPF_UI_CppCLI_x64.dll");
+				//LoadLibraryA("C:\\Program Files\\Common Files\\VST3\\Meter_WPF_UI_CS_XAML_x64.dll");
+				//System::Reflection::Assembly::LoadFile("C:\\Program Files\\Common Files\\VST3\\Meter_WPF_UI_CS_XAML_AnyCPU.dll");
+			}
+			else
+			{
+				//SetDllDirectoryA("C:\\Program Files (x86)\\Common Files\\VST3");
+				//LoadLibraryA("C:\\Program Files (x86)\\Common Files\\VST3\\Meter_WPF_UI_CppCLI_x86.dll");
+				//LoadLibraryA("C:\\Program Files (x86)\\Common Files\\VST3\\Meter_WPF_UI_CS_XAML_x86.dll");
+				//System::Reflection::Assembly::LoadFile("C:\\Program Files (x86)\\Common Files\\VST3\\Meter_WPF_UI_CS_XAML_AnyCPU.dll");
+			}
+
 			m_hr = CoInitialize(NULL);
 			m_hr = m_UIptr.CreateInstance(__uuidof(Meter_WPF_UI_CS_XAML_AnyCPU::MeterUserControl), NULL, CLSCTX_ALL);
+			int i = 0;
 		}
 
 		//------------------------------------------------------------------------
-		[System::STAThread]
+		//[System::STAThread]
 		MeterControllerViewWin32WpfHost::MeterControllerViewWin32WpfHost(const Steinberg::ViewRect* rect) :
 			m_rect(0, 0, 800, 450),
 			m_systemWindow(nullptr),
-			m_plugFrame(nullptr) //,
+			m_plugFrame(nullptr),
 			//m_UIptr(gcnew MeterUserControl())
+			m_hr(S_OK)
 		{
 			if (rect)
 			{
 				m_rect = *rect;
 			}
 			//LoadMissingDll^ loadmgr = gcnew LoadMissingDll();
+			
 			m_hr = CoInitialize(NULL);
 			m_hr = m_UIptr.CreateInstance(__uuidof(Meter_WPF_UI_CS_XAML_AnyCPU::MeterUserControl), NULL, CLSCTX_ALL);
+			int i = 0;
 		}
 
 		//------------------------------------------------------------------------
 		MeterControllerViewWin32WpfHost::~MeterControllerViewWin32WpfHost()
 		{
-			m_UIptr.~_com_ptr_t();
+			//m_UIptr.~_com_ptr_t();
 		}
 
 		//------------------------------------------------------------------------
@@ -75,30 +97,16 @@ namespace Carlsound
 		{
 			// Create the window.
 
-			/*
-			if (SMTG_PLATFORM_64)
-			{
-				//SetDllDirectoryA("C:\\Program Files\\Common Files\\VST3");
-				//LoadLibraryA("C:\\Program Files\\Common Files\\VST3\\Meter_WPF_UI_CppCLI_x64.dll");
-				//LoadLibraryA("C:\\Program Files\\Common Files\\VST3\\Meter_WPF_UI_CS_XAML_x64.dll");
-				//System::Reflection::Assembly::LoadFile("C:\\Program Files\\Common Files\\VST3\\Meter_WPF_UI_CS_XAML_AnyCPU.dll");
-			}
-			else
-			{
-				//SetDllDirectoryA("C:\\Program Files (x86)\\Common Files\\VST3");
-				//LoadLibraryA("C:\\Program Files (x86)\\Common Files\\VST3\\Meter_WPF_UI_CppCLI_x86.dll");
-				//LoadLibraryA("C:\\Program Files (x86)\\Common Files\\VST3\\Meter_WPF_UI_CS_XAML_x86.dll");
-				//System::Reflection::Assembly::LoadFile("C:\\Program Files (x86)\\Common Files\\VST3\\Meter_WPF_UI_CS_XAML_AnyCPU.dll");
-			}
-			*/
+			//m_UIptr->show((long)m_systemWindow);
 
-			m_UIptr->show((long)m_systemWindow);
 			//m_rect(0, 0, m_UIptr->, m_UIptr->);
 			//
+			/*
 			if (m_plugFrame != nullptr)
 			{
-				m_plugFrame->resizeView(this, &m_rect);
+				m_plugFrame->resizeView((Steinberg::IPlugView*)this, &m_rect);
 			}
+			*/
 
 			/*
 			MeterUserControl ^m_userControl = gcnew MeterUserControl(); 
@@ -157,7 +165,7 @@ namespace Carlsound
 		/** Calls when this view will be removed from its parent view. */
 		void MeterControllerViewWin32WpfHost::removedFromParent()
 		{
-			m_UIptr->hide();
+			//m_UIptr->hide();
 			//
 			m_systemWindow = nullptr;
 		}
@@ -193,7 +201,7 @@ namespace Carlsound
 				//
 				if (m_plugFrame != nullptr)
 				{
-					m_plugFrame->resizeView(this, &m_rect);
+					m_plugFrame->resizeView((Steinberg::IPlugView*)this, &m_rect);
 				}
 				//
 				attachedToParent();
@@ -317,9 +325,19 @@ namespace Carlsound
 		}
 
 		//------------------------------------------------------------------------
+		/**  */
 		Steinberg::tresult MeterControllerViewWin32WpfHost::setInputLevelFeedback(Steinberg::Vst::ParamValue newLevel)
 		{
 			m_UIptr->setInputLevelFeedback(newLevel);
+			//
+			return Steinberg::kResultTrue;
+		}
+
+		//------------------------------------------------------------------------
+		/**  */
+		Steinberg::tresult PLUGIN_API MeterControllerViewWin32WpfHost::setColorFeedback(Steinberg::Vst::ParamValue newColor)
+		{
+			m_UIptr->setColorFeedback(newColor);
 			//
 			return Steinberg::kResultTrue;
 		}

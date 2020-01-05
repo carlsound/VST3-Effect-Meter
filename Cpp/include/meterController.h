@@ -95,6 +95,8 @@ namespace Carlsound
 			//
 			//std::shared_ptr<Steinberg::IPlugView*> m_view;
 			//Steinberg::IPlugView* m_view;
+			IMeterPluginView* m_view;
+			/*
 			#if(SMTG_OS_OSX || SMTG_OS_MACOS)
 				MeterControllerViewCocoa* m_view;
 			#endif
@@ -102,6 +104,7 @@ namespace Carlsound
 			#if(SMTG_OS_WINDOWS)
 				MeterControllerViewWin32WpfHost* m_view;
 			#endif
+			 */
 		};
 	} // namespace Meter
 } // namespace Carlsound

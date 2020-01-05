@@ -1,12 +1,14 @@
 #pragma once
 //
 #include "pluginterfaces/gui/iplugview.h"
+#include "pluginterfaces/vst/vsttypes.h"
+#include "public.sdk/source/common/pluginview.h"
 //
 namespace Carlsound
 {
 	namespace Meter
 	{
-		Class iMeterControllerView : Steinberg::IPlugView
+		class IMeterPluginView : public Steinberg::CPluginView
 		{
 		public:
 			//------------------------------------------------------------------------
@@ -15,6 +17,16 @@ namespace Carlsound
 
 			/**  */
 			virtual Steinberg::tresult PLUGIN_API setColorFeedback(Steinberg::Vst::ParamValue newColor) = 0;
+
+			//------------------------------------------------------------------------
+			//---Interface------
+			OBJ_METHODS(IMeterPluginView, CPluginView)
+				
+			DEFINE_INTERFACES
+				DEF_INTERFACE(IPlugView)
+			END_DEFINE_INTERFACES(CPluginView)
+			
+			REFCOUNT_METHODS(CPluginView)
 
 		}; //class IMeterControllerView
 	} // namespace Meter

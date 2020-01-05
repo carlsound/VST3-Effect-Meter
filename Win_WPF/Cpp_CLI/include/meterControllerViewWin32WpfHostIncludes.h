@@ -25,5 +25,6 @@
 //
 #include <pluginterfaces\vst\vsttypes.h>
 //
+#include "../../../Cpp/include/IMeterPluginView.h"
 //#using "C:/Program Files/Common Files/VST3/Meter_WPF_UI_CS_XAML_AnyCPU.dll"
 #import "./Meter_WPF_UI_CS_XAML_AnyCPU.tlb" raw_interfaces_only
