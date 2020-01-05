@@ -185,9 +185,9 @@ StyleCopReport.xml
 *.pgd
 *.rsp
 *.sbr
-*.tlb
+#*.tlb
 *.tli
-*.tlh
+#*.tlh
 *.tmp
 *.tmp_proj
 *_wpftmp.csproj

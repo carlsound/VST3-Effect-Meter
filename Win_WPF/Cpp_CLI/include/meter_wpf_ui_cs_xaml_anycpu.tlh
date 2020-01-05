@@ -1,0 +1,95 @@
+﻿// Created by Microsoft (R) C/C++ Compiler Version 14.24.28314.0 (6a5623cc).
+//
+// C:\Users\john_\Documents\VST_SDK_3.6.14\my_plugins\build\VST3-Effect-Meter\Cpp\Meter_x64.dir\Debug\meter_wpf_ui_cs_xaml_anycpu.tlh
+//
+// C++ source equivalent of Win32 type library ./Meter_WPF_UI_CS_XAML_AnyCPU.tlb
+// compiler-generated file created 01/05/20 at 14:43:37 - DO NOT EDIT!
+
+#pragma once
+#pragma pack(push, 8)
+
+#include <comdef.h>
+
+namespace Meter_WPF_UI_CS_XAML_AnyCPU {
+
+//
+// Forward references and typedefs
+//
+
+struct __declspec(uuid("19ad4a62-2839-3049-8409-4784140ca7e3"))
+/* LIBID */ __Meter_WPF_UI_CS_XAML_AnyCPU;
+struct /* coclass */ Resources;
+struct __declspec(uuid("931e2d8e-9753-4a36-8c95-6d4e41244fc3"))
+/* interface */ IMeterControllerViewUserControl;
+struct __declspec(uuid("df7603fc-20bb-4e24-9e1c-47f23ef2f47e"))
+/* dispinterface */ IMeterControllerViewUserControlEvents;
+struct /* coclass */ MeterUserControl;
+struct /* coclass */ onThresholdParameterChangedDelegate;
+struct __declspec(uuid("1005b2ce-37de-351d-ba47-020b0973dde4"))
+/* dual interface */ _Resources;
+struct __declspec(uuid("c03177ee-0958-3f68-9cd7-773789be2de2"))
+/* dual interface */ _onThresholdParameterChangedDelegate;
+
+//
+// Smart pointer typedef declarations
+//
+
+_COM_SMARTPTR_TYPEDEF(IMeterControllerViewUserControl, __uuidof(IMeterControllerViewUserControl));
+_COM_SMARTPTR_TYPEDEF(IMeterControllerViewUserControlEvents, __uuidof(IMeterControllerViewUserControlEvents));
+_COM_SMARTPTR_TYPEDEF(_Resources, __uuidof(_Resources));
+_COM_SMARTPTR_TYPEDEF(_onThresholdParameterChangedDelegate, __uuidof(_onThresholdParameterChangedDelegate));
+
+//
+// Type library items
+//
+
+struct __declspec(uuid("64cc89d7-9d71-3c64-8b27-557a735d496c"))
+Resources;
+    // [ default ] interface _Resources
+    // interface _Object
+
+struct __declspec(uuid("931e2d8e-9753-4a36-8c95-6d4e41244fc3"))
+IMeterControllerViewUserControl : IUnknown
+{
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall show (
+        /*[in]*/ long hwnd ) = 0;
+      virtual HRESULT __stdcall hide ( ) = 0;
+      virtual HRESULT __stdcall setInputLevelFeedback (
+        /*[in]*/ double newInputLevelValue ) = 0;
+      virtual HRESULT __stdcall setColorFeedback (
+        /*[in]*/ double newColor ) = 0;
+};
+
+struct __declspec(uuid("df7603fc-20bb-4e24-9e1c-47f23ef2f47e"))
+IMeterControllerViewUserControlEvents : IDispatch
+{};
+
+struct __declspec(uuid("d8b20521-aed1-4546-ac48-b603e8a356b7"))
+MeterUserControl;
+    // interface _Object
+    // [ default ] interface IMeterControllerViewUserControl
+    // [ default, source ] dispinterface IMeterControllerViewUserControlEvents
+
+struct __declspec(uuid("136f38d7-899b-3ded-947d-e095881a1c94"))
+onThresholdParameterChangedDelegate;
+    // [ default ] interface _onThresholdParameterChangedDelegate
+    // interface _Delegate
+    // interface _Object
+    // interface ICloneable
+    // interface ISerializable
+
+struct __declspec(uuid("1005b2ce-37de-351d-ba47-020b0973dde4"))
+_Resources : IDispatch
+{};
+
+struct __declspec(uuid("c03177ee-0958-3f68-9cd7-773789be2de2"))
+_onThresholdParameterChangedDelegate : IDispatch
+{};
+
+} // namespace Meter_WPF_UI_CS_XAML_AnyCPU
+
+#pragma pack(pop)

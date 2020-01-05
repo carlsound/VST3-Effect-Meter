@@ -15,12 +15,6 @@ namespace Carlsound
 			Steinberg::tresult result = EditController::initialize (context);
 			if (result == Steinberg::kResultTrue)
 			{
-				//---Member Variables------------
-				m_view = nullptr;
-				m_LevelInput = 0;
-				m_LevelThreshold = 0;
-				m_LevelColor = 0;
-				//
 				//---Create Parameters------------
 				/*
 				m_speedRangeParameter = std::make_shared<Steinberg::Vst::RangeParameter>
@@ -41,6 +35,18 @@ namespace Carlsound
 					m_speedRangeParameter->getInfo()
 				);
 				*/
+				parameters.addParameter
+				(
+					STR16("Bypass"), // title
+					0, // units
+					1, // stepCount
+					0, // defaultValueNormalized
+					Steinberg::Vst::ParameterInfo::kCanAutomate | Steinberg::Vst::ParameterInfo::kIsBypass, // flags
+					MeterParameters::kParameterBypassId // , // tag
+					//0, // unitUD
+					//STR16("Bypass") // shortTitle
+				);
+				//
 				parameters.addParameter
 				(
 					STR16("Input Level"), // title
@@ -101,17 +107,12 @@ namespace Carlsound
 					STR16("Color Feedback") // shortTitle
 				);
 				//
-				parameters.addParameter
-				(
-					STR16 ("Bypass"), // title
-					0, // units
-					1, // stepCount
-					0, // defaultValueNormalized
-					Steinberg::Vst::ParameterInfo::kCanAutomate | Steinberg::Vst::ParameterInfo::kIsBypass, // flags
-					MeterParameters::kParameterBypassId, // tag
-					0, // unitUD
-					STR16 ("Bypass") // shortTitle
-				);
+				//---Member Variables------------
+				m_view = nullptr;
+				m_LevelInput = 0;
+				m_LevelThreshold = 0;
+				m_LevelColor = 0;
+				//
 			}
 			return Steinberg::kResultTrue;
 		}
@@ -283,7 +284,10 @@ namespace Carlsound
 						//
                         break;
                     }
-                    
+					case kParameterBypassId:
+					{
+						break;
+					}
                 }
 			}
 			//return kResultFalse;

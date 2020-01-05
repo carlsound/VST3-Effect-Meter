@@ -66,6 +66,9 @@ namespace Carlsound
             public MeterUserControl()
             {
                 InitializeComponent();
+                m_inputLevelFeedback = 0;
+                m_colorFeedback = 0;
+                System.Console.WriteLine("MeterUserControl initialized");
             }
 
             //*****************************************************
