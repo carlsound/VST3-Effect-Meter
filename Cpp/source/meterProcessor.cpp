@@ -206,14 +206,9 @@ namespace Carlsound
                     //
                     if (!m_BypassState)
                     {
-                        //m_GainValue[0] = 1.0;
-                        //m_GainValue[1] = 1.0;
-                        //
                         if (m_symbolicSampleSize /* data.symbolicSampleSize */ == Steinberg::Vst::kSample64) //64-Bit
                         {
                             m_ParameterInputLevelValue = static_cast<Steinberg::Vst::Sample64*>(in[0])[0];
-                            //m_ParameterLightsValue = m_ParameterInputLevelValue;
-                            //m_ParameterLightsValue = static_cast<Steinberg::Vst::Sample64*>(in[0])[0];
                             if (static_cast<Steinberg::Vst::Sample64*>(in[0])[0] >= m_ParameterThresholdlValue)
                             {
                                 m_ParameterColorValue = 1.0;
@@ -226,8 +221,6 @@ namespace Carlsound
                         else // 32-bit
                         {
                             m_ParameterInputLevelValue = static_cast<Steinberg::Vst::Sample32*>(in[0])[0];
-                            //m_ParameterLightsValue = m_ParameterInputLevelValue;
-                            //m_ParameterLightsValue = static_cast<Steinberg::Vst::Sample32*>(in[0])[0];
                             if (static_cast<Steinberg::Vst::Sample32*>(in[0])[0] >= m_ParameterThresholdlValue)
                             {
                                 m_ParameterColorValue = 1.0;
@@ -238,11 +231,12 @@ namespace Carlsound
                             }
                         }
                         //
+						/*
                         for (int sample = 0; sample < data.numSamples; sample++)
                         {
                             for (int channel = 0; channel < data.outputs->numChannels; channel++)
                             {
-                                if (m_symbolicSampleSize /* data.symbolicSampleSize */ == Steinberg::Vst::kSample64) //64-Bit
+                                if (m_symbolicSampleSize == Steinberg::Vst::kSample64) //64-Bit
                                 {
                                     bufferSampleGain
                                     (
@@ -260,8 +254,11 @@ namespace Carlsound
                                         sample
                                     );
                                 }
+								out = in;
                             }
                         }
+						*/
+						out = in;
                     }
                 }
             }
@@ -450,13 +447,6 @@ namespace Carlsound
 			//
 			return Steinberg::kResultOk;
 		}
-		//------------------------------------------------------------------------
-		/*
-		Steinberg::tresult PLUGIN_API MeterProcessor::sendTextMessage (const Steinberg::char8* text)
-		{
-			return Steinberg::kResultTrue;
-		}
-		 */
 		//------------------------------------------------------------------------
 	} // namespace Meter
 } // namespace Carlsound

@@ -33,21 +33,29 @@ namespace Carlsound
 			//---from EditController-----
 			Steinberg::tresult PLUGIN_API setComponentState(Steinberg::IBStream* state) SMTG_OVERRIDE;
 			//
+			/**
 			Steinberg::tresult PLUGIN_API setParamNormalized(Steinberg::Vst::ParamID tag,
 				Steinberg::Vst::ParamValue value) SMTG_OVERRIDE;
+			*/
 			//-----------------------------------------------------------------------------
+			/*
 			Steinberg::Vst::ParamValue PLUGIN_API normalizedParamToPlain(
 				Steinberg::Vst::ParamID tag,
 				Steinberg::Vst::ParamValue value) SMTG_OVERRIDE;
+			*/
 			//-----------------------------------------------------------------------------
+			/*
 			Steinberg::Vst::ParamValue PLUGIN_API plainParamToNormalized(
 				Steinberg::Vst::ParamID tag,
 				Steinberg::Vst::ParamValue value) SMTG_OVERRIDE;
+			*/
 			//-----------------------------------------------------------------------------
+			/*
 			Steinberg::tresult PLUGIN_API getParamStringByValue(
 				Steinberg::Vst::ParamID tag,
 				Steinberg::Vst::ParamValue valueNormalized,
 				Steinberg::Vst::String128 string) SMTG_OVERRIDE;
+			*/
 			//-----------------------------------------------------------------------------
 			//---from IMidiMapping---
 			virtual Steinberg::tresult PLUGIN_API getMidiControllerAssignment(

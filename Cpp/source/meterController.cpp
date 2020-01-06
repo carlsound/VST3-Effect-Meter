@@ -182,6 +182,7 @@ namespace Carlsound
 			return Steinberg::kResultOk;
 		}
 		//------------------------------------------------------------------------
+		/*
 		Steinberg::tresult PLUGIN_API MeterController::setParamNormalized(
 			Steinberg::Vst::ParamID tag, 
 			Steinberg::Vst::ParamValue value)
@@ -246,6 +247,8 @@ namespace Carlsound
 						*/
 						//m_LevelThreshold = value; 
 						//parameter->getNormalized();
+
+						/*
 						break;
 					}
                     case kParameterColor:
@@ -296,7 +299,9 @@ namespace Carlsound
             //
 			return Steinberg::kResultTrue;
 		}
+		*/
 		//------------------------------------------------------------------------
+		/*
 		Steinberg::Vst::ParamValue PLUGIN_API MeterController::normalizedParamToPlain (
 			Steinberg::Vst::ParamID tag,
 			Steinberg::Vst::ParamValue value)
@@ -341,7 +346,9 @@ namespace Carlsound
 			}
 			return value;
 		}
+		*/
 		//------------------------------------------------------------------------
+		/*
 		Steinberg::Vst::ParamValue MeterController::plainParamToNormalized (
 			Steinberg::Vst::ParamID tag,
 			Steinberg::Vst::ParamValue value)
@@ -385,6 +392,7 @@ namespace Carlsound
 			}
 			return value;
 		}
+		*/
 		//------------------------------------------------------------------------
 		void string128copy (
 			Steinberg::Vst::TChar *str128, 
@@ -397,6 +405,7 @@ namespace Carlsound
 			str128[str.length()] = '\0';
 		}
 		//------------------------------------------------------------------------
+		/*
 		Steinberg::tresult MeterController::getParamStringByValue (
 			Steinberg::Vst::ParamID tag,
 			Steinberg::Vst::ParamValue valueNormalized,
@@ -443,27 +452,27 @@ namespace Carlsound
 					//valuePlainAscii = std::to_string(valuePlain) + '\0';
 					if (valuePlain <= 0.05)
 					{
-						valuePlainAscii = /* std::to_string(valuePlain) + */ " light green" + suffix_str;
+						valuePlainAscii = " light green" + suffix_str;
 					}
 					else if (valuePlain <= 0.1)
 					{
-						valuePlainAscii = /* std::to_string(valuePlain) + */ " green" + suffix_str;
+						valuePlainAscii = " green" + suffix_str;
 					}
 					else if (valuePlain <= 0.25)
 					{
-                        valuePlainAscii = /* std::to_string(valuePlain) +n*/ " dark green" + suffix_str;
+                        valuePlainAscii = " dark green" + suffix_str;
 					}
 					else if (valuePlain <= 0.5)
 					{
-						valuePlainAscii = /* std::to_string(valuePlain) + */ " yellow" + suffix_str;
+						valuePlainAscii = " yellow" + suffix_str;
 					}
 					else if (valuePlain <= 0.75)
 					{
-						valuePlainAscii = /* std::to_string(valuePlain) + */ " orange" + suffix_str;
+						valuePlainAscii = " orange" + suffix_str;
 					}
 					else
 					{
-						valuePlainAscii = /* std::to_string(valuePlain) + */ " red" + suffix_str;
+						valuePlainAscii = " red" + suffix_str;
 					}
 					string128copy(string, valuePlainAscii);
 					//
@@ -476,27 +485,27 @@ namespace Carlsound
 					//valuePlainAscii = std::to_string(valuePlain) + '\0';
 					if (valuePlain <= 0.05)
 					{
-						valuePlainAscii = /* std::to_string(valuePlain) + */ " light green" + suffix_str;
+						valuePlainAscii = " light green" + suffix_str;
 					}
 					else if (valuePlain <= 0.1)
 					{
-						valuePlainAscii = /* std::to_string(valuePlain) + */ " green" + suffix_str;
+						valuePlainAscii = " green" + suffix_str;
 					}
 					else if (valuePlain <= 0.25)
 					{
-						valuePlainAscii = /* std::to_string(valuePlain) +n*/ " dark green" + suffix_str;
+						valuePlainAscii = " dark green" + suffix_str;
 					}
 					else if (valuePlain <= 0.5)
 					{
-						valuePlainAscii = /* std::to_string(valuePlain) + */ " yellow" + suffix_str;
+						valuePlainAscii = " yellow" + suffix_str;
 					}
 					else if (valuePlain <= 0.75)
 					{
-						valuePlainAscii = /* std::to_string(valuePlain) + */ " orange" + suffix_str;
+						valuePlainAscii = " orange" + suffix_str;
 					}
 					else
 					{
-						valuePlainAscii = /* std::to_string(valuePlain) + */ " red" + suffix_str;
+						valuePlainAscii = " red" + suffix_str;
 					}
 					string128copy(string, valuePlainAscii);
 					//
@@ -521,6 +530,7 @@ namespace Carlsound
 			}
 			return Steinberg::kResultOk;
 		}
+		*/
 		//------------------------------------------------------------------------
 		Steinberg::tresult PLUGIN_API MeterController::getMidiControllerAssignment(
 			Steinberg::int32 busIndex,
