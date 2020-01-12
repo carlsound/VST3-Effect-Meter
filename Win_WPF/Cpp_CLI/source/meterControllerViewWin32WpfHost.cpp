@@ -22,7 +22,7 @@ namespace Carlsound
 			m_hr(S_OK)
 		{
 			//LoadMissingDll^ loadmgr = gcnew LoadMissingDll();
-			
+
 
 			if (SMTG_PLATFORM_64)
 			{
@@ -58,7 +58,7 @@ namespace Carlsound
 				m_rect = *rect;
 			}
 			//LoadMissingDll^ loadmgr = gcnew LoadMissingDll();
-			
+
 			m_hr = CoInitialize(NULL);
 			m_hr = m_UIptr.CreateInstance(__uuidof(Meter_WPF_UI_CS_XAML_AnyCPU::MeterUserControl), NULL, CLSCTX_ALL);
 			int i = 0;
@@ -109,8 +109,8 @@ namespace Carlsound
 			*/
 
 			/*
-			MeterUserControl ^m_userControl = gcnew MeterUserControl(); 
-			
+			MeterUserControl ^m_userControl = gcnew MeterUserControl();
+
 			System::Windows::Interop::HwndSourceParameters^ sourceParams = gcnew System::Windows::Interop::HwndSourceParameters("Meter");
 			sourceParams->PositionX = 0;
 			sourceParams->PositionY = 0;
@@ -136,7 +136,7 @@ namespace Carlsound
 				// Size and position
 				0, 0, 100, 100,
 
-				static_cast<HWND>(m_systemWindow),       // Parent window    
+				static_cast<HWND>(m_systemWindow),       // Parent window
 				NULL,       // Menu
 				NULL,  // Instance handle
 				NULL        // Additional application data

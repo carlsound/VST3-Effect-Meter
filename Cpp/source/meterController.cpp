@@ -35,6 +35,35 @@ namespace Carlsound
 					m_speedRangeParameter->getInfo()
 				);
 				*/
+				//
+				/*
+				parameters.addParameter
+				(
+					STR16("Input Level"), // title
+					STR16("dB"), // units
+					0, // stepCount
+					0, // defaultValueNormalized
+					Steinberg::Vst::ParameterInfo::kIsReadOnly, //Steinberg::Vst::ParameterInfo::kCanAutomate, // flags
+					MeterParameters::kParameterInputLevel, // tag
+					0, // unitID
+					STR16("Input Level") // shortTitle
+				);
+				*/
+				//
+				/*
+				parameters.addParameter
+				(
+					STR16("Color"), // title
+					STR16("Color"), // units
+					0, // stepCount
+					0, // defaultValueNormalized
+					Steinberg::Vst::ParameterInfo::kIsReadOnly, // Steinberg::Vst::ParameterInfo::kCanAutomate, // flags
+					MeterParameters::kParameterColor, // tag
+					0, // unitID
+					STR16("Color") // shortTitle
+				);
+				*/
+				//
 				parameters.addParameter
 				(
 					STR16("Bypass"), // title
@@ -49,14 +78,14 @@ namespace Carlsound
 				//
 				parameters.addParameter
 				(
-					STR16("Input Level"), // title
+					STR16("Threshold Level"), // title
 					STR16("dB"), // units
 					0, // stepCount
 					0, // defaultValueNormalized
-					Steinberg::Vst::ParameterInfo::kIsReadOnly, //Steinberg::Vst::ParameterInfo::kCanAutomate, // flags
-					MeterParameters::kParameterInputLevel, // tag
+					Steinberg::Vst::ParameterInfo::kCanAutomate, // || Steinberg::Vst::ParameterInfo::kIsReadOnly, // flags
+					MeterParameters::kParameterThreshold, // tag
 					0, // unitID
-					STR16("Input Level") // shortTitle
+					STR16("Threshold Level") // shortTitle
 				);
 				//
 				parameters.addParameter
@@ -69,30 +98,6 @@ namespace Carlsound
 					MeterParameters::kParameterInputLevelFeedback, // tag
 					0, // unitID
 					STR16("Input Level Feedback") // shortTitle
-				);
-				//
-				parameters.addParameter
-				(
-					STR16("Threshold Level"), // title
-					STR16("dB"), // units
-					0, // stepCount
-					0, // defaultValueNormalized
-					Steinberg::Vst::ParameterInfo::kCanAutomate, // || Steinberg::Vst::ParameterInfo::kIsReadOnly, // flags
-					MeterParameters::kParameterThreshold, // tag
-					0, // unitID
-					STR16("Threshold Level") // shortTitle
-				);
-				//
-				parameters.addParameter 
-				(
-					STR16 ("Color"), // title
-                    STR16("Color"), // units
-			        0, // stepCount
-			        0, // defaultValueNormalized
-					Steinberg::Vst::ParameterInfo::kIsReadOnly, // Steinberg::Vst::ParameterInfo::kCanAutomate, // flags
-					MeterParameters::kParameterColor, // tag
-			        0, // unitID
-		            STR16 ("Color") // shortTitle
 				);
 				//
 				parameters.addParameter
@@ -124,11 +129,15 @@ namespace Carlsound
 			if (!state)
 				return Steinberg::kResultFalse;
 			//
-			Steinberg::IBStreamer streamer 
-			(
-				state, 
-				kLittleEndian
-			);
+			Steinberg::IBStreamer streamer(state, kLittleEndian);
+			//
+			// read the bypass
+			Steinberg::int32 bypassState;
+			if (streamer.readInt32(bypassState) == false)
+			{
+				return Steinberg::kResultFalse;
+			}
+			setParamNormalized(kParameterBypassId, bypassState ? 1 : 0);
 			//
 			float savedParam1 = 0.f;
 			if (streamer.readFloat(savedParam1) == false)
@@ -136,11 +145,28 @@ namespace Carlsound
 				return Steinberg::kResultFalse;
 			}
 			//OutputDebugStringW(L"setComponentState kParamLevel2\n");
-			setParamNormalized
-			(
-				MeterParameters::kParameterInputLevel,
-				savedParam1
-			);
+			setParamNormalized(MeterParameters::kParameterThreshold, savedParam1);
+			//
+			/*
+			float savedParam1 = 0.f;
+			if (streamer.readFloat(savedParam1) == false)
+			{
+				return Steinberg::kResultFalse;
+			}
+			//OutputDebugStringW(L"setComponentState kParamLevel2\n");
+			setParamNormalized(MeterParameters::kParameterInputLevel, savedParam1);
+			*/
+			//
+			/*
+			float savedParam2 = 0.f;
+			if (streamer.readFloat(savedParam2) == false)
+			{
+				return Steinberg::kResultFalse;
+			}
+			//OutputDebugStringW(L"setComponentState kParamLevel\n");
+			setParamNormalized (MeterParameters::kParameterColor, savedParam2);
+			*/
+			
 			//
 			float savedParam2 = 0.f;
 			if (streamer.readFloat(savedParam2) == false)
@@ -148,36 +174,15 @@ namespace Carlsound
 				return Steinberg::kResultFalse;
 			}
 			//OutputDebugStringW(L"setComponentState kParamLevel2\n");
-			setParamNormalized
-			(
-				MeterParameters::kParameterThreshold,
-				savedParam2
-			);
+			setParamNormalized(MeterParameters::kParameterInputLevelFeedback, savedParam2);
 			//
 			float savedParam3 = 0.f;
 			if (streamer.readFloat(savedParam3) == false)
 			{
 				return Steinberg::kResultFalse;
 			}
-			//OutputDebugStringW(L"setComponentState kParamLevel\n");
-			setParamNormalized 
-			(
-				MeterParameters::kParameterColor,
-				savedParam3
-			);
-			
-			//
-			// read the bypass
-			Steinberg::int32 bypassState;
-			if (streamer.readInt32(bypassState) == false)
-			{
-				return Steinberg::kResultFalse;
-			}	
-			setParamNormalized 
-			(
-				kParameterBypassId,
-				bypassState ? 1 : 0
-			);
+			//OutputDebugStringW(L"setComponentState kParamLevel2\n");
+			setParamNormalized(MeterParameters::kParameterColorFeedback, savedParam3);
 			//
 			return Steinberg::kResultOk;
 		}
@@ -551,12 +556,12 @@ namespace Carlsound
 					//
 					case Steinberg::Vst::ControllerNumbers::kCtrlGPC1:
 					{
-						id = kParameterColor;
+						id = kParameterBypassId;
 						break;
 					}
 					case Steinberg::Vst::ControllerNumbers::kCtrlGPC2:
 					{
-						id = kParameterBypassId;
+						id = kParameterThreshold;
 						break;
 					}
 				}
@@ -565,6 +570,7 @@ namespace Carlsound
 			return Steinberg::kResultFalse;
 		}
 		//------------------------------------------------------------------------
+		/*
 		Steinberg::IPlugView* PLUGIN_API MeterController::createView (const char* name)
 		{
 			if (name && strcmp(name, "editor") == 0)
@@ -580,8 +586,8 @@ namespace Carlsound
 				return m_view;
 			}
 			return nullptr;
-			
 		}
+		*/
 		//------------------------------------------------------------------------
 		/*
 		Steinberg::tresult PLUGIN_API MeterController::notify (Steinberg::Vst::IMessage* message)

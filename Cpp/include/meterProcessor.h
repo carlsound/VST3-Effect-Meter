@@ -10,12 +10,6 @@ namespace Carlsound
 		class MeterProcessor : public Steinberg::Vst::AudioEffect
 		{
 		public:
-			//OBJ_METHODS(MeterProcessor, AudioEffect)
-				//DEFINE_INTERFACES
-				//DEF_INTERFACE(INoteExpressionController)
-				//DEF_INTERFACE(IMidiMapping)
-			//END_DEFINE_INTERFACES(AudioEffect)
-			//REFCOUNT_METHODS(AudioEffect)
 			//------------------------------------------------------------------------
 			MeterProcessor ();
 			//------------------------------------------------------------------------
@@ -33,10 +27,6 @@ namespace Carlsound
 			//------------------------------------------------------------------------
 			template <class T> void bufferSampleGain(T inBuffer, T outBuffer, const int sampleLocation);
 			//------------------------------------------------------------------------
-			//Steinberg::tresult PLUGIN_API processInputParameters (Steinberg::Vst::ProcessData& data);
-			//Steinberg::tresult PLUGIN_API processAudio (Steinberg::Vst::ProcessData& data);
-			//Steinberg::tresult PLUGIN_API processOutputParameters (Steinberg::Vst::ProcessData& data);
-			//Steinberg::tresult PLUGIN_API processMidiOutputEvents (Steinberg::Vst::ProcessData& data);
 			Steinberg::tresult PLUGIN_API process (Steinberg::Vst::ProcessData& data) SMTG_OVERRIDE;
 			//------------------------------------------------------------------------
 			Steinberg::tresult PLUGIN_API setState (Steinberg::IBStream* state) SMTG_OVERRIDE;
@@ -46,37 +36,35 @@ namespace Carlsound
 		protected:
 			bool m_BypassState = false;
 			//
-			//double m_GainValue[2]{ 0.0, 0.0 };
-			//
 			Steinberg::Vst::ParamValue m_ParameterInputLevelValue = 0.0;
 			Steinberg::Vst::ParamValue m_ParameterThresholdlValue = 0.0;
 			Steinberg::Vst::ParamValue m_ParameterColorValue = 0.0;
 			//
-			Steinberg::int32 m_processMode = 0;
-			Steinberg::int32 m_symbolicSampleSize = 2;
-			Steinberg::int32 m_maxSamplesPerBlock = 0;
-			Steinberg::Vst::SampleRate m_sampleRate = 0;
+			Steinberg::Vst::ProcessSetup m_processSetup = {0};
+			//Steinberg::int32 m_processMode = 0;
+			//Steinberg::int32 m_symbolicSampleSize = 2;
+			//Steinberg::int32 m_maxSamplesPerBlock = 0;
+			//Steinberg::Vst::SampleRate m_sampleRate = 0;
+			//
+			//Steinberg::int32 m_qtyChannels = 0;
+			Steinberg::int32 m_qtySamples = 0;
+			Steinberg::uint32 m_sampleFramesSize;
+			//
+			Steinberg::Vst::AudioBusBuffers* m_inputsAudioBusBuffers;
+			Steinberg::Vst::AudioBusBuffers* m_outputsAudioBusBuffers;
 			//
 			Steinberg::int32 m_OutputParameterChangesDataIndex = 0;
 			Steinberg::int32 m_OutputParameterValueQueuePointIndex = 0;
 			//
+			Steinberg::Vst::IParameterChanges* m_InputParameterChanges = NULL;
 			Steinberg::Vst::IParameterChanges* m_OutputParameterChanges = NULL;
 			//
+			Steinberg::int32 m_numParamsChanged = 0;
 			Steinberg::Vst::IParamValueQueue *m_ParameterInputLevelValueQueue = 0;
 			Steinberg::Vst::IParamValueQueue* m_ParameterColorValueQueue = 0;
+			Steinberg::int32 m_addPointIndex = 0;
 			//
             Steinberg::Vst::Event mEvent{ 0 };
-			//
-			//std::shared_ptr<Steinberg::Vst::IConnectionPoint> m_ConnectionPoint;
-			//std::shared_ptr<Steinberg::Vst::IMessage> m_Message;
-			//Carlsound::Vst::ComponentMessage *m_Message;
-			//Steinberg::Vst::HostMessage *m_Message;
-			//std::shared_ptr<Steinberg::Vst::IMessage*> m_pMessage;
-			//Carlsound::Vst::ComponentAttribute *m_Attribute;
-			//Steinberg::Vst::HostAttribute *m_Attribute;
-			//Carlsound::Vst::ComponentAttributeList *m_AttributeList;
-			//Steinberg::Vst::HostAttributeList *m_AttributeList;
-			//Steinberg::Vst::IAttributeList *m_AttributeList;
 		};
 		//------------------------------------------------------------------------
 	} // namespace Meter
