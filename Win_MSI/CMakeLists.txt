@@ -1,0 +1,15 @@
+if(WIN32)
+	if(CMAKE_SIZEOF_VOID_P EQUAL "8")
+		set(ProjectName SetupTest_x64)
+	else()
+		set(ProjectName SetupTest_x86)
+	endif()
+
+	include_external_msproject(${ProjectName} ${SMTG_MYPLUGINS_SRC_PATH}/${SubDirectoryName}/Win_MSI/SetupTest.vdproj)
+
+	if(CMAKE_SIZEOF_VOID_P EQUAL "8")
+		set_property(TARGET ${ProjectName} PROPERTY ${SDK_IDE_MYPLUGINS_FOLDER}/Meter_x64)
+	else()
+		set_property(TARGET ${ProjectName} PROPERTY ${SDK_IDE_MYPLUGINS_FOLDER}/Meter_x86)
+	endif()
+endif()
